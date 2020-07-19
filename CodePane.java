@@ -1,5 +1,7 @@
 package javar.codepane;
 
+import javar.constants.JavarConstants;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -13,75 +15,125 @@ public class CodePane extends JTextPane
     protected StyledDocument doc;
     protected SyntaxFormatter formatter = new SyntaxFormatter("Java.stx");
     private SimpleAttributeSet normalAttr = formatter.getNormalAttributeSet();
-    private SimpleAttributeSet quotAttr = formatter.getNormalAttributeSet();
-    private int docChangeStart = 0;
-    private int docChangeLength = 0;
+    private SimpleAttributeSet quotAttr = new SimpleAttributeSet();
+    private String fontFamily = StyleConstants.getFontFamily(normalAttr);
+    private Font font = new Font(fontFamily, Font.PLAIN, 16);
     public CodePane()
     {
-        StyleConstants.setForeground(quotAttr, new Color(255,0,255));
+        StyleConstants.setForeground(quotAttr, new Color(JavarConstants.quoteColorHex)); 
         StyleConstants.setFontSize(quotAttr, 16);
         this.doc = super.getStyledDocument();
-        this.setMargin(new Insets(3, 40, 0, 0));
+        this.setMargin(new Insets(3, 50, 0, 0));
+        this.setCharacterAttributes(normalAttr, false);
         this.addKeyListener(new KeyAdapter() 
         {
-            public void keyReleased(KeyEvent ke)
+            public void keyTyped(KeyEvent ke)
             {
-                syntaxParse();
+                syntaxParse(String.valueOf(ke.getKeyChar()));
             }
-        });
-        doc.addDocumentListener(new DocumentListener()
-        {
-            public void changedUpdate(DocumentEvent de) {}
-            public void insertUpdate(DocumentEvent de)
-            {
-                docChangeStart = de.getOffset();
-                docChangeLength = de.getLength();
-            }
-            public void removeUpdate(DocumentEvent de) {}
         });
     }
-    public void syntaxParse()
+    public void syntaxParse(String tail)
     {
         try
         {
-            Element root = doc.getDefaultRootElement();
+            /* Initialization */
+            doc.setCharacterAttributes(0, doc.getLength(), normalAttr, false);
+            /* Not Perfect Support */
             int cursorPos = this.getCaretPosition();
-            int line = root.getElementIndex(cursorPos);
-            Element para = root.getElement(line);
-            int start = para.getStartOffset();
-            start = start > docChangeStart ? docChangeStart : start;
-            int length = para.getEndOffset() - start;
-            length = length < docChangeLength ? docChangeLength+1 : length;
-            String s = doc.getText(start, length);
-            String[] tokens = s.split("\\s+|\\.|\\(|\\)|\\{|\\}|\\[|\\]");
+            String content = doc.getText(0, doc.getLength());
+            if (!tail.equals("\t") && !tail.equals("\b"))
+                content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
+            /* Varies for different languages */
+            String[] tokens = content.split(JavarConstants.Java_TokensSplitSymbol);
+            ArrayList<Integer> startList = new ArrayList<>();
+            ArrayList<Integer> endList = new ArrayList<>();
             int curStart = 0;
-            boolean isQuot = false;
+            boolean singleQuot = false;
+            boolean doubleQuot = false;
             for (var token : tokens)
             {
-                int tokenPos = s.indexOf(token, curStart);
-                if (isQuot && (token.endsWith("\"") || token.endsWith("\'")))
+                int tokenPos = content.indexOf(token, curStart);
+                if (token.startsWith("\"") && token.endsWith("\""))
                 {
-                    doc.setCharacterAttributes(start + tokenPos, token.length(), quotAttr, false);
-                    isQuot = false;
+                    if (token.length() == 1)
+                    {
+                        if (!singleQuot)
+                        {
+                            if (startList.size() > endList.size())
+                                endList.add(tokenPos+token.length());
+                            else
+                                startList.add(tokenPos);
+                            doubleQuot = !doubleQuot;
+                        }
+                    }
+                    else
+                    {
+                        if (!singleQuot && !doubleQuot)
+                        {
+                            startList.add(tokenPos);
+                            endList.add(tokenPos+token.length());
+                        }
+                    }
                 }
-                else if (isQuot && !(token.endsWith("\"") || token.endsWith("\'")))
+                else if (token.startsWith("'") && token.endsWith("'"))
                 {
-                    doc.setCharacterAttributes(start + tokenPos, token.length(), quotAttr, false);
+                    if (token.length() == 1)
+                    {
+                        if (!doubleQuot) 
+                        {
+                            if (startList.size() > endList.size())
+                                endList.add(tokenPos+token.length());
+                            else
+                                startList.add(tokenPos);
+                            singleQuot = !singleQuot;
+                        }
+                    }
+                    else
+                    {
+                        if (!singleQuot && !doubleQuot)
+                        {
+                            startList.add(tokenPos);
+                            endList.add(tokenPos+token.length());
+                        }
+                    }
                 }
-                else if ((token.startsWith("\"") || token.startsWith("\'")) && (token.endsWith("\"") || token.endsWith("\'")))
+                else if (token.startsWith("\"") ^ token.endsWith("\""))
                 {
-                    doc.setCharacterAttributes(start + tokenPos, token.length(), quotAttr, false);
-                }
-                else if ((token.startsWith("\"") || token.startsWith("\'")) && !(token.endsWith("\"") || token.endsWith("\'")))
+                    if (!singleQuot)
+                    { 
+                        doubleQuot = !doubleQuot;
+                        if (startList.size() > endList.size())
+                            endList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
+                        else
+                            startList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
+                    }
+                } 
+                else if (token.startsWith("'") ^ token.endsWith("'"))
                 {
-                    doc.setCharacterAttributes(start + tokenPos, token.length(), quotAttr, false);
-                    isQuot = false;
+                    if (!doubleQuot) 
+                    {
+                        singleQuot = !singleQuot;
+                        if (startList.size() > endList.size())
+                            endList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
+                        else
+                            startList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
+                    }
                 }
                 else
-                {   
-                    formatter.setHighLight(doc, token, start + tokenPos, token.length());
+                {
+                    formatter.setHighLight(doc, token, tokenPos, token.length());
                 }
                 curStart = tokenPos + token.length();
+            }
+            while (startList.size() > endList.size())
+                endList.add(doc.getLength());
+            if (startList.size() == endList.size())
+            {
+                for (int i = 0; i < startList.size(); i++)
+                {
+                    doc.setCharacterAttributes(startList.get(i), endList.get(i)-startList.get(i), quotAttr, false);
+                }
             }
         }
         catch (Exception e)
@@ -94,12 +146,17 @@ public class CodePane extends JTextPane
         super.paint(g);
         Element root = doc.getDefaultRootElement();
         int line = root.getElementIndex(doc.getLength());
-        g.setColor(new Color(230, 230, 230));
-        g.fillRect(0, 0, this.getMargin().left-10, getSize().height);
-        g.setColor(new Color(40, 40, 40));
+        g.setFont(font);
+        char[] lineChars = String.valueOf(line+1).toCharArray();
+        int charsWidth = g.getFontMetrics().charsWidth(lineChars, 0, lineChars.length);
+        int charWidth = g.getFontMetrics().charWidth('0');
+        g.setColor(new Color(JavarConstants.linebarColorHex));
+        g.fillRect(0, 0, charsWidth+charWidth, getSize().height);
+        g.setColor(new Color(JavarConstants.linenumColorHex));
         for (int count = 0, j = 1; count <= line; count++, j++)
         {
-            g.drawString(String.valueOf(j), 3, (int)((count+1)*StyleConstants.getFontSize(normalAttr)*1.535));
+            /* Strange +1 */
+            g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight()+1)+g.getFontMetrics().getAscent()+3); 
         }
     }
 }
@@ -162,18 +219,25 @@ class SyntaxFormatter
     public void setHighLight(StyledDocument doc, String token, int start, int length)
     {
         SimpleAttributeSet currentAttributeSet = null;
-        outer:
-        for (var att : attMap.keySet())
+        if (token != null)
         {
-            ArrayList<String> keywords = attMap.get(att);
-            for (var keyword : keywords)
+            outer:
+            for (var att : attMap.keySet())
             {
-                if (keyword.equals(token))
+                ArrayList<String> keywords = attMap.get(att);
+                for (var keyword : keywords)
                 {
-                    currentAttributeSet = att;
-                    break outer;
+                    if (keyword.equals(token))
+                    {
+                        currentAttributeSet = att;
+                        break outer;
+                    }
                 }
             }
+        }
+        else
+        {   
+            return;
         }
         if (currentAttributeSet != null)
         {

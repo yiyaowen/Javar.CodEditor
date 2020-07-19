@@ -2,6 +2,9 @@ package javar;
 
 import javar.constants.JavarConstants;
 import javar.codepane.CodePane;
+import javar.filetree.FileTree;
+import javar.tabbedpane.TabbedPane;
+import javar.upperbar.UpperBar;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,10 +14,11 @@ import javax.swing.event.*;
 public class Javar
 {
     JFrame mainWindow = new JFrame();
-    JScrollPane codeEditor = new JScrollPane(new CodePane());
-    JTextArea outputArea = new JTextArea();
-    JTree fileTree = new JTree();
+    TabbedPane codeEditor = new TabbedPane(JavarConstants.CodePane);
+    TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
+    FileTree fileTree = new FileTree();
     JPanel tmpPanel = new JPanel();
+    UpperBar upperBar = new UpperBar();
     
     public void initMainWindow()
     {
@@ -22,16 +26,28 @@ public class Javar
         outputArea.setPreferredSize(new Dimension(JavarConstants.outputAreaWidth, JavarConstants.outputAreaHeight));
         fileTree.setPreferredSize(new Dimension(JavarConstants.fileTreeWidth, JavarConstants.fileTreeHeight));
         tmpPanel.setPreferredSize(new Dimension(JavarConstants.tmpPanelWidth, JavarConstants.tmpPanelHeight));
+        upperBar.setPreferredSize(new Dimension(JavarConstants.upperBarWidth, JavarConstants.upperBarHeight));
         var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileTree, tmpPanel);
         var rightPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeEditor, outputArea);
         var centerPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        leftPanel.setContinuousLayout(true);
+        leftPanel.setContinuousLayout(false);
         leftPanel.resetToPreferredSizes();
-        rightPanel.setContinuousLayout(true);
+        rightPanel.setContinuousLayout(false);
         rightPanel.setOneTouchExpandable(true);
         rightPanel.resetToPreferredSizes();
-        centerPanel.setContinuousLayout(true);
+        centerPanel.setContinuousLayout(false);
         centerPanel.resetToPreferredSizes();
+        GridBagLayout gb = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        mainWindow.setLayout(gb);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gb.setConstraints(upperBar, gbc);
+        mainWindow.add(upperBar);
+        gbc.weighty = 1;
+        gb.setConstraints(centerPanel, gbc);
         mainWindow.add(centerPanel);
         mainWindow.pack();
         mainWindow.setVisible(true);
