@@ -2,6 +2,7 @@ package javar.filetree;
 
 import javar.utils.JavarUtils;
 import javar.constants.JavarConstants;
+import javar.menuprovider.MenuProvider;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,10 +14,14 @@ import java.util.*;
 
 public class FileTree extends JTree
 {
-    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode(new NodeData(FileType.ROOT, "New Project"));
+    /* Root node */
+    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode(new NodeData(FileType.ROOT, "Javar"));
+    /* Tree nodes */
     DefaultMutableTreeNode javafile = new DefaultMutableTreeNode(new NodeData(FileType.JAVA, "Test.java"));
     DefaultMutableTreeNode dir = new DefaultMutableTreeNode(new NodeData(FileType.DIR, "test"));
     DefaultMutableTreeNode classfile = new DefaultMutableTreeNode(new NodeData(FileType.CLASS, "Test.class"));
+    /* Event listeners */
+    MouseListener mouseListener;
     public FileTree()
     {
         super(root);
@@ -24,12 +29,46 @@ public class FileTree extends JTree
     }
     public void initFileTree()
     {
+        /* UI configuration */
         root.add(javafile);
         root.add(dir);
         dir.add(classfile);
         this.setCellRenderer(new FileTreeRenderer());
         this.setShowsRootHandles(true);
         this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        /* Set popup menu */
+        this.setComponentPopupMenu(MenuProvider.createPopupMenu(JavarConstants.fileTreePopupType));
+        /* Set event listeners */
+        mouseListener = new MouseAdapter()
+        {
+            TreePath movePath;
+            public void mousePressed(MouseEvent e)
+            {
+                TreePath treePath = FileTree.this.getPathForLocation(e.getX(), e.getY());
+                if (treePath != null)
+                {
+                    movePath = treePath;
+                }
+            }
+            public void mouseReleased(MouseEvent e)
+            {
+                TreePath treePath = FileTree.this.getPathForLocation(e.getX(), e.getY());
+                if (treePath != null && movePath != null)
+                {
+                    if (movePath.isDescendant(treePath) && movePath != treePath)
+                    {
+                        return;
+                    }
+                    else if (movePath != treePath)
+                    {
+                        ((DefaultMutableTreeNode) treePath.getLastPathComponent()).add((DefaultMutableTreeNode) movePath.getLastPathComponent());
+                        movePath = null;
+                        FileTree.this.updateUI();
+                    }
+                }
+            }
+        };
+        this.addMouseListener(mouseListener);
     }
 }
 
@@ -56,13 +95,9 @@ interface FileType
     int CLASS = 3;
 }
 
-class FileTreeRenderer extends JLabel implements TreeCellRenderer
+class FileTreeRenderer extends DefaultTreeCellRenderer
 {
-    ImageIcon icon;
-    DefaultMutableTreeNode node;
-    NodeData data;
-    boolean selected;
-    Map<String, ImageIcon> nodeIcons = new HashMap<>()
+    HashMap<String, ImageIcon> nodeIcons = new HashMap<>()
     {
         {
             put("rootFile", new ImageIcon("images/icons/rootIcon.png"));
@@ -73,9 +108,10 @@ class FileTreeRenderer extends JLabel implements TreeCellRenderer
     };
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus)
     {
-        selected = sel;
-        node = (DefaultMutableTreeNode) value;
-        data = (NodeData) node.getUserObject();
+        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+        var node = (DefaultMutableTreeNode) value;
+        var data = (NodeData) node.getUserObject();
+        ImageIcon icon = null;
         switch (data.nodeType)
         {
             case FileType.ROOT:
@@ -91,22 +127,9 @@ class FileTreeRenderer extends JLabel implements TreeCellRenderer
                 icon = nodeIcons.get("classFile");
                 break;
         }
+        if (icon != null)
+            icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), 15, 15, Image.SCALE_SMOOTH));
+        this.setIcon(icon);
         return this;
-    }
-    public void paintComponent(Graphics g)
-    {
-        if (selected)
-        {
-            g.setColor(new Color(JavarConstants.itemSelectedColorHex));
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        }
-        g.setColor(Color.BLACK);
-        icon.setImage(JavarUtils.resizeImageToFitHeightWithPadding(this, icon.getImage(), Image.SCALE_SMOOTH, 2));
-        g.drawImage(icon.getImage(), 5, 2, null);
-        g.drawString(data.nodeName, 25, g.getFontMetrics().getAscent());
-    }
-    public Dimension getPreferredSize()
-    {
-        return new Dimension(200, 10);
     }
 }

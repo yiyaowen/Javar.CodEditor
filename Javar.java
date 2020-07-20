@@ -5,6 +5,8 @@ import javar.codepane.CodePane;
 import javar.filetree.FileTree;
 import javar.tabbedpane.TabbedPane;
 import javar.upperbar.UpperBar;
+import javar.managerbar.ManagerBar;
+import javar.menuitemprovider.MenuItemProvider;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +21,7 @@ public class Javar
     FileTree fileTree = new FileTree();
     JPanel tmpPanel = new JPanel();
     UpperBar upperBar = new UpperBar();
+    ManagerBar managerBar = new ManagerBar();
     
     public void initMainWindow()
     {
@@ -49,12 +52,15 @@ public class Javar
         gbc.weighty = 1;
         gb.setConstraints(centerPanel, gbc);
         mainWindow.add(centerPanel);
+        mainWindow.setJMenuBar(managerBar);
         mainWindow.pack();
         mainWindow.setVisible(true);
     }
 
     public static void main(String[] args)
     {
+        JavarConstants.initJavarConstants();
+        MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
         app.initMainWindow();
     }

@@ -15,8 +15,8 @@ public class TabbedPane extends JTabbedPane
 {
     /* All useful components */
     //TODO
-    JTextArea outputTextArea = new JTextArea();
-    JTextArea debugTextArea = new JTextArea();
+    public static JTextArea outputTextArea = new JTextArea();
+    public static JTextArea debugTextArea = new JTextArea();
     ImageIcon icon = new ImageIcon("images/icons/javaIcon.png");
     public TabbedPane(int type)
     {
@@ -41,8 +41,8 @@ public class TabbedPane extends JTabbedPane
     public void initTabbedCodePane()
     {
         icon.setImage(icon.getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH)); 
-        this.addTab("Test.java", icon, new JScrollPane(new CodePane()), "Test.java");
-        this.addTab("Another.java", icon, new JScrollPane(new CodePane()), "Another.java");
-        this.addTab("Main.java", icon, new JScrollPane(new CodePane()), "Main.java");
+        this.addTab("Test.java", icon, new JScrollPane(new CodePane()));
+        this.addTab("Another.java", icon, new JScrollPane(new CodePane()));
+        this.addTab("Main.java", icon, new JScrollPane(new CodePane()));
     }
 }
