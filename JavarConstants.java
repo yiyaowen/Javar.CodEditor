@@ -9,6 +9,33 @@ public class JavarConstants
     // Names
     public static final String navigatorLabelName = "Navigator";
     // Contents
+    public static final String creatorCategoryDescriptionPrefix = 
+    "<html>" + 
+        "<body>" + 
+            "<h1>";
+    public static final String creatorCategoryDescriptionSuffix = 
+            "</h1>" +
+        "</body>" +
+    "</html>";
+    public static final String fileDescriptionPrefix = 
+        "Create a(n) ";
+    public static final String fileDescriptionSuffix = 
+        ". Check 'Use Template' to enable the designed java template. " +
+        "Check 'Generate Prefix Statement' to generate some identifier information automatically. "+
+        "The identifier information comes from 'Name', 'Developer', 'Team' and local date (If accessible).";
+    public static final String creatorDescriptionPrefix = 
+    "<html>" +
+        "<body>" +
+            "<p><strong>";
+    public static String creatorDescriptionMiddle = 
+            "</strong></p>" +
+            "<hr />" +
+            "<p>" + fileDescriptionPrefix;
+    public static String creatorDescriptionSuffix = 
+            fileDescriptionSuffix + 
+            "</p>" +
+        "</body>" +
+    "</html>";
     public static final String navigatorLabelContent = 
     "<html>" +
         "<body>" +
@@ -146,6 +173,8 @@ public class JavarConstants
     // Great size
     public static final int greatWidth = 3000;
     public static final int greatHeight = 3000;
+    public static final int smallWidth = 1;
+    public static final int smallHeight = 1;
     // Padding size
     // Main window padding size
     public static final int compilerSelectorIconPadding = 10;
@@ -153,9 +182,12 @@ public class JavarConstants
     public static final int fileTreePaddingLeft = 5;
     public static final int fileTreePaddingBottom = 5;
     public static final int fileTreePaddingRight = 5;
+    public static final int creatorListIconPadding = 2;
+    public static final int creatorListIconOffset = 10;
+    public static final int creatorDescriptionIconPadding = 10;
     // Creator window size
     public static final int creatorWindowWidth = 800;
-    public static final int creatorWindowHeight = 500;
+    public static final int creatorWindowHeight = 550;
     public static final int categoryLabelWidth = 200;
     public static final int categoryLabelHeight = 30;
     public static final int categoryListWidth = categoryLabelWidth;
@@ -173,7 +205,7 @@ public class JavarConstants
     public static final int typeItemWidth = typeListWidth;
     public static final int typeItemHeight = 50;
     public static final int descriptionPanelWidth = categoryLabelWidth+typeLabelWidth;
-    public static final int descriptionPanelHeight = 120;
+    public static final int descriptionPanelHeight = 170;
     public static final int descriptionLeftLabelWidth = 120;
     public static final int descriptionLeftLabelHeight = descriptionPanelHeight;
     public static final int descriptionRightLabelWidth = 330;
@@ -183,9 +215,43 @@ public class JavarConstants
     public static final int propertyLabelWidth = 350;
     public static final int propertyLabelHeight = categoryLabelHeight;
     public static final int propertyPanelWidth = propertyLabelWidth;
-    public static final int propertyPanelHeight = 470;
+    public static final int propertyPanelHeight = 520;
     public static final int creatorRightPanelWidth = propertyLabelWidth;
     public static final int creatorRightPanelHeight = creatorWindowHeight;
+    public static final int namePropertyLabelWidth = 155;
+    public static final int namePropertyLabelHeight = 30;
+    public static final int namePropertyTextFieldWidth = 175;
+    public static final int namePropertyTextFieldHeight = 30;
+    public static final int developerPropertyLabelWidth = 155;
+    public static final int developerPropertyLabelHeight = 30;
+    public static final int developerPropertyTextFieldWidth = 175;
+    public static final int developerPropertyTextFieldHeight = 30;
+    public static final int teamPropertyLabelWidth = 155;
+    public static final int teamPropertyLabelHeight = 30;
+    public static final int teamPropertyTextFieldWidth = 175;
+    public static final int teamPropertyTextFieldHeight = 30;
+    public static final int chooseDirPropertyButtonWidth = 175;
+    public static final int chooseDirPropertyButtonHeight = 30;
+    public static final int chooseDirPropertyTextFieldWidth = 175;
+    public static final int chooseDirPropertyTextFieldHeight = 30;
+    public static final int hasTemplatePropertyCheckBoxWidth = 175;
+    public static final int hasTemplatePropertyCheckBoxHeight = 30;
+    public static final int hasPrefixStatementCheckBoxWidth = 175;
+    public static final int hasPrefixStatementCheckBoxHeight = 30;
+    public static final int templatePropertyLabelWidth = 155;
+    public static final int templatePropertyLabelHeight = 30;
+    public static final int templatePropertyComboBoxWidth = 175;
+    public static final int templatePropertyComboBoxHeight = 30;
+    public static final int cancelPropertyButtonWidth = 165;
+    public static final int cancelPropertyButtonHeight = 40;
+    public static final int createPropertyButtonWidth = 165;
+    public static final int createPropertyButtonHeight = 40;
+    public static final int propertyLabelPrefixPadding = 20;
+    public static final int propertyButtonPadding = 150;
+    public static final int propertySeparatorLabel1Width = 350;
+    public static final int propertySeparatorLabel1Height = 100;
+    public static final int propertySeparatorLabel2Width = 350;
+    public static final int propertySeparatorLabel2Height = 185;
     // Main window size
     public static final int mainWindowWidth = 1200;
     public static final int mainWindowHeight = 750;
