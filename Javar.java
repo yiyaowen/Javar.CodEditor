@@ -64,7 +64,7 @@ public class Javar
         JavarConstants.initJavarConstants();
         MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
-        app.initMainWindow();
+        //app.initMainWindow();
         app.creatorWindow.initCreatorWindow();
     }
 }
