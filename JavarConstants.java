@@ -5,6 +5,23 @@ import java.awt.event.*;
 
 public class JavarConstants
 {
+    /* String : names and contents */
+    // Names
+    public static final String navigatorLabelName = "Navigator";
+    // Contents
+    public static final String navigatorLabelContent = 
+    "<html>" +
+        "<body>" +
+            "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+            "<hr />" +
+            "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
+            "<h3><strong>⌘O</strong> - Open File or Projects</h3>" +
+            "<hr />" +
+            "<p>Develeper: Fort_W</p>" +
+            "<p>Version: 1.0.0</p>" +
+        "</body>" +
+    "</html>";
+
     /* Invoke in advance */
     public static void initJavarConstants()
     {
@@ -126,11 +143,28 @@ public class JavarConstants
     public static final int itemSelectedColorHex = 0xB0C4DE;
 
     /* Component size */
-    //  Padding size
-    public static final int compilerSelectorIconPadding = 10;
-    // Main size
+    // Great size
     public static final int greatWidth = 3000;
     public static final int greatHeight = 3000;
+    // Padding size
+    // Main window padding size
+    public static final int compilerSelectorIconPadding = 10;
+    public static final int fileTreePaddingTop = 5;
+    public static final int fileTreePaddingLeft = 5;
+    public static final int fileTreePaddingBottom = 5;
+    public static final int fileTreePaddingRight = 5;
+    // Creator window size
+    public static final int creatorWindowWidth = 800;
+    public static final int creatorWindowHeight = 600;
+    public static final int categoryListWidth = 200;
+    public static final int categoryListHeight = creatorWindowHeight;
+    public static final int typeListWidth = 600;
+    public static final int typeListHeight = creatorWindowHeight;
+    public static final int categoryItemWidth = categoryListWidth;
+    public static final int categoryItemHeight = 40;
+    public static final int typeItemWidth = typeListWidth;
+    public static final int typeItemHeight = 50;
+    // Main window size
     public static final int mainWindowWidth = 1200;
     public static final int mainWindowHeight = 750;
     public static final int centerPanelWidth = mainWindowWidth; 

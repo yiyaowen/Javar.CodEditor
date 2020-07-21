@@ -7,6 +7,7 @@ import javar.tabbedpane.TabbedPane;
 import javar.upperbar.UpperBar;
 import javar.managerbar.ManagerBar;
 import javar.menuitemprovider.MenuItemProvider;
+import javar.creatorwindow.CreatorWindow;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,6 +23,7 @@ public class Javar
     JPanel tmpPanel = new JPanel();
     UpperBar upperBar = new UpperBar();
     ManagerBar managerBar = new ManagerBar();
+    CreatorWindow creatorWindow = new CreatorWindow();
     
     public void initMainWindow()
     {
@@ -63,5 +65,6 @@ public class Javar
         MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
         app.initMainWindow();
+        app.creatorWindow.initCreatorWindow();
     }
 }

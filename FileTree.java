@@ -15,11 +15,7 @@ import java.util.*;
 public class FileTree extends JTree
 {
     /* Root node */
-    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode(new NodeData(FileType.ROOT, "Javar"));
-    /* Tree nodes */
-    DefaultMutableTreeNode javafile = new DefaultMutableTreeNode(new NodeData(FileType.JAVA, "Test.java"));
-    DefaultMutableTreeNode dir = new DefaultMutableTreeNode(new NodeData(FileType.DIR, "test"));
-    DefaultMutableTreeNode classfile = new DefaultMutableTreeNode(new NodeData(FileType.CLASS, "Test.class"));
+    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode(new NodeData(FileType.ROOT, "Javar Projects"));
     /* Event listeners */
     MouseListener mouseListener;
     public FileTree()
@@ -30,15 +26,13 @@ public class FileTree extends JTree
     public void initFileTree()
     {
         /* UI configuration */
-        root.add(javafile);
-        root.add(dir);
-        dir.add(classfile);
         this.setCellRenderer(new FileTreeRenderer());
         this.setShowsRootHandles(true);
-        this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        this.setBorder(BorderFactory.createEmptyBorder(JavarConstants.fileTreePaddingTop, JavarConstants.fileTreePaddingLeft, JavarConstants.fileTreePaddingBottom, JavarConstants.fileTreePaddingRight));
         /* Set popup menu */
         this.setComponentPopupMenu(MenuProvider.createPopupMenu(JavarConstants.fileTreePopupType));
         /* Set event listeners */
+        // Mouse listener
         mouseListener = new MouseAdapter()
         {
             TreePath movePath;
@@ -100,10 +94,10 @@ class FileTreeRenderer extends DefaultTreeCellRenderer
     HashMap<String, ImageIcon> nodeIcons = new HashMap<>()
     {
         {
-            put("rootFile", new ImageIcon("images/icons/rootIcon.png"));
-            put("dirFile", new ImageIcon("images/icons/dirIcon.png"));
-            put("javaFile", new ImageIcon("images/icons/javaIcon.png"));
-            put("classFile", new ImageIcon("images/icons/classIcon.png"));
+            put("rootFile", new ImageIcon("images/icons/rootFileTemplateIcon.png"));
+            put("dirFile", new ImageIcon("images/icons/dirFileTemplateIcon.png"));
+            put("javaFile", new ImageIcon("images/icons/javaFileTemplateIcon.png"));
+            put("classFile", new ImageIcon("images/icons/classFileTemplateIcon.png"));
         }
     };
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus)

@@ -41,7 +41,7 @@ public class MenuItemProvider
     public static void initMenuItemProvider()
     {
         newItemListener = e -> {
-            TabbedPane.outputTextArea.append("New Item clicked.\n");
+           //TODO 
         };
     }
     

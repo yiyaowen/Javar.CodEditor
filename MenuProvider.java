@@ -18,6 +18,7 @@ public class MenuProvider
                 JPopupMenu fileTreePopupMenu = new JPopupMenu();
                 fileTreePopupMenu.add(createMenu(JavarConstants.newMenuType));
                 fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.openItemPopupType));
+                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.renameItemPopupType));
                 fileTreePopupMenu.addSeparator();
                 fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.codeAnalysisItemPopupType));
                 fileTreePopupMenu.addSeparator();

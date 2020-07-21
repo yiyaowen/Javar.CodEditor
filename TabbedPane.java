@@ -40,9 +40,11 @@ public class TabbedPane extends JTabbedPane
     }
     public void initTabbedCodePane()
     {
-        icon.setImage(icon.getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH)); 
-        this.addTab("Test.java", icon, new JScrollPane(new CodePane()));
-        this.addTab("Another.java", icon, new JScrollPane(new CodePane()));
-        this.addTab("Main.java", icon, new JScrollPane(new CodePane()));
+        //TODO
+        JLabel navigatorLabel = new JLabel();
+        navigatorLabel.setText(JavarConstants.navigatorLabelContent);
+        navigatorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        navigatorLabel.setVerticalAlignment(SwingConstants.CENTER);
+        this.addTab(JavarConstants.navigatorLabelName, navigatorLabel);
     }
 }
