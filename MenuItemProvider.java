@@ -6,6 +6,7 @@ import javar.Javar;
 import javar.creatorwindow.CreatorWindow;
 import javar.codepane.CodePane;
 import javar.utils.JavarUtils;
+import javar.filelist.FileList;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,7 +16,11 @@ import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+import java.util.*;
 
+@SuppressWarnings(value = "unchecked")
 public class MenuItemProvider
 {
     /* MenuItem listeners */
@@ -66,12 +71,23 @@ public class MenuItemProvider
                 try (
                     var inChannel = new FileInputStream(file).getChannel())
                 {
-                    /* Get name and icon*/
+                    /* Get file attributes */
                     String fileName = file.getName();
+                    String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+                    Path path = Paths.get(file.getPath());
+                    BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+                    BasicFileAttributes basicAttributes = basicView.readAttributes();
+                    String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+                    String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                    double byteSize = (double) basicAttributes.size();
+                    double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                    double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                    String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                    var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
+                    /* Get name and icon*/
                     ImageIcon icon = new ImageIcon("images/icons/" + fileName.substring(fileName.lastIndexOf(".")+1) + "FileTemplateIcon.png");
                     if (icon.getImage()  == null)
                         icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
-                    System.out.println(icon);
                     icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
                     /* Get content */
                     MappedByteBuffer buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
@@ -84,11 +100,13 @@ public class MenuItemProvider
                     var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
                     tmp2.setText(content);
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
+                    /* Set file list */
+                    Javar.fileList.fileItems.add(data);
+                    Javar.fileList.setListData(Javar.fileList.fileItems);
                 }
                 catch (Exception ex)
                 {
                     JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage, JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    ex.printStackTrace();
                     return;
                 }
             }

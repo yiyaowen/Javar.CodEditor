@@ -17,7 +17,7 @@ import javax.swing.event.*;
 
 public class Javar
 {
-    public JFrame mainWindow = new JFrame();
+    public static JFrame mainWindow = new JFrame();
     public static TabbedPane codeEditor = new TabbedPane(JavarConstants.CodePane);
     public static TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
     public static FileList fileList = new FileList();
@@ -57,6 +57,7 @@ public class Javar
         mainWindow.add(centerPanel);
         mainWindow.setJMenuBar(managerBar);
         mainWindow.pack();
+        mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 0);
         mainWindow.setVisible(true);
     }
 

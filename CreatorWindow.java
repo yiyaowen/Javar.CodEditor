@@ -4,6 +4,7 @@ import javar.utils.JavarUtils;
 import javar.constants.JavarConstants;
 import javar.Javar;
 import javar.codepane.CodePane;
+import javar.filelist.FileList;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +15,9 @@ import javax.swing.text.*;
 import javax.swing.filechooser.*;
 import java.util.*;
 import java.io.*;
+import java.nio.*;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
 
 @SuppressWarnings(value = "unchecked")
 public class CreatorWindow extends JFrame
@@ -220,6 +224,7 @@ public class CreatorWindow extends JFrame
             File file = new File(filePath + "/" + fileName);
             try
             {
+                /* Create file */
                 if (file.exists()) 
                 {
                     int result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
@@ -228,6 +233,21 @@ public class CreatorWindow extends JFrame
                     {
                         file.delete();
                         file.createNewFile();
+                        /* Get file attributes */
+                        Path path = Paths.get(file.getPath());
+                        BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+                        BasicFileAttributes basicAttributes = basicView.readAttributes();
+                        String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+                        String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                        double byteSize = (double) basicAttributes.size();
+                        double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                        double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                        String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                        var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
+                        /* Set file list */
+                        Javar.fileList.fileItems.add(data);
+                        Javar.fileList.setListData(Javar.fileList.fileItems);
+                        /* Set tabbed pane */
                         ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
                         if (icon == null)
                             icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
@@ -253,6 +273,21 @@ public class CreatorWindow extends JFrame
                 }
                 else
                 {
+                    /* Get file attributes */
+                    Path path = Paths.get(file.getPath());
+                    BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+                    BasicFileAttributes basicAttributes = basicView.readAttributes();
+                    String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+                    String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                    double byteSize = (double) basicAttributes.size();
+                    double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                    double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                    String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                    var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
+                    /* Set file list */
+                    Javar.fileList.fileItems.add(data);
+                    Javar.fileList.setListData(Javar.fileList.fileItems);
+                    /* Set tabbed pane */
                     ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
                     if (icon == null)
                         icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
@@ -401,6 +436,7 @@ public class CreatorWindow extends JFrame
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         this.pack();
         this.setResizable(false);
+        this.setLocation((int)Javar.mainWindow.getLocation().getX() + (int)(Javar.mainWindow.getWidth()/2-this.getWidth()/2), (int)Javar.mainWindow.getLocation().getY());
         this.setVisible(true);
     }
 }
@@ -433,12 +469,12 @@ class ItemData
     public String toString()
     {
         if (list == CATEGORY)
-            return JavarConstants.creatorCategoryDescriptionPrefix + name
-                + JavarConstants.creatorCategoryDescriptionSuffix;
+            return JavarConstants.creatorCategoryDescription1 + name
+                + JavarConstants.creatorCategoryDescription2;
         else
-            return JavarConstants.creatorDescriptionPrefix + name 
-                + JavarConstants.creatorDescriptionMiddle + name 
-                + JavarConstants.creatorDescriptionSuffix;
+            return JavarConstants.creatorDescription1 + name 
+                + JavarConstants.creatorDescription2 + name 
+                + JavarConstants.creatorDescription3;
     }
 }
 
@@ -469,7 +505,7 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
         g.setColor(background);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(foreground);
-        g.drawImage(icon.getImage(), JavarConstants.creatorListIconOffset, (int)(JavarConstants.creatorListIconPadding/2), null);
+        g.drawImage(icon.getImage(), JavarConstants.creatorListIconOffset, JavarConstants.creatorListIconPadding, null);
         g.drawString(name, JavarConstants.creatorListIconOffset*2+icon.getIconWidth(), (int)(g.getFontMetrics().getAscent()/2+getHeight()/2));
     }
     public Dimension getPreferredSize()

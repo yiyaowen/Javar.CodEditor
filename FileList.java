@@ -14,14 +14,7 @@ import java.util.*;
 @SuppressWarnings(value = "unchecked")
 public class FileList extends JList
 {
-    Vector<ItemData> fileItems = new Vector<>() 
-    {
-        {
-            add(new ItemData("javaFile", "Test.java", "test/path"));
-            add(new ItemData("classFile", "Test.class", "test/path"));
-            add(new ItemData("defaultFile", "Test.default", "test/path"));
-        }
-    };
+    public Vector<ItemData> fileItems = new Vector<>();
     public FileList()
     {
         initFileList();
@@ -34,9 +27,13 @@ public class FileList extends JList
         this.setCellRenderer(new ItemCellRenderer(JavarConstants.fileListItemWidth, JavarConstants.fileListItemHeight));
         this.addListSelectionListener(e -> {
             var data = (ItemData) this.getSelectedValue();
-            Javar.infoLabel.setCurrentFile(data.getFileName());
+            Javar.infoLabel.setAll(data.getFileName(), data.getFileType(), data.getFilePath(), data.getFileSize(), data.getFileCreated(), data.getFileLastModified());
             Javar.infoLabel.updateText();
         });
+    }
+    public static ItemData createItemData(String fileType, String fileName, String filePath, String fileSize, String fileCreated, String fileLastModified)
+    {
+        return new ItemData(fileType, fileName, filePath, fileSize, fileCreated, fileLastModified);
     }
 }
 
@@ -45,11 +42,17 @@ class ItemData
     String fileType;
     String fileName;
     String filePath;
-    public ItemData(String fileType, String fileName, String filePath)
+    String fileSize;
+    String fileCreated;
+    String fileLastModified;
+    public ItemData(String fileName, String fileType, String filePath, String fileSize, String fileCreated, String fileLastModified)
     {
-        this.fileType = fileType;
         this.fileName = fileName;
+        this.fileType = fileType;
         this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.fileCreated = fileCreated;
+        this.fileLastModified = fileLastModified;
     }
     public String getFileName()
     {
@@ -62,6 +65,18 @@ class ItemData
     public String getFilePath()
     {
         return filePath;
+    }
+    public String getFileSize()
+    {
+        return fileSize;
+    }
+    public String getFileCreated()
+    {
+        return fileCreated;
+    }
+    public String getFileLastModified()
+    {
+        return fileLastModified;
     }
 }
 
@@ -80,7 +95,7 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
         var data = (ItemData) value;
-        icon = new ImageIcon("images/icons/" + data.getFileType() + "TemplateIcon.png");
+        icon = new ImageIcon("images/icons/" + data.getFileType() + "FileTemplateIcon.png");
         fileName = data.getFileName();
         background = isSelected ? list.getSelectionBackground() : list.getBackground();
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
@@ -92,7 +107,7 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
         g.setColor(background);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(foreground);
-        g.drawImage(icon.getImage(), JavarConstants.fileListIconOffset, (int)(JavarConstants.fileListIconPadding/2), null);
+        g.drawImage(icon.getImage(), JavarConstants.fileListIconOffset, JavarConstants.fileListIconPadding, null);
         g.drawString(fileName, JavarConstants.fileListIconOffset*2+icon.getIconWidth(), (int)(g.getFontMetrics().getAscent()/2+getHeight()/2));
     }
     public Dimension getPreferredSize()

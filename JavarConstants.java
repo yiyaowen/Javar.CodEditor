@@ -8,6 +8,10 @@ public class JavarConstants
     /* Invoke in advance */
     public static void initJavarConstants()
     {
+        // Device relevant size
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenWidth = screenSize.getWidth();
+        screenHeight = screenSize.getHeight();
         // Modifier
         NATIVE_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         newItemModifier = NATIVE_MASK;
@@ -34,50 +38,58 @@ public class JavarConstants
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
     public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.";
     public static final String openItemListenerErrorTitle = "Unable To Open The File";
-    public static final String creatorCategoryDescriptionPrefix = 
+    public static final String creatorCategoryDescription1 = 
     "<html>" + 
         "<body>" + 
             "<h1>";
-    public static final String creatorCategoryDescriptionSuffix = 
+    public static final String creatorCategoryDescription2 = 
             "</h1>" +
         "</body>" +
     "</html>";
-    public static final String fileDescriptionPrefix = 
+    public static final String fileDescription1 = 
         "Create a(n) ";
-    public static final String fileDescriptionSuffix = 
+    public static final String fileDescription2 = 
         ". Check 'Use Template' to enable the designed java template. " +
         "Check 'Generate Prefix Statement' to generate some identifier information automatically. "+
         "The identifier information comes from 'Name', 'Developer', 'Team' and local date (If accessible).";
-    public static final String creatorDescriptionPrefix = 
+    public static final String creatorDescription1 = 
     "<html>" +
         "<body>" +
             "<p><strong>";
-    public static String creatorDescriptionMiddle = 
+    public static String creatorDescription2 = 
             "</strong></p>" +
             "<hr />" +
-            "<p>" + fileDescriptionPrefix;
-    public static String creatorDescriptionSuffix = 
-            fileDescriptionSuffix + 
+            "<p>" + fileDescription1;
+    public static String creatorDescription3 = 
+            fileDescription2 + 
             "</p>" +
         "</body>" +
     "</html>";
     // Main window contents
-    public static final String infoLabelContentPrefix = 
-    "<html>" + 
-        "<body>" + 
-        "<h2>File Information</h2>" + 
-        "<hr />" + 
-        "<h4><strong>Current File</strong> - ";
-    public static final String infoLabelContentName =
-        "</h4>" +
-        "<h4><strong>Selected File(s)</strong> - ";
-    public static final String infoLabelContentCount = 
-        "</h4>" + 
-        "<h4><strong>Total File(s)</strong> - ";
-    public static final String infoLabelContentTotal =
-        "</h4>" +
-        "<br />";
-    public static final String infoLabelContentSuffix = 
+    public static final String infoLabelContent1 = 
+    "<html>" +
+        "<body>" +
+            "<strong>";
+    public static final String infoLabelContent2 = 
+            "</strong> - <i>";
+    public static final String infoLabelContent3 = 
+            "</i>" +
+            "<hr />" +
+            "<strong>Path:</strong> <p>";
+    public static final String infoLabelContent4 = 
+            "</p>" +
+            "<br />" +
+            "<strong>Size:</strong> <div>";
+    public static final String infoLabelContent5 = 
+            "</div>" +
+            "<br />" +
+            "<strong>Created:</strong> <div>";
+    public static final String infoLabelContent6 = 
+            "</div>" +
+            "<br />" +
+            "<strong>Last Modified:</strong> <div>";
+    public static final String infoLabelContent7 = 
+            "</div>" +
         "</body>" +
     "</html>";
     public static final String navigatorLabelContent = 
@@ -198,6 +210,9 @@ public class JavarConstants
     public static final int itemSelectedColorHex = 0xB0C4DE;
 
     /* Component size */
+    // Device relvevant size
+    public static double screenWidth;
+    public static double screenHeight;
     // Great size
     public static final int greatWidth = 3000;
     public static final int greatHeight = 3000;
