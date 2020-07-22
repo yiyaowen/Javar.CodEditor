@@ -2,12 +2,15 @@ package javar.creatorwindow;
 
 import javar.utils.JavarUtils;
 import javar.constants.JavarConstants;
+import javar.Javar;
+import javar.codepane.CodePane;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
+import javax.swing.text.*;
 import javax.swing.filechooser.*;
 import java.util.*;
 import java.io.*;
@@ -67,12 +70,11 @@ public class CreatorWindow extends JFrame
     JButton createPropertyButton = new JButton();
     JLabel propertySeparatorLabel1 = new JLabel();
     JLabel propertySeparatorLabel2 = new JLabel();
-    JFileChooser chooser = new JFileChooser(".");
-    DirFileFilter filter = new DirFileFilter();
-    public CreatorWindow()
-    {
-        initCreatorWindow();
-    }
+    JFileChooser chooser = new JFileChooser();
+    boolean hasNameProperty = false;
+    boolean hasDirProperty = false;
+    Document namePropertyDocument = namePropertyTextField.getDocument();
+    Document chooseDirPropertyDocument = chooseDirPropertyTextField.getDocument();
     public void initCreatorWindow()
     {
         /* Set preferred size */
@@ -200,6 +202,57 @@ public class CreatorWindow extends JFrame
         teamPropertyLabel.setText("Team:");
         templatePropertyLabel.setText("Template:");
         /* Set listener */
+        createPropertyButton.addActionListener(e -> {
+            String fileName = namePropertyTextField.getText();
+            String fileDeveloper = developerPropertyTextField.getText();
+            String fileTeam = teamPropertyTextField.getText();
+            String filePath = chooseDirPropertyTextField.getText();
+            boolean hasTemplate = hasTemplatePropertyCheckBox.isSelected();
+            boolean hasPrefix = hasPrefixStatementCheckBox.isSelected();
+            File file = new File(filePath + "/" + fileName);
+            try
+            {
+                if (file.exists()) 
+                {
+                    int result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
+                        JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (result == JOptionPane.OK_OPTION)
+                    {
+                        file.delete();
+                        file.createNewFile();
+                        Javar.codeEditor.addTab(fileName, new JScrollPane(new CodePane()));
+                        Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                        this.dispose();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else if (!file.createNewFile())
+                {
+                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else if (!file.canWrite() || !file.canRead())
+                {
+                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
+                        JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    Javar.codeEditor.addTab(fileName, new JScrollPane(new CodePane()));
+                    Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                    this.dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                    JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
         cancelPropertyButton.addActionListener(e -> {
             this.dispose();
         });
@@ -239,10 +292,82 @@ public class CreatorWindow extends JFrame
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String path = chooser.getSelectedFile().getPath();
-                //TODO
-                //System.out.println(true);
                 chooseDirPropertyTextField.setText(path);
             }
+        });
+        namePropertyDocument.addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
+            @Override
+            public void insertUpdate(DocumentEvent e)
+            { 
+                if (!namePropertyTextField.getText().equals(""))
+                {
+                    hasNameProperty = true;
+                    if (hasDirProperty)
+                        createPropertyButton.setEnabled(true);
+                }
+                else
+                {
+                    hasNameProperty  = false;
+                    createPropertyButton.setEnabled(false);
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) 
+            {
+                if (!namePropertyTextField.getText().equals(""))
+                {
+                    hasNameProperty = true;
+                    if (hasDirProperty)
+                        createPropertyButton.setEnabled(true);
+                }
+                else
+                {
+                    hasNameProperty  = false;
+                    createPropertyButton.setEnabled(false);
+                }
+            }
+        });
+        chooseDirPropertyDocument.addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
+            @Override
+            public void insertUpdate(DocumentEvent e) 
+            {
+                if (!chooseDirPropertyTextField.getText().equals(""))
+                {
+                    hasDirProperty = true;
+                    if (hasNameProperty)
+                        createPropertyButton.setEnabled(true);
+                }
+                else
+                {
+                    hasDirProperty = false;
+                    createPropertyButton.setEnabled(false);
+                }
+            }
+            @Override 
+            public void removeUpdate(DocumentEvent e) 
+            {
+                if (!chooseDirPropertyTextField.getText().equals(""))
+                {
+                    hasDirProperty = true;
+                    if (hasNameProperty)
+                        createPropertyButton.setEnabled(true);
+                }
+                else
+                {
+                    hasDirProperty = false;
+                    createPropertyButton.setEnabled(false);
+                }
+            }
+        });
+        hasTemplatePropertyCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                templatePropertyComboBox.setEnabled(true);
+            else
+                templatePropertyComboBox.setEnabled(false);
         });
         /* List adjust */
         categoryList.setListData(categoryItems);
@@ -251,8 +376,8 @@ public class CreatorWindow extends JFrame
         categoryList.setCellRenderer(new ItemCellRenderer(JavarConstants.categoryItemWidth, JavarConstants.categoryItemHeight));
         typeList.setCellRenderer(new ItemCellRenderer(JavarConstants.typeItemWidth, JavarConstants.typeItemHeight));
         /* Other adjust */
-        chooser.addChoosableFileFilter(filter);
-        chooser.setAcceptAllFileFilterUsed(false);
+        templatePropertyComboBox.setEnabled(false);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
@@ -329,25 +454,5 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
     public Dimension getPreferredSize()
     {
         return new Dimension(W, H);
-    }
-}
-
-class DirFileFilter extends javax.swing.filechooser.FileFilter
-{
-    String description;
-    public void setDescription(String aDescription)
-    {
-        description = aDescription;
-    }
-    public String getDescription()
-    {
-        return description;
-    }
-    public boolean accept(File f)
-    {
-        if (f.isDirectory())
-            return true;
-        else
-            return false;
     }
 }

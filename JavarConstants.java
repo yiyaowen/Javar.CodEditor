@@ -5,10 +5,33 @@ import java.awt.event.*;
 
 public class JavarConstants
 {
+    /* Invoke in advance */
+    public static void initJavarConstants()
+    {
+        // Modifier
+        NATIVE_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+        newItemModifier = NATIVE_MASK;
+        openItemModifier = NATIVE_MASK;
+        saveItemModifier = NATIVE_MASK;
+        saveToItemModifier = NATIVE_MASK | InputEvent.SHIFT_DOWN_MASK;
+        copyItemModifier = NATIVE_MASK;
+        pasteItemModifier = NATIVE_MASK;
+        commentItemModifier = NATIVE_MASK;
+        buildItemModifier = NATIVE_MASK;
+        runItemModifier = NATIVE_MASK;
+    }
+
     /* String : names and contents */
     // Names
     public static final String navigatorLabelName = "Navigator";
     // Contents
+    // Creator window contents
+    public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite this file?";
+    public static final String creatorWindowFileExistsTitle = "File Already Exists";
+    public static final String creatorWindowFileErrorMessage = "Unable to read or write this directory/file!\nPlease check the relevant permissions.";
+    public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
+    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create this file.";
+    public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
     public static final String creatorCategoryDescriptionPrefix = 
     "<html>" + 
         "<body>" + 
@@ -36,6 +59,7 @@ public class JavarConstants
             "</p>" +
         "</body>" +
     "</html>";
+    // Main window contents
     public static final String navigatorLabelContent = 
     "<html>" +
         "<body>" +
@@ -49,22 +73,6 @@ public class JavarConstants
         "</body>" +
     "</html>";
 
-    /* Invoke in advance */
-    public static void initJavarConstants()
-    {
-        // Modifier
-        NATIVE_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-        newItemModifier = NATIVE_MASK;
-        openItemModifier = NATIVE_MASK;
-        saveItemModifier = NATIVE_MASK;
-        saveToItemModifier = NATIVE_MASK | InputEvent.SHIFT_DOWN_MASK;
-        copyItemModifier = NATIVE_MASK;
-        pasteItemModifier = NATIVE_MASK;
-        commentItemModifier = NATIVE_MASK;
-        buildItemModifier = NATIVE_MASK;
-        runItemModifier = NATIVE_MASK;
-    }
-    
     /* PopupMenu type */
     public static final int fileTreePopupType = 1;
 

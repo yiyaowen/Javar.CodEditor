@@ -2,6 +2,8 @@ package javar.menuitemprovider;
 
 import javar.constants.JavarConstants;
 import javar.tabbedpane.TabbedPane;
+import javar.Javar;
+import javar.creatorwindow.CreatorWindow;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +43,8 @@ public class MenuItemProvider
     public static void initMenuItemProvider()
     {
         newItemListener = e -> {
-           //TODO 
+            Javar.creatorWindow = new CreatorWindow();
+            Javar.creatorWindow.initCreatorWindow();
         };
     }
     

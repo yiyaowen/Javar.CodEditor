@@ -16,14 +16,14 @@ import javax.swing.event.*;
 
 public class Javar
 {
-    JFrame mainWindow = new JFrame();
-    TabbedPane codeEditor = new TabbedPane(JavarConstants.CodePane);
-    TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
-    FileTree fileTree = new FileTree();
-    JPanel tmpPanel = new JPanel();
-    UpperBar upperBar = new UpperBar();
-    ManagerBar managerBar = new ManagerBar();
-    CreatorWindow creatorWindow = new CreatorWindow();
+    public JFrame mainWindow = new JFrame();
+    public static TabbedPane codeEditor = new TabbedPane(JavarConstants.CodePane);
+    public static TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
+    public static FileTree fileTree = new FileTree();
+    public JPanel tmpPanel = new JPanel();
+    public UpperBar upperBar = new UpperBar();
+    public ManagerBar managerBar = new ManagerBar();
+    public static CreatorWindow creatorWindow = new CreatorWindow();
     
     public void initMainWindow()
     {
@@ -64,7 +64,6 @@ public class Javar
         JavarConstants.initJavarConstants();
         MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
-        //app.initMainWindow();
-        app.creatorWindow.initCreatorWindow();
+        app.initMainWindow();
     }
 }

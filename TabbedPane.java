@@ -1,6 +1,7 @@
 package javar.tabbedpane;
 
 import javar.constants.JavarConstants;
+import javar.codepane.CodePane;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,15 +10,12 @@ import javax.swing.event.*;
 import java.io.*;
 import java.util.*;
 
-import javar.codepane.CodePane;
 
 public class TabbedPane extends JTabbedPane
 {
     /* All useful components */
-    //TODO
     public static JTextArea outputTextArea = new JTextArea();
     public static JTextArea debugTextArea = new JTextArea();
-    ImageIcon icon = new ImageIcon("images/icons/javaIcon.png");
     public TabbedPane(int type)
     {
         super(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
@@ -40,7 +38,6 @@ public class TabbedPane extends JTabbedPane
     }
     public void initTabbedCodePane()
     {
-        //TODO
         JLabel navigatorLabel = new JLabel();
         navigatorLabel.setText(JavarConstants.navigatorLabelContent);
         navigatorLabel.setHorizontalAlignment(SwingConstants.CENTER);
