@@ -4,11 +4,17 @@ import javar.constants.JavarConstants;
 import javar.tabbedpane.TabbedPane;
 import javar.Javar;
 import javar.creatorwindow.CreatorWindow;
+import javar.codepane.CodePane;
+import javar.utils.JavarUtils;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.io.*;
+import java.nio.*;
+import java.nio.channels.*;
+import java.nio.charset.*;
 
 public class MenuItemProvider
 {
@@ -39,13 +45,59 @@ public class MenuItemProvider
     public static ActionListener readmeItemListener;
     public static ActionListener dirItemListener;
     public static ActionListener javaItemListener;
+    /* File chooser */
+    public static JFileChooser chooser;
 
     public static void initMenuItemProvider()
     {
+        /* Init listeners */
         newItemListener = e -> {
             Javar.creatorWindow = new CreatorWindow();
             Javar.creatorWindow.initCreatorWindow();
         };
+        openItemListener = e -> {
+            chooser = new JFileChooser();
+            chooser.setAcceptAllFileFilterUsed(true);
+            var source = ((Component)e.getSource()).getParent();
+            int result = chooser.showDialog(source, "Open File");
+            if (result == JFileChooser.APPROVE_OPTION)
+            {
+                File file = chooser.getSelectedFile();
+                try (
+                    var inChannel = new FileInputStream(file).getChannel())
+                {
+                    /* Get name and icon*/
+                    String fileName = file.getName();
+                    ImageIcon icon = new ImageIcon("images/icons/" + fileName.substring(fileName.lastIndexOf(".")+1) + "FileTemplateIcon.png");
+                    if (icon.getImage()  == null)
+                        icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                    System.out.println(icon);
+                    icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                    /* Get content */
+                    MappedByteBuffer buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+                    Charset charset = Charset.forName("UTF-8");
+                    CharsetDecoder decoder = charset.newDecoder();
+                    CharBuffer charBuffer = decoder.decode(buffer);
+                    String content = charBuffer.toString();
+                    Javar.codeEditor.addTab(file.getName(), icon, new JScrollPane(new CodePane()));
+                    var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
+                    var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                    tmp2.setText(content);
+                    Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
+                }
+                catch (Exception ex)
+                {
+                    JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage, JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                    return;
+                }
+            }
+        };
+        /*saveItemListener = e -> {
+            try (
+                var outChannel = new FileOutputStream(
+            var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
+            var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];*/
     }
     
     public static JMenuItem createMenuItem(int type)

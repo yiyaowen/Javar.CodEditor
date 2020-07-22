@@ -2,12 +2,13 @@ package javar;
 
 import javar.constants.JavarConstants;
 import javar.codepane.CodePane;
-import javar.filetree.FileTree;
+import javar.filelist.FileList;
 import javar.tabbedpane.TabbedPane;
 import javar.upperbar.UpperBar;
 import javar.managerbar.ManagerBar;
 import javar.menuitemprovider.MenuItemProvider;
 import javar.creatorwindow.CreatorWindow;
+import javar.infolabel.InfoLabel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,8 +20,8 @@ public class Javar
     public JFrame mainWindow = new JFrame();
     public static TabbedPane codeEditor = new TabbedPane(JavarConstants.CodePane);
     public static TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
-    public static FileTree fileTree = new FileTree();
-    public JPanel tmpPanel = new JPanel();
+    public static FileList fileList = new FileList();
+    public static InfoLabel infoLabel = new InfoLabel();
     public UpperBar upperBar = new UpperBar();
     public ManagerBar managerBar = new ManagerBar();
     public static CreatorWindow creatorWindow = new CreatorWindow();
@@ -29,10 +30,10 @@ public class Javar
     {
         codeEditor.setPreferredSize(new Dimension(JavarConstants.codeEditorWidth, JavarConstants.codeEditorHeight));
         outputArea.setPreferredSize(new Dimension(JavarConstants.outputAreaWidth, JavarConstants.outputAreaHeight));
-        fileTree.setPreferredSize(new Dimension(JavarConstants.fileTreeWidth, JavarConstants.fileTreeHeight));
-        tmpPanel.setPreferredSize(new Dimension(JavarConstants.tmpPanelWidth, JavarConstants.tmpPanelHeight));
+        fileList.setPreferredSize(new Dimension(JavarConstants.fileListWidth, JavarConstants.fileListHeight));
+        infoLabel.setPreferredSize(new Dimension(JavarConstants.infoLabelWidth, JavarConstants.infoLabelHeight));
         upperBar.setPreferredSize(new Dimension(JavarConstants.upperBarWidth, JavarConstants.upperBarHeight));
-        var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileTree, tmpPanel);
+        var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileList, infoLabel);
         var rightPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeEditor, outputArea);
         var centerPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         leftPanel.setContinuousLayout(false);

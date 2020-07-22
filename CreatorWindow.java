@@ -73,6 +73,7 @@ public class CreatorWindow extends JFrame
     JFileChooser chooser = new JFileChooser();
     boolean hasNameProperty = false;
     boolean hasDirProperty = false;
+    boolean hasInvalidFileName = false;
     Document namePropertyDocument = namePropertyTextField.getDocument();
     Document chooseDirPropertyDocument = chooseDirPropertyTextField.getDocument();
     public void initCreatorWindow()
@@ -204,6 +205,13 @@ public class CreatorWindow extends JFrame
         /* Set listener */
         createPropertyButton.addActionListener(e -> {
             String fileName = namePropertyTextField.getText();
+            if (fileName.indexOf(".") == 0)
+            {
+                hasInvalidFileName = true;
+                namePropertyLabel.setText("<html><div>Name: <font color='red'>invalid</font></div></html>");
+                return;
+            }
+            String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
             String fileDeveloper = developerPropertyTextField.getText();
             String fileTeam = teamPropertyTextField.getText();
             String filePath = chooseDirPropertyTextField.getText();
@@ -220,7 +228,11 @@ public class CreatorWindow extends JFrame
                     {
                         file.delete();
                         file.createNewFile();
-                        Javar.codeEditor.addTab(fileName, new JScrollPane(new CodePane()));
+                        ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
+                        if (icon == null)
+                            icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                        icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                        Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
                         Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                         this.dispose();
                     }
@@ -241,7 +253,11 @@ public class CreatorWindow extends JFrame
                 }
                 else
                 {
-                    Javar.codeEditor.addTab(fileName, new JScrollPane(new CodePane()));
+                    ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
+                    if (icon == null)
+                        icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                    icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                    Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                     this.dispose();
                 }
@@ -284,6 +300,11 @@ public class CreatorWindow extends JFrame
             @Override 
             public void focusGained(FocusEvent e)
             {
+                if (hasInvalidFileName)
+                {
+                    namePropertyLabel.setText("Name:");
+                    hasInvalidFileName = false;
+                }
                 namePropertyTextField.setCaretPosition(0);
             }
         });

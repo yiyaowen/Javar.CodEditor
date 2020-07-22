@@ -26,12 +26,14 @@ public class JavarConstants
     public static final String navigatorLabelName = "Navigator";
     // Contents
     // Creator window contents
-    public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite this file?";
+    public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?";
     public static final String creatorWindowFileExistsTitle = "File Already Exists";
-    public static final String creatorWindowFileErrorMessage = "Unable to read or write this directory/file!\nPlease check the relevant permissions.";
+    public static final String creatorWindowFileErrorMessage = "Unable to read or write the directory/file!\nPlease check the relevant permissions.";
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
-    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create this file.";
+    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
+    public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.";
+    public static final String openItemListenerErrorTitle = "Unable To Open The File";
     public static final String creatorCategoryDescriptionPrefix = 
     "<html>" + 
         "<body>" + 
@@ -60,13 +62,31 @@ public class JavarConstants
         "</body>" +
     "</html>";
     // Main window contents
+    public static final String infoLabelContentPrefix = 
+    "<html>" + 
+        "<body>" + 
+        "<h2>File Information</h2>" + 
+        "<hr />" + 
+        "<h4><strong>Current File</strong> - ";
+    public static final String infoLabelContentName =
+        "</h4>" +
+        "<h4><strong>Selected File(s)</strong> - ";
+    public static final String infoLabelContentCount = 
+        "</h4>" + 
+        "<h4><strong>Total File(s)</strong> - ";
+    public static final String infoLabelContentTotal =
+        "</h4>" +
+        "<br />";
+    public static final String infoLabelContentSuffix = 
+        "</body>" +
+    "</html>";
     public static final String navigatorLabelContent = 
     "<html>" +
         "<body>" +
             "<h1>Javar - A Lightweight Powerful Coder</h1>" +
             "<hr />" +
             "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
-            "<h3><strong>⌘O</strong> - Open File or Projects</h3>" +
+            "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
             "<hr />" +
             "<p>Develeper: Fort_W</p>" +
             "<p>Version: 1.0.0</p>" +
@@ -74,7 +94,7 @@ public class JavarConstants
     "</html>";
 
     /* PopupMenu type */
-    public static final int fileTreePopupType = 1;
+    public static final int fileListPopupType = 1;
 
     /* Menu type */
     public static final int fileMenuType = 1;
@@ -183,13 +203,14 @@ public class JavarConstants
     public static final int greatHeight = 3000;
     public static final int smallWidth = 1;
     public static final int smallHeight = 1;
-    // Padding size
-    // Main window padding size
+    // Padding and Icon size
+    // Main window Padding and Icon size
     public static final int compilerSelectorIconPadding = 10;
-    public static final int fileTreePaddingTop = 5;
-    public static final int fileTreePaddingLeft = 5;
-    public static final int fileTreePaddingBottom = 5;
-    public static final int fileTreePaddingRight = 5;
+    public static final int tabIconWidth = 15;
+    public static final int tabIconHeight = 15;
+    public static final int fileListIconPadding = 10;
+    public static final int fileListIconOffset = 20;
+    // Creator window Padding and Icon size
     public static final int creatorListIconPadding = 2;
     public static final int creatorListIconOffset = 10;
     public static final int creatorDescriptionIconPadding = 10;
@@ -265,15 +286,15 @@ public class JavarConstants
     public static final int mainWindowHeight = 750;
     public static final int centerPanelWidth = mainWindowWidth; 
     public static final int centerPanelHeight = 720;
-    public static final int fileTreeWidth = centerPanelWidth*1/5;
-    public static final int fileTreeHeight = centerPanelHeight*3/4;
-    public static final int tmpPanelWidth = fileTreeWidth;
-    public static final int tmpPanelHeight = centerPanelHeight*1/4;
+    public static final int fileListWidth = centerPanelWidth*1/5;
+    public static final int fileListHeight = centerPanelHeight*3/4;
+    public static final int infoLabelWidth = fileListWidth;
+    public static final int infoLabelHeight = centerPanelHeight*1/4;
     public static final int codeEditorWidth = centerPanelWidth*4/5;
-    public static final int codeEditorHeight = fileTreeHeight;
+    public static final int codeEditorHeight = fileListHeight;
     public static final int outputAreaWidth = codeEditorWidth;
-    public static final int outputAreaHeight = tmpPanelHeight;
-    public static final int leftPanelWidth = fileTreeWidth;
+    public static final int outputAreaHeight = infoLabelHeight;
+    public static final int leftPanelWidth = fileListWidth;
     public static final int leftPanelHeight = centerPanelHeight;
     public static final int rightPanelWidth = codeEditorWidth;
     public static final int rightPanelHeight = centerPanelHeight;
@@ -297,4 +318,6 @@ public class JavarConstants
     public static final int searchLabelHeight = upperBarHeight-6;
     public static final int searchBoxWidth = 170;
     public static final int searchBoxHeight = upperBarHeight-6;
+    public static final int fileListItemWidth = fileListWidth;
+    public static final int fileListItemHeight = 60;
 }
