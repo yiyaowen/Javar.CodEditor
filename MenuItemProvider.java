@@ -96,10 +96,18 @@ public class MenuItemProvider
                     CharsetDecoder decoder = charset.newDecoder();
                     CharBuffer charBuffer = decoder.decode(buffer);
                     String content = charBuffer.toString();
-                    Javar.codeEditor.addTab(file.getName(), icon, new JScrollPane(new CodePane()));
+                    // Set tab scrollable
+                    var tmpPanel = new JPanel();
+                    tmpPanel.setLayout(new BorderLayout());
+                    tmpPanel.add(new CodePane());
+                    var tmpScroll = new JScrollPane(tmpPanel);
+                    tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                    Javar.codeEditor.addTab(file.getName(), icon, tmpScroll);
                     var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
-                    var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                    var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                     tmp2.setText(content);
+                    // Stay at the top
+                    tmp2.setCaretPosition(0);
                     try
                     {
                         /* Set file list */
@@ -119,13 +127,15 @@ public class MenuItemProvider
             }
         };
         saveItemListener = e -> {
+            if (Javar.fileList.getModel().getSize() <= 0)
+                return;
             var source = ((Component)e.getSource()).getParent();
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
             try (
                 var fw = new FileWriter(filePath))
             {
                 var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getSelectedIndex());
-                var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                 String content = tmp2.getText();        
                 fw.write(content);
                 Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName());
@@ -157,6 +167,8 @@ public class MenuItemProvider
             }
         };
         saveToItemListener = e -> {
+            if (Javar.fileList.getModel().getSize() <= 0)
+                return;
             var source = ((Component)e.getSource()).getParent();
             chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -171,7 +183,7 @@ public class MenuItemProvider
                     var fw = new FileWriter(filePath))
                 {
                     var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getSelectedIndex());
-                    var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                    var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                     String content = tmp2.getText();        
                     fw.write(content);
                     Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2);
@@ -184,6 +196,8 @@ public class MenuItemProvider
             }
         };
         renameItemListener = e -> {
+            if (Javar.fileList.getModel().getSize() <= 0)
+                return;
             var source = ((Component)e.getSource()).getParent();
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
@@ -218,6 +232,37 @@ public class MenuItemProvider
                 JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage, JavarConstants.renameItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
             }
         };
+        renameItemPopupListener = renameItemListener;
+        removeItemListener = e -> {
+            int index = Javar.fileList.getSelectedIndex();
+            if (index < 0)
+                return;
+            FileList.fileItems.remove(index);
+            Javar.codeEditor.remove(Javar.codeEditor.getSelectedIndex());
+            Javar.fileList.setListData(FileList.fileItems);
+            int selectedIndex = Javar.codeEditor.getSelectedIndex() - 1;
+            if (selectedIndex >= 0)
+                Javar.fileList.setSelectedIndex(selectedIndex);
+        };
+        removeItemPopupListener = removeItemListener;
+        deleteItemListener = e -> {
+            var source = ((Component)e.getSource()).getParent();
+            int delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent, JavarConstants.deleteItemListenerTitle, JOptionPane.YES_NO_OPTION);
+            if (delete == JOptionPane.OK_OPTION)
+            {
+                File file = new File(Javar.fileList.getSelectedItemDataFilePath());
+                if (file.delete())
+                {
+                    removeItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
+                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName());
+                }
+                else
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName());
+                }
+            }
+        };
+        deleteItemPopupListener = deleteItemListener;
     }
     
     public static JMenuItem createMenuItem(int type)

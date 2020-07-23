@@ -263,7 +263,13 @@ public class CreatorWindow extends JFrame
                         if (icon == null)
                             icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                         icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
-                        Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
+                        // JScrollPane + JPanel ==> horizontal scrollable
+                        var tmpPanel = new JPanel();
+                        tmpPanel.setLayout(new BorderLayout());
+                        tmpPanel.add(new CodePane());
+                        var tmpScroll = new JScrollPane(tmpPanel);
+                        tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                        Javar.codeEditor.addTab(fileName, icon, tmpScroll);
                         try
                         {
                             /* Set file list */
@@ -308,7 +314,12 @@ public class CreatorWindow extends JFrame
                     if (icon == null)
                         icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                     icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
-                    Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
+                    var tmpPanel = new JPanel();
+                    tmpPanel.setLayout(new BorderLayout());
+                    tmpPanel.add(new CodePane());
+                    var tmpScroll = new JScrollPane(tmpPanel);
+                    tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                    Javar.codeEditor.addTab(fileName, icon, tmpScroll);
                     try 
                     {
                         /* Set file list */

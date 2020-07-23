@@ -83,6 +83,10 @@ public class JavarConstants
     public static final String renameItemListenerTitle = "Input New Name";
     public static final String renameItemListenerErrorMessage = "Unable to rename the file.\nPlease try again.";
     public static final String renameItemListenerErrorTitle = "Unable To Rename";
+    public static final String deleteItemListenerContent = "Do you delete the file completely?";
+    public static final String deleteItemListenerTitle = "Delete The File";
+    public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
+    public static final String deleteItemListenerErrorMessage = "<html><font color='red'>Delete Failed</font></html> - ";
     public static final String infoLabelContent1 = 
     "<html>" +
         "<body>" +
@@ -231,6 +235,7 @@ public class JavarConstants
     // Device relvevant size
     public static double screenWidth;
     public static double screenHeight;
+    public static final int scrollUnitIncrement = 20;
     // Great size
     public static final int greatWidth = 3000;
     public static final int greatHeight = 3000;
@@ -321,6 +326,8 @@ public class JavarConstants
     public static final int centerPanelHeight = 720;
     public static final int fileListWidth = centerPanelWidth*1/5;
     public static final int fileListHeight = centerPanelHeight*3/4;
+    public static final int fileListScrollableWidth = fileListWidth;
+    public static final int fileListScrollableHeight = fileListHeight;
     public static final int infoLabelWidth = fileListWidth;
     public static final int infoLabelHeight = centerPanelHeight*1/4;
     public static final int codeEditorWidth = centerPanelWidth*4/5;

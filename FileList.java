@@ -31,6 +31,11 @@ public class FileList extends JList
         this.setCellRenderer(new ItemCellRenderer(JavarConstants.fileListItemWidth, JavarConstants.fileListItemHeight));
         this.addListSelectionListener(e -> {
             var data = (ItemData) this.getSelectedValue();
+            if (data == null)
+            {
+                Javar.infoLabel.setText("");
+                return;
+            }
             /* Set editor pane selected tab */
             var index = this.getSelectedIndex() + 1;
             if (index < 0)
