@@ -26,7 +26,6 @@ public class MenuItemProvider
     /* MenuItem listeners */
     public static ActionListener newItemListener;
     public static ActionListener openItemListener;
-    public static ActionListener openItemPopupListener;
     public static ActionListener saveItemListener;
     public static ActionListener saveToItemListener;
     public static ActionListener renameItemListener;
@@ -48,7 +47,6 @@ public class MenuItemProvider
     public static ActionListener highlightConfigurationItemListener;
     public static ActionListener licenseItemListener;
     public static ActionListener readmeItemListener;
-    public static ActionListener dirItemListener;
     public static ActionListener javaItemListener;
     /* File chooser */
     public static JFileChooser chooser;
@@ -73,7 +71,10 @@ public class MenuItemProvider
                 {
                     /* Get file attributes */
                     String fileName = file.getName();
-                    String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+                    String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
+                    String fileType = CreatorWindow.suffixTypeMap.get(fileSuffix);
+                    if (fileType == null)
+                        fileType = fileSuffix;
                     Path path = Paths.get(file.getPath());
                     BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
                     BasicFileAttributes basicAttributes = basicView.readAttributes();
@@ -99,33 +100,130 @@ public class MenuItemProvider
                     var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
                     var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
                     tmp2.setText(content);
+                    try
+                    {
+                        /* Set file list */
+                        FileList.fileItems.add(data);
+                        Javar.fileList.setListData(FileList.fileItems);
+                    }
+                    catch (Exception ignore) {}
+                    /* Set selected tab */
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
-                    /* Set file list */
-                    Javar.fileList.fileItems.add(data);
-                    Javar.fileList.setListData(Javar.fileList.fileItems);
                 }
                 catch (Exception ex)
                 {
-                    JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage, JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    //ex.printStackTrace();
                     return;
                 }
             }
         };
-        /*saveItemListener = e -> {
+        saveItemListener = e -> {
+            var source = ((Component)e.getSource()).getParent();
+            String filePath = Javar.fileList.getSelectedItemDataFilePath();
             try (
-                var outChannel = new FileOutputStream(
-            var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
-            var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];*/
+                var fw = new FileWriter(filePath))
+            {
+                var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getSelectedIndex());
+                var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                String content = tmp2.getText();        
+                fw.write(content);
+                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName());
+            }
+            catch (Exception ex)
+            {
+                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage()); 
+                //ex.printStackTrace();
+            }
+            try
+            {
+                BasicFileAttributeView basicView = Files.getFileAttributeView(Paths.get(filePath), BasicFileAttributeView.class);
+                BasicFileAttributes basicAttributes = basicView.readAttributes();
+                String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                double byteSize = (double) basicAttributes.size();
+                double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                Javar.infoLabel.setFileLastModified(lastModifiedDate);
+                Javar.fileList.setSelectedItemDataFileLastModified(lastModifiedDate);
+                Javar.infoLabel.setFileSize(fileSize);
+                Javar.fileList.setSelectedItemDataFileSize(fileSize);
+                Javar.infoLabel.updateText();
+            }
+            catch (Exception update)
+            {
+                Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage()); 
+                //update.printStackTrace();
+            }
+        };
+        saveToItemListener = e -> {
+            var source = ((Component)e.getSource()).getParent();
+            chooser = new JFileChooser();
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            String fileName = JOptionPane.showInputDialog(source, JavarConstants.saveToFileChooserLabelContent, JavarConstants.saveToFileChooserLabelTitle, JOptionPane.INFORMATION_MESSAGE);
+            if (fileName == null)
+                return;
+            int result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent);
+            if (result == JFileChooser.APPROVE_OPTION)
+            {
+                String filePath = chooser.getSelectedFile().getPath() + "/" + fileName;
+                try (
+                    var fw = new FileWriter(filePath))
+                {
+                    var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getSelectedIndex());
+                    var tmp2 = (CodePane) tmp1.getViewport().getComponents()[0];
+                    String content = tmp2.getText();        
+                    fw.write(content);
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2);
+                }
+                catch (Exception ex)
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2); 
+                    //ex.printStackTrace();
+                }
+            }
+        };
+        renameItemListener = e -> {
+            var source = ((Component)e.getSource()).getParent();
+            String filePath = Javar.fileList.getSelectedItemDataFilePath();
+            String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
+            File file = new File(filePath);
+            String newName = JOptionPane.showInputDialog(source, JavarConstants.renameItemListenerContent, JavarConstants.renameItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            if (newName == null)
+                return;
+            String fileType = newName.substring(newName.lastIndexOf(".")+1);
+            File newFile = new File(dirPath+newName);
+            if (file.renameTo(newFile))
+            {
+                // Set file list data
+                Javar.fileList.setSelectedItemDataFileName(newName);
+                Javar.fileList.setSelectedItemDataFileType(CreatorWindow.suffixTypeMap.get(newName.substring(newName.lastIndexOf(".")+1)));
+                Javar.fileList.setSelectedItemDataFilePath(newFile.getPath());
+                Javar.fileList.setSelectedItemDataFileLastModified((new Date(newFile.lastModified())).toString());
+                // Set tab title and icon
+                Javar.codeEditor.setTitleAt(Javar.codeEditor.getSelectedIndex(), newName);
+                ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
+                if (icon == null)
+                    icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                Javar.codeEditor.setIconAt(Javar.codeEditor.getSelectedIndex(), icon);
+                // Set and update info label
+                Javar.infoLabel.setCurrentFile(newName);
+                Javar.infoLabel.setFileType(CreatorWindow.suffixTypeMap.get(newName.substring(newName.lastIndexOf(".")+1)));
+                Javar.infoLabel.setFileLastModified((new Date(newFile.lastModified())).toString());
+                Javar.infoLabel.updateText();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage, JavarConstants.renameItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+            }
+        };
     }
     
     public static JMenuItem createMenuItem(int type)
     {
         switch (type)
         {
-            case JavarConstants.dirItemType:
-                JMenuItem dirItem = new JMenuItem("Directory");
-                dirItem.addActionListener(dirItemListener);
-                return dirItem;
             case JavarConstants.javaItemType:
                 JMenuItem javaItem = new JMenuItem("Java Source file");
                 javaItem.addActionListener(javaItemListener);
@@ -140,10 +238,6 @@ public class MenuItemProvider
                 openItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.openItemChar, JavarConstants.openItemModifier));
                 openItem.addActionListener(openItemListener);
                 return openItem;
-            case JavarConstants.openItemPopupType:
-                JMenuItem openPopupItem = new JMenuItem("Open");
-                openPopupItem.addActionListener(openItemPopupListener);
-                return openPopupItem;
             case JavarConstants.saveItemType:
                 JMenuItem saveItem = new JMenuItem("Save");
                 saveItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveItemChar, JavarConstants.saveItemModifier));
@@ -165,6 +259,7 @@ public class MenuItemProvider
             case JavarConstants.removeItemType:
                 JMenuItem removeItem = new JMenuItem("Remove");
                 removeItem.addActionListener(removeItemListener);
+                removeItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.removeItemChar, JavarConstants.removeItemModifier));
                 return removeItem;
             case JavarConstants.removeItemPopupType:
                 JMenuItem removePopupItem = new JMenuItem("Remove");

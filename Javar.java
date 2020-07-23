@@ -22,7 +22,7 @@ public class Javar
     public static TabbedPane outputArea = new TabbedPane(JavarConstants.OutputArea);
     public static FileList fileList = new FileList();
     public static InfoLabel infoLabel = new InfoLabel();
-    public UpperBar upperBar = new UpperBar();
+    public static UpperBar upperBar = new UpperBar();
     public ManagerBar managerBar = new ManagerBar();
     public static CreatorWindow creatorWindow = new CreatorWindow();
     
@@ -33,7 +33,7 @@ public class Javar
         fileList.setPreferredSize(new Dimension(JavarConstants.fileListWidth, JavarConstants.fileListHeight));
         infoLabel.setPreferredSize(new Dimension(JavarConstants.infoLabelWidth, JavarConstants.infoLabelHeight));
         upperBar.setPreferredSize(new Dimension(JavarConstants.upperBarWidth, JavarConstants.upperBarHeight));
-        var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileList, infoLabel);
+        var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(fileList), infoLabel);
         var rightPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeEditor, outputArea);
         var centerPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         leftPanel.setContinuousLayout(false);

@@ -63,10 +63,9 @@ public class InfoLabel extends JLabel
     {
         this.setText(JavarConstants.infoLabelContent1 + currentFile +
             JavarConstants.infoLabelContent2 + fileType + 
-            JavarConstants.infoLabelContent3 + filePath +
-            JavarConstants.infoLabelContent4 + fileSize + 
-            JavarConstants.infoLabelContent5 + fileCreated +
-            JavarConstants.infoLabelContent6 + fileLastModified + 
-            JavarConstants.infoLabelContent7);
+            JavarConstants.infoLabelContent3 + fileSize + 
+            JavarConstants.infoLabelContent4 + fileCreated +
+            JavarConstants.infoLabelContent5 + fileLastModified + 
+            JavarConstants.infoLabelContent6);
     }
 }

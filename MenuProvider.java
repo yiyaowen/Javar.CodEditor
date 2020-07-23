@@ -14,17 +14,16 @@ public class MenuProvider
     {
         switch (type)
         {
-            case JavarConstants.fileTreePopupType:
-                JPopupMenu fileTreePopupMenu = new JPopupMenu();
-                fileTreePopupMenu.add(createMenu(JavarConstants.newMenuType));
-                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.openItemPopupType));
-                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.renameItemPopupType));
-                fileTreePopupMenu.addSeparator();
-                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.codeAnalysisItemPopupType));
-                fileTreePopupMenu.addSeparator();
-                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.removeItemPopupType));
-                fileTreePopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.deleteItemPopupType));
-                return fileTreePopupMenu;
+            case JavarConstants.fileListPopupType:
+                JPopupMenu fileListPopupMenu = new JPopupMenu();
+                fileListPopupMenu.add(createMenu(JavarConstants.newMenuType));
+                fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.renameItemPopupType));
+                fileListPopupMenu.addSeparator();
+                fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.codeAnalysisItemPopupType));
+                fileListPopupMenu.addSeparator();
+                fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.removeItemPopupType));
+                fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.deleteItemPopupType));
+                return fileListPopupMenu;
             default:
                 return new JPopupMenu();
         }
@@ -36,7 +35,6 @@ public class MenuProvider
         {
             case JavarConstants.newMenuType:
                 JMenu newMenu = new JMenu("New");
-                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.dirItemType));
                 newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.javaItemType));
                 return newMenu;
             case JavarConstants.fileMenuType:

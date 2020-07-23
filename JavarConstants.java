@@ -18,6 +18,7 @@ public class JavarConstants
         openItemModifier = NATIVE_MASK;
         saveItemModifier = NATIVE_MASK;
         saveToItemModifier = NATIVE_MASK | InputEvent.SHIFT_DOWN_MASK;
+        removeItemModifier = NATIVE_MASK;
         copyItemModifier = NATIVE_MASK;
         pasteItemModifier = NATIVE_MASK;
         commentItemModifier = NATIVE_MASK;
@@ -30,13 +31,13 @@ public class JavarConstants
     public static final String navigatorLabelName = "Navigator";
     // Contents
     // Creator window contents
-    public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?";
+    public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?\n";
     public static final String creatorWindowFileExistsTitle = "File Already Exists";
-    public static final String creatorWindowFileErrorMessage = "Unable to read or write the directory/file!\nPlease check the relevant permissions.";
+    public static final String creatorWindowFileErrorMessage = "Unable to read or write the directory/file!\nPlease check the relevant permissions.\n";
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
-    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.";
+    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.\n";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
-    public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.";
+    public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.\n";
     public static final String openItemListenerErrorTitle = "Unable To Open The File";
     public static final String creatorCategoryDescription1 = 
     "<html>" + 
@@ -66,6 +67,22 @@ public class JavarConstants
         "</body>" +
     "</html>";
     // Main window contents
+    public static final String saveItemListenerSuccessMessage = "File Saved Successfully - ";
+    public static final String saveItemListenerErrorMessage = "<html><font color='red'>Save File Failed</font></html> - ";
+    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='red'>Update File Info Failed</font></html> - ";
+    public static final String saveToItemListenerSuccessMessage1 = "File Saved To - ";
+    public static final String saveToItemListenerSuccessMessage2 = " - Successfully";
+    public static final String saveToItemListenerErrorMessage1 = "<html><font color='red'>File Saved To</font></html> - ";
+    public static final String saveToItemListenerErrorMessage2 = "<html><font color='red'>Failed</font></html>";
+    public static final String saveToFileChooserLabelContent = "File Name:";
+    public static final String saveToFileChooserLabelTitle = "Input File Name";
+    public static final String saveToFileChooserContent = "Save To";
+    public static final String saveToFileChooserWarningMessage = "The filename cannot be empty or starts with \".\".\nPlease try again.";
+    public static final String saveToFileChooserWarningTitle = "Invalid File Name";
+    public static final String renameItemListenerContent = "New Name:";
+    public static final String renameItemListenerTitle = "Input New Name";
+    public static final String renameItemListenerErrorMessage = "Unable to rename the file.\nPlease try again.";
+    public static final String renameItemListenerErrorTitle = "Unable To Rename";
     public static final String infoLabelContent1 = 
     "<html>" +
         "<body>" +
@@ -75,20 +92,16 @@ public class JavarConstants
     public static final String infoLabelContent3 = 
             "</i>" +
             "<hr />" +
-            "<strong>Path:</strong> <p>";
-    public static final String infoLabelContent4 = 
-            "</p>" +
-            "<br />" +
             "<strong>Size:</strong> <div>";
-    public static final String infoLabelContent5 = 
+    public static final String infoLabelContent4 = 
             "</div>" +
             "<br />" +
             "<strong>Created:</strong> <div>";
-    public static final String infoLabelContent6 = 
+    public static final String infoLabelContent5 = 
             "</div>" +
             "<br />" +
             "<strong>Last Modified:</strong> <div>";
-    public static final String infoLabelContent7 = 
+    public static final String infoLabelContent6 = 
             "</div>" +
         "</body>" +
     "</html>";
@@ -102,6 +115,12 @@ public class JavarConstants
             "<hr />" +
             "<p>Develeper: Fort_W</p>" +
             "<p>Version: 1.0.0</p>" +
+        "</body>" +
+    "</html>";
+    public static final String previewLabelContent = 
+    "<html>" +
+        "<body>" +
+            "<h1>Coder Preview - Web Simulator</h1>" +
         "</body>" +
     "</html>";
 
@@ -146,15 +165,13 @@ public class JavarConstants
     public static final int licenseItemType = 19;
     public static final int readmeItemType = 20;
     // New menu
-    public static final int dirItemType = 21;
-    public static final int javaItemType = 22;
+    public static final int javaItemType = 21;
     // Popup menu
-    public static final int newItemPopupType = 23;
-    public static final int openItemPopupType = 24;
-    public static final int renameItemPopupType = 25;
-    public static final int removeItemPopupType = 26;
-    public static final int deleteItemPopupType = 27;
-    public static final int codeAnalysisItemPopupType = 28;
+    public static final int newItemPopupType = 22;
+    public static final int renameItemPopupType = 23;
+    public static final int removeItemPopupType = 24;
+    public static final int deleteItemPopupType = 25;
+    public static final int codeAnalysisItemPopupType = 26;
 
     /* MenuItem accelerator parameter */
     // Char
@@ -162,6 +179,7 @@ public class JavarConstants
     public static final char openItemChar = 'O';
     public static final char saveItemChar = 'S';
     public static final char saveToItemChar = 'S';
+    public static final char removeItemChar = 'W';
     public static final char copyItemChar = 'C';
     public static final char pasteItemChar = 'V';
     public static final char commentItemChar = '/';

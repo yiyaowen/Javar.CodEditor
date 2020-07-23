@@ -22,13 +22,24 @@ import java.nio.file.attribute.*;
 @SuppressWarnings(value = "unchecked")
 public class CreatorWindow extends JFrame
 {
-    ItemData[] categoryItems = new ItemData[] {
+    public static HashMap<String, String> suffixTypeMap = new HashMap<>() 
+    {
+        {
+            put("java", "Java Source File");
+            put("html", "html Source File");
+        }
+    };
+    public static ItemData[] categoryItems = new ItemData[] {
         new ItemData("sourceFiles", "Source Files", ItemData.CATEGORY), 
         new ItemData("javaTemplates", "Java Templates", ItemData.CATEGORY)
     };
-    HashMap<String, ItemData[]> typeItems = new HashMap<>() 
+    public static HashMap<String, ItemData[]> typeItems = new HashMap<>() 
     {
         {
+            put("allFiles", new ItemData[] {
+                new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
+                new ItemData("htmlFile", "html Source File", ItemData.TYPE)
+            });
             put("sourceFiles", new ItemData[] {
                 new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
                 new ItemData("htmlFile", "html Source File", ItemData.TYPE)
@@ -201,7 +212,7 @@ public class CreatorWindow extends JFrame
         categoryLabel.setText("Category");
         typeLabel.setText("Type");
         propertyLabel.setText("Property");
-        descriptionRightLabel.setText("description:");
+        //descriptionRightLabel.setText("description:");
         namePropertyLabel.setText("Name:");
         developerPropertyLabel.setText("Developer:");
         teamPropertyLabel.setText("Team:");
@@ -215,7 +226,10 @@ public class CreatorWindow extends JFrame
                 namePropertyLabel.setText("<html><div>Name: <font color='red'>invalid</font></div></html>");
                 return;
             }
-            String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+            String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
+            String fileType = suffixTypeMap.get(fileSuffix);
+            if (fileType == null)
+                fileType = fileSuffix;
             String fileDeveloper = developerPropertyTextField.getText();
             String fileTeam = teamPropertyTextField.getText();
             String filePath = chooseDirPropertyTextField.getText();
@@ -244,15 +258,20 @@ public class CreatorWindow extends JFrame
                         double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
                         String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
                         var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
-                        /* Set file list */
-                        Javar.fileList.fileItems.add(data);
-                        Javar.fileList.setListData(Javar.fileList.fileItems);
                         /* Set tabbed pane */
                         ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
                         if (icon == null)
                             icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                         icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
                         Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
+                        try
+                        {
+                            /* Set file list */
+                            FileList.fileItems.add(data);
+                            Javar.fileList.setListData(FileList.fileItems);
+                        }
+                        catch (Exception ignore) {}
+                        /* Set selected tab */
                         Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                         this.dispose();
                     }
@@ -284,22 +303,26 @@ public class CreatorWindow extends JFrame
                     double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
                     String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
                     var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
-                    /* Set file list */
-                    Javar.fileList.fileItems.add(data);
-                    Javar.fileList.setListData(Javar.fileList.fileItems);
                     /* Set tabbed pane */
                     ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
                     if (icon == null)
                         icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                     icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
                     Javar.codeEditor.addTab(fileName, icon, new JScrollPane(new CodePane()));
+                    try 
+                    {
+                        /* Set file list */
+                        FileList.fileItems.add(data);
+                        Javar.fileList.setListData(FileList.fileItems);
+                    }
+                    catch (Exception ignore) {}
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                     this.dispose();
                 }
             }
             catch (Exception ex)
             {
-                JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
                     JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }

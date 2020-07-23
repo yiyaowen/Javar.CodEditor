@@ -3,6 +3,7 @@ package javar.filelist;
 import javar.constants.JavarConstants;
 import javar.utils.JavarUtils;
 import javar.Javar;
+import javar.menuprovider.MenuProvider;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,22 +15,65 @@ import java.util.*;
 @SuppressWarnings(value = "unchecked")
 public class FileList extends JList
 {
-    public Vector<ItemData> fileItems = new Vector<>();
+    public static Vector<ItemData> fileItems = new Vector<>();
     public FileList()
     {
         initFileList();
     }
     public void initFileList()
     {
+        /* Set list popup menu */
+        this.setComponentPopupMenu(MenuProvider.createPopupMenu(JavarConstants.fileListPopupType));
+        /* Set list data and renderer */
         this.setListData(fileItems);
         this.setPreferredSize(new Dimension(JavarConstants.fileListWidth, JavarConstants.fileListHeight));
         this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         this.setCellRenderer(new ItemCellRenderer(JavarConstants.fileListItemWidth, JavarConstants.fileListItemHeight));
         this.addListSelectionListener(e -> {
             var data = (ItemData) this.getSelectedValue();
+            /* Set editor pane selected tab */
+            var index = this.getSelectedIndex() + 1;
+            if (index < 0)
+                index = 0;
+            if (index >= Javar.codeEditor.getTabCount())
+                index = Javar.codeEditor.getTabCount() - 1;
+            Javar.codeEditor.setSelectedIndex(index);
+            /* Set info label content */
             Javar.infoLabel.setAll(data.getFileName(), data.getFileType(), data.getFilePath(), data.getFileSize(), data.getFileCreated(), data.getFileLastModified());
             Javar.infoLabel.updateText();
         });
+    }
+    public String getSelectedItemDataFileName()
+    {
+        return ((ItemData) this.getSelectedValue()).getFileName();
+    }
+    public void setSelectedItemDataFileName(String fileName)
+    {
+        ((ItemData) this.getSelectedValue()).setFileName(fileName);
+    }
+    public String getSelectedItemDataFileType()
+    {
+        return ((ItemData) this.getSelectedValue()).getFileType();
+    }
+    public void setSelectedItemDataFileType(String fileType)
+    {
+        ((ItemData) this.getSelectedValue()).setFileType(fileType);
+    }
+    public void setSelectedItemDataFileSize(String fileSize)
+    {
+        ((ItemData) this.getSelectedValue()).setFileSize(fileSize);
+    }
+    public void setSelectedItemDataFileLastModified(String fileLastModified)
+    {
+        ((ItemData) this.getSelectedValue()).setFileLastModified(fileLastModified);
+    }
+    public String getSelectedItemDataFilePath()
+    {
+        return ((ItemData) this.getSelectedValue()).getFilePath();
+    }
+    public void setSelectedItemDataFilePath(String filePath)
+    {
+        ((ItemData) this.getSelectedValue()).setFilePath(filePath);
     }
     public static ItemData createItemData(String fileType, String fileName, String filePath, String fileSize, String fileCreated, String fileLastModified)
     {
@@ -58,25 +102,49 @@ class ItemData
     {
         return fileName;
     }
+    public void setFileName(String fileName)
+    {
+        this.fileName = fileName;
+    }
     public String getFileType()
     {
         return fileType;
+    }
+    public void setFileType(String fileType)
+    {
+        this.fileType = fileType;
     }
     public String getFilePath()
     {
         return filePath;
     }
+    public void setFilePath(String filePath)
+    {
+        this.filePath = filePath;
+    }
     public String getFileSize()
     {
         return fileSize;
+    }
+    public void setFileSize(String fileSize)
+    {
+        this.fileSize = fileSize;
     }
     public String getFileCreated()
     {
         return fileCreated;
     }
+    public void setFileCreated(String fileCreated)
+    {
+        this.fileCreated = fileCreated;
+    }
     public String getFileLastModified()
     {
         return fileLastModified;
+    }
+    public void setFileLastModified(String fileLastModified)
+    {   
+        this.fileLastModified = fileLastModified;
     }
 }
 
@@ -95,8 +163,8 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
         var data = (ItemData) value;
-        icon = new ImageIcon("images/icons/" + data.getFileType() + "FileTemplateIcon.png");
         fileName = data.getFileName();
+        icon = new ImageIcon("images/icons/" + fileName.substring(fileName.lastIndexOf(".")+1) + "FileTemplateIcon.png");
         background = isSelected ? list.getSelectionBackground() : list.getBackground();
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
         return this;

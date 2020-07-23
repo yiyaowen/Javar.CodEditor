@@ -13,13 +13,13 @@ import javax.swing.border.*;
 public class UpperBar extends JPanel
 {
     JLabel separator1 = new JLabel();
-    JButton runBtn = new JButton();
+    public static JButton runBtn = new JButton();
     JLabel separator2 = new JLabel();
-    JComboBox compilerSelector = new JComboBox();
+    public static JComboBox compilerSelector = new JComboBox();
     JLabel separator3 = new JLabel();
-    JLabel infoBox = new JLabel("This is info box...");
+    public static JLabel infoBox = new JLabel();
     JLabel separator4 = new JLabel();
-    JTextField searchBox = new JTextField();
+    public static JTextField searchBox = new JTextField();
     JLabel searchLabel = new JLabel();
     ImageIcon runIcon = new ImageIcon("images/icons/run.png");
     ImageIcon searchIcon = new ImageIcon("images/icons/search.png");
