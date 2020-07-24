@@ -3,6 +3,8 @@ package javar.constants;
 import java.awt.*;
 import java.awt.event.*;
 
+import java.util.*;
+
 public class JavarConstants
 {
     /* Invoke in advance */
@@ -26,6 +28,9 @@ public class JavarConstants
         runItemModifier = NATIVE_MASK;
     }
 
+    /* Locale */
+    public static Locale LOCALE = Locale.US;
+
     /* String : names and contents */
     // Names
     public static final String navigatorLabelName = "Navigator";
@@ -37,8 +42,6 @@ public class JavarConstants
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
     public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.\n";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
-    public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.\n";
-    public static final String openItemListenerErrorTitle = "Unable To Open The File";
     public static final String creatorCategoryDescription1 = 
     "<html>" + 
         "<body>" + 
@@ -67,13 +70,20 @@ public class JavarConstants
         "</body>" +
     "</html>";
     // Main window contents
+    public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.\n";
+    public static final String openItemListenerErrorTitle = "Unable To Open The File";
+    public static final String openItemListenerSuccessContent = "Open File - ";
+    public static final String openItemListenerErrorContent1 = "<html><font color='red'>Open File</font><font> - ";
+    public static final String openItemListenerErrorContent2 = "</font><font color='red'> Failed </font><font>";
+    public static final String newItemListenerSuccessContent = "Create File - ";
+    public static final String newItemListenerErrorContent = "<html><font color='red'>Create File Failed</font><font> - ";
     public static final String saveItemListenerSuccessMessage = "File Saved Successfully - ";
-    public static final String saveItemListenerErrorMessage = "<html><font color='red'>Save File Failed</font></html> - ";
-    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='red'>Update File Info Failed</font></html> - ";
+    public static final String saveItemListenerErrorMessage = "<html><font color='red'>Save File Failed</font><font> - ";
+    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='red'>Update File Info Failed</font><font> - ";
     public static final String saveToItemListenerSuccessMessage1 = "File Saved To - ";
     public static final String saveToItemListenerSuccessMessage2 = " - Successfully";
-    public static final String saveToItemListenerErrorMessage1 = "<html><font color='red'>File Saved To</font></html> - ";
-    public static final String saveToItemListenerErrorMessage2 = "<html><font color='red'>Failed</font></html>";
+    public static final String saveToItemListenerErrorMessage1 = "<html><font color='red'>File Saved To</font><font> - ";
+    public static final String saveToItemListenerErrorMessage2 = "</font><font color='red'> Failed </font><font>";
     public static final String saveToFileChooserLabelContent = "File Name:";
     public static final String saveToFileChooserLabelTitle = "Input File Name";
     public static final String saveToFileChooserContent = "Save To";
@@ -86,7 +96,12 @@ public class JavarConstants
     public static final String deleteItemListenerContent = "Do you delete the file completely?";
     public static final String deleteItemListenerTitle = "Delete The File";
     public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
-    public static final String deleteItemListenerErrorMessage = "<html><font color='red'>Delete Failed</font></html> - ";
+    public static final String deleteItemListenerErrorMessage = "<html><font color='red'>Delete Failed</font><font> - ";
+    public static final String buildMessage = "===> Build Successful <===\n";
+    public static final String buildErrorMessage = "===> Build Error(s) <===\n";
+    public static final String runStartMessage = "===> Run Start <===\n";
+    public static final String runOverMessage = "===> Run Over <===\n";
+    public static final String runErrorMessage = "===> Run Error(s) <==\n";
     public static final String infoLabelContent1 = 
     "<html>" +
         "<body>" +

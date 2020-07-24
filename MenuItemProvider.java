@@ -19,6 +19,7 @@ import java.nio.charset.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;
+import java.text.*;
 
 @SuppressWarnings(value = "unchecked")
 public class MenuItemProvider
@@ -117,12 +118,14 @@ public class MenuItemProvider
                     catch (Exception ignore) {}
                     /* Set selected tab */
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
+                    /* Set info box */
+                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 catch (Exception ex)
                 {
                     JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1 + file.getName() + JavarConstants.openItemListenerErrorContent2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                     //ex.printStackTrace();
-                    return;
                 }
             }
         };
@@ -138,11 +141,11 @@ public class MenuItemProvider
                 var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                 String content = tmp2.getText();        
                 fw.write(content);
-                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName());
+                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
             }
             catch (Exception ex)
             {
-                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage()); 
+                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
                 //ex.printStackTrace();
             }
             try
@@ -162,7 +165,7 @@ public class MenuItemProvider
             }
             catch (Exception update)
             {
-                Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage()); 
+                Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
                 //update.printStackTrace();
             }
         };
@@ -186,11 +189,11 @@ public class MenuItemProvider
                     var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                     String content = tmp2.getText();        
                     fw.write(content);
-                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2);
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 catch (Exception ex)
                 {
-                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2); 
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2 + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
                     //ex.printStackTrace();
                 }
             }
@@ -246,6 +249,8 @@ public class MenuItemProvider
         };
         removeItemPopupListener = removeItemListener;
         deleteItemListener = e -> {
+            if (Javar.fileList.getSelectedIndex() < 0)
+                return;
             var source = ((Component)e.getSource()).getParent();
             int delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent, JavarConstants.deleteItemListenerTitle, JOptionPane.YES_NO_OPTION);
             if (delete == JOptionPane.OK_OPTION)
@@ -253,16 +258,128 @@ public class MenuItemProvider
                 File file = new File(Javar.fileList.getSelectedItemDataFilePath());
                 if (file.delete())
                 {
+                    // Fire remove event
                     removeItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
-                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName());
+                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 else
                 {
-                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName());
+                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                 }
             }
         };
         deleteItemPopupListener = deleteItemListener;
+        buildItemListener = e -> {
+            if (Javar.fileList.getSelectedIndex() < 0)
+                return;
+            var source = ((Component)e.getSource()).getParent();
+            // Fire save event
+            saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
+            /* Build information */
+            String filePath = Javar.fileList.getSelectedItemDataFilePath();
+            String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
+            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+            String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
+            boolean hasBuild = false;
+            try
+            {
+                /* Set process */
+                Process buildProcess = Runtime.getRuntime().exec("javac " + fileName, null, new File(dirPath));
+                if (buildProcess.waitFor() == 0)
+                   hasBuild = true;
+                /* Try to print */
+                try (
+                    var buildBuffer = new BufferedReader(new InputStreamReader(buildProcess.getInputStream()));
+                    var buildErrorBuffer = new BufferedReader(new InputStreamReader(buildProcess.getErrorStream())))
+                {
+                    String buff = null;
+                    if (hasBuild)
+                    {   
+                        Javar.outputArea.setSelectedIndex(0);
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
+                        // Print build information
+                        while ((buff = buildBuffer.readLine()) != null)
+                        {
+                            TabbedPane.outputTextArea.append(buff);
+                            // NEW LINE
+                            TabbedPane.outputTextArea.append("\n");
+                        }
+                    }
+                    else
+                    {
+                        Javar.outputArea.setSelectedIndex(1);
+                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
+                        // Print build error information
+                        while ((buff = buildErrorBuffer.readLine()) != null)
+                        {
+                            TabbedPane.debugTextArea.append(buff);
+                            // NEW LINE
+                            TabbedPane.debugTextArea.append("\n");
+                        }
+                    }
+                }
+                catch (Exception outputException)
+                {
+                    outputException.printStackTrace();
+                }
+            }
+            catch (Exception processException)
+            {
+                processException.printStackTrace();
+            }
+        };
+        runItemListener = e -> {
+            /* Run information */
+            String filePath = Javar.fileList.getSelectedItemDataFilePath();
+            String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
+            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+            String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
+            boolean hasRun = false;
+            try
+            {
+                Process runProcess = Runtime.getRuntime().exec("java " + filePrefix, null, new File(dirPath));
+                if (runProcess.waitFor() == 0)
+                    hasRun = true;
+                try (
+                    var runBuffer = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
+                    var runErrorBuffer = new BufferedReader(new InputStreamReader(runProcess.getErrorStream())))
+                {
+                    String buff = null;
+                    Javar.outputArea.setSelectedIndex(0);
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                    if (hasRun)
+                    {
+                        // print run information
+                        while ((buff = runBuffer.readLine()) != null)
+                        {
+                            TabbedPane.outputTextArea.append(buff);
+                            // new line
+                            TabbedPane.outputTextArea.append("\n");
+                        }
+                    }
+                    else
+                    {
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                        // print run error information
+                        while ((buff = runErrorBuffer.readLine()) != null)
+                        {
+                            TabbedPane.outputTextArea.append(buff);
+                            // new line
+                            TabbedPane.outputTextArea.append("\n");
+                        }
+                    }
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                }
+                catch (Exception outputException)
+                {
+                    outputException.printStackTrace();
+                }
+            }
+            catch (Exception processException)
+            {
+                processException.printStackTrace();
+            }
+        };
     }
     
     public static JMenuItem createMenuItem(int type)

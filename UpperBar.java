@@ -2,12 +2,16 @@ package javar.upperbar;
 
 import javar.utils.JavarUtils;
 import javar.constants.JavarConstants;
+import javar.tabbedpane.TabbedPane;
+import javar.Javar;
+import javar.menuitemprovider.MenuItemProvider;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
+import java.io.*;
 
 @SuppressWarnings(value = "unchecked")
 public class UpperBar extends JPanel
@@ -80,6 +84,93 @@ public class UpperBar extends JPanel
         infoBox.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         searchIcon.setImage(JavarUtils.resizeImageToWH(searchIcon.getImage(), JavarConstants.searchLabelWidth, JavarConstants.searchLabelHeight, Image.SCALE_SMOOTH));
         searchLabel.setIcon(searchIcon);
+        /* Set listener */
+        runBtn.addActionListener(e -> {
+            var source = ((Component)e.getSource()).getParent();
+            // Fire save event
+            MenuItemProvider.saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
+            /* Build and Run information */
+            String filePath = Javar.fileList.getSelectedItemDataFilePath();
+            String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
+            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+            String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
+            boolean hasBuild = false;
+            boolean hasRun = false;
+            try 
+            {
+                /* Set process */
+                Process buildProcess = Runtime.getRuntime().exec("javac " + fileName, null, new File(dirPath));
+                if (buildProcess.waitFor() == 0)
+                   hasBuild = true; 
+                Process runProcess = Runtime.getRuntime().exec("java " + filePrefix, null, new File(dirPath));
+                if (hasBuild && runProcess.waitFor() == 0)
+                    hasRun = true;
+                /* Try to print */
+                try (
+                    var buildBuffer = new BufferedReader(new InputStreamReader(buildProcess.getInputStream()));
+                    var buildErrorBuffer = new BufferedReader(new InputStreamReader(buildProcess.getErrorStream()));
+                    var runBuffer = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
+                    var runErrorBuffer = new BufferedReader(new InputStreamReader(runProcess.getErrorStream())))
+                {
+                    String buff = null;
+                    if (hasBuild)
+                    {
+                        Javar.outputArea.setSelectedIndex(0);
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
+                        // Print build information
+                        while ((buff = buildBuffer.readLine()) != null)
+                        {
+                            TabbedPane.outputTextArea.append(buff);
+                            // NEW LINE
+                            TabbedPane.outputTextArea.append("\n");
+                        }
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                        if (hasRun)
+                        {
+                            // print run information
+                            while ((buff = runBuffer.readLine()) != null)
+                            {
+                                TabbedPane.outputTextArea.append(buff);
+                                // new line
+                                TabbedPane.outputTextArea.append("\n");
+                            }
+                        }
+                        else
+                        {
+                            TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                            // print run error information
+                            while ((buff = runErrorBuffer.readLine()) != null)
+                            {
+                                TabbedPane.outputTextArea.append(buff);
+                                // new line
+                                TabbedPane.outputTextArea.append("\n");
+                            }
+                        }
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                    }
+                    else
+                    {
+                        Javar.outputArea.setSelectedIndex(1);
+                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
+                        // Print build error information
+                        while ((buff = buildErrorBuffer.readLine()) != null)
+                        {
+                            TabbedPane.debugTextArea.append(buff);
+                            // NEW LINE
+                            TabbedPane.debugTextArea.append("\n");
+                        }
+                    }
+                }
+                catch (Exception outputException)
+                {
+                    outputException.printStackTrace();
+                }
+            }
+            catch (Exception processException)
+            {
+                processException.printStackTrace();
+            }
+        });
     }
 }
 

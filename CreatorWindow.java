@@ -223,7 +223,7 @@ public class CreatorWindow extends JFrame
             if (fileName.indexOf(".") == 0)
             {
                 hasInvalidFileName = true;
-                namePropertyLabel.setText("<html><div>Name: <font color='red'>invalid</font></div></html>");
+                namePropertyLabel.setText("<html><font>Name: <font color='red'>invalid</font></font></html>");
                 return;
             }
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
@@ -259,7 +259,7 @@ public class CreatorWindow extends JFrame
                         String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
                         var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
                         /* Set tabbed pane */
-                        ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
+                        ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
                         if (icon == null)
                             icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                         icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
@@ -279,6 +279,8 @@ public class CreatorWindow extends JFrame
                         catch (Exception ignore) {}
                         /* Set selected tab */
                         Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                        /* Set info box */
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                         this.dispose();
                     }
                     else
@@ -288,11 +290,15 @@ public class CreatorWindow extends JFrame
                 }
                 else if (!file.createNewFile())
                 {
+                    /* Set info box */
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                     JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
                         JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
                 }
                 else if (!file.canWrite() || !file.canRead())
                 {
+                    /* Set info box */
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                     JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
                         JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
                 }
@@ -310,7 +316,7 @@ public class CreatorWindow extends JFrame
                     String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
                     var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
                     /* Set tabbed pane */
-                    ImageIcon icon = new ImageIcon("images/icons/" + fileType + "FileTemplateIcon.png");
+                    ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
                     if (icon == null)
                         icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
                     icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
@@ -328,14 +334,18 @@ public class CreatorWindow extends JFrame
                     }
                     catch (Exception ignore) {}
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                    /* Set info box */
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                     this.dispose();
                 }
             }
             catch (Exception ex)
             {
+                /* Set info box */
+                Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                 JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
                     JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
+                //ex.printStackTrace();
             }
         });
         cancelPropertyButton.addActionListener(e -> {

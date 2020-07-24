@@ -1,14 +1,27 @@
 package javar.utils;
 
+import javar.constants.JavarConstants;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 public class JavarUtils
 {
+    /* Date and Time */
+    // Get current time with MEDIUM format
+    public static String getCurrentTimeMEDIUM()
+    {
+        return ((DateFormat.getTimeInstance(DateFormat.MEDIUM, JavarConstants.LOCALE)).format(new Date())).toString();
+    }
+    public static String getCurrentTimeWithBorderMEDIUM(String border1, String border2)
+    {
+        return border1 + getCurrentTimeMEDIUM() + border2;
+    }
     /* UI Image and Icon */
     // Resize by width and height
     public static Image resizeImageToWH(Image img, int width, int height, int type)

@@ -16,6 +16,7 @@ public class TabbedPane extends JTabbedPane
 {
     /* All useful components */
     public static JTextArea outputTextArea = new JTextArea();
+    public static JTextArea debugTextArea = new JTextArea();
     public static JLabel previewLabel = new JLabel();
     public TabbedPane(int type)
     {
@@ -36,6 +37,7 @@ public class TabbedPane extends JTabbedPane
         previewLabel.setText(JavarConstants.previewLabelContent);
         previewLabel.setVerticalAlignment(SwingConstants.TOP);
         this.addTab("Output", new JScrollPane(outputTextArea));
+        this.addTab("Debug", new JScrollPane(debugTextArea));
         this.addTab("Preview", new JScrollPane(previewLabel));
     }
     public void initTabbedCodePane()
