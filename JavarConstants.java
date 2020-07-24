@@ -30,6 +30,8 @@ public class JavarConstants
 
     /* Locale */
     public static Locale LOCALE = Locale.US;
+    /* Font Size */
+    public static final int defaultFontSize = 16;
 
     /* String : names and contents */
     // Names
@@ -41,6 +43,8 @@ public class JavarConstants
     public static final String compilerSelectorC = "C";
     public static final String compilerSelectorCpp = "C++";
     public static final String compilerSelectorHtml = "html";
+    // Creator window
+    public static final String invalidNamePropertyMessage = "<html><font>Name: <font color='red'>invalid</font></font></html>";
     // Contents
     // Creator window contents
     public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?\n";
@@ -229,14 +233,24 @@ public class JavarConstants
     public static final int OutputArea = 2;
 
     /* Programming language syntax split symbol */
-    public static final String Java_TokensSplitSymbol = "\\s+|\\.|\\(|\\)|\\{|\\}|\\[|\\]|;|\n|\t";
+    public static final String Java_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
+    public static final String Python_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
+    public static final String C_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
+    public static final String Cpp_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
+    public static final String Html_TokensSplitSymbol = "";
+    /* Programming language syntax file */
+    public static final String JavaSyntaxFile = "Java.stx";
+    public static final String PythonSyntaxFile = "Python.stx";
+    public static final String CSyntaxFile = "C.stx";
+    public static final String CppSyntaxFile = "Cpp.stx";
+    public static final String HtmlSyntaxFile = "Html.stx";
 
     /* Component color */
     // Quote color
-    public static final int quoteColorR = 205;
-    public static final int quoteColorG = 92;
-    public static final int quoteColorB = 92;
-    public static final int quoteColorHex = 0xCD5C5C;
+    public static final int quoteColorR = 153;
+    public static final int quoteColorG = 51;
+    public static final int quoteColorB = 0;
+    public static final int quoteColorHex = 0x993300;
     // Linebar color
     public static final int linebarColorR = 230;
     public static final int linebarColorG = 230;
@@ -270,6 +284,10 @@ public class JavarConstants
     public static final int tabIconHeight = 15;
     public static final int fileListIconPadding = 10;
     public static final int fileListIconOffset = 20;
+    public static final int codePanePaddingTop = 3;
+    public static final int codePanePaddingLeft = 50;
+    public static final int codePanePaddingBottom = 0;
+    public static final int codePanePaddingRight = 0;
     // Creator window Padding and Icon size
     public static final int creatorListIconPadding = 2;
     public static final int creatorListIconOffset = 10;

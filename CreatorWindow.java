@@ -235,7 +235,7 @@ public class CreatorWindow extends JFrame
             if (fileName.indexOf(".") == 0)
             {
                 hasInvalidFileName = true;
-                namePropertyLabel.setText("<html><font>Name: <font color='red'>invalid</font></font></html>");
+                namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
                 return;
             }
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
@@ -278,7 +278,19 @@ public class CreatorWindow extends JFrame
                         // JScrollPane + JPanel ==> horizontal scrollable
                         var tmpPanel = new JPanel();
                         tmpPanel.setLayout(new BorderLayout());
-                        tmpPanel.add(new CodePane());
+                        /* Varies for languages */
+                        if (fileSuffix.equals("java"))
+                            tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
+                        else if (fileSuffix.equals("py"))
+                            tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
+                        else if (fileSuffix.equals("c"))
+                            tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
+                        else if (fileSuffix.equals("cpp"))
+                            tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
+                        else if (fileSuffix.equals("html"))
+                            tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
+                        else
+                            tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
                         var tmpScroll = new JScrollPane(tmpPanel);
                         tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
                         Javar.codeEditor.addTab(fileName, icon, tmpScroll);
@@ -334,7 +346,19 @@ public class CreatorWindow extends JFrame
                     icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
                     var tmpPanel = new JPanel();
                     tmpPanel.setLayout(new BorderLayout());
-                    tmpPanel.add(new CodePane());
+                    /* Varies for languages */
+                    if (fileSuffix.equals("java"))
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("py"))
+                        tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("c"))
+                        tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("cpp"))
+                        tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("html"))
+                        tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
+                    else
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
                     var tmpScroll = new JScrollPane(tmpPanel);
                     tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
                     Javar.codeEditor.addTab(fileName, icon, tmpScroll);

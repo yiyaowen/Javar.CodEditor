@@ -12,18 +12,33 @@ import java.io.*;
 
 public class CodePane extends JTextPane
 {
+    public static int FONT_SIZE = JavarConstants.defaultFontSize;
     protected StyledDocument doc;
-    protected SyntaxFormatter formatter = new SyntaxFormatter("Java.stx");
-    private SimpleAttributeSet normalAttr = formatter.getNormalAttributeSet();
-    private SimpleAttributeSet quotAttr = new SimpleAttributeSet();
-    private String fontFamily = StyleConstants.getFontFamily(normalAttr);
-    private Font font = new Font(fontFamily, Font.PLAIN, 16);
-    public CodePane()
+    protected SyntaxFormatter formatter;
+    private SimpleAttributeSet normalAttr;
+    private SimpleAttributeSet quotAttr;
+    private String fontFamily;
+    private Font font = new Font(fontFamily, Font.PLAIN, FONT_SIZE);
+    private String syntaxFile;
+    private String splitSymbol;
+    private boolean hasSyntax;
+    public CodePane(String syntaxFile, String splitSymbol, boolean hasSyntax)
     {
+        /* Set syntax file and split symbol */
+        this.syntaxFile = syntaxFile;
+        this.splitSymbol = splitSymbol;
+        this.hasSyntax = hasSyntax;
+        formatter = new SyntaxFormatter(syntaxFile);
+        normalAttr = formatter.getNormalAttributeSet();
+        fontFamily = StyleConstants.getFontFamily(normalAttr);
+        font = new Font(fontFamily, Font.PLAIN, FONT_SIZE);
+        quotAttr = new SimpleAttributeSet();
+        /* Set basic attribute */
         StyleConstants.setForeground(quotAttr, new Color(JavarConstants.quoteColorHex)); 
-        StyleConstants.setFontSize(quotAttr, 16);
+        StyleConstants.setFontSize(quotAttr, FONT_SIZE);
+        /* Set basic configuration */
         this.doc = super.getStyledDocument();
-        this.setMargin(new Insets(3, 50, 0, 0));
+        this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
         this.setCharacterAttributes(normalAttr, false);
         this.addKeyListener(new KeyAdapter() 
         {
@@ -33,6 +48,8 @@ public class CodePane extends JTextPane
             }
         });
     }
+    // Update highlight
+    // Normal update : tail ==> "" (Empty String)
     public void syntaxParse(String tail)
     {
         try
@@ -45,94 +62,98 @@ public class CodePane extends JTextPane
             if (!tail.equals("\t") && !tail.equals("\b"))
                 content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
             /* Varies for different languages */
-            String[] tokens = content.split(JavarConstants.Java_TokensSplitSymbol);
-            ArrayList<Integer> startList = new ArrayList<>();
-            ArrayList<Integer> endList = new ArrayList<>();
-            int curStart = 0;
-            boolean singleQuot = false;
-            boolean doubleQuot = false;
-            for (var token : tokens)
+            // splitSymbol ==> Change Among Languages
+            if (hasSyntax)
             {
-                int tokenPos = content.indexOf(token, curStart);
-                if (token.startsWith("\"") && token.endsWith("\""))
+                String[] tokens = content.split(splitSymbol);
+                ArrayList<Integer> startList = new ArrayList<>();
+                ArrayList<Integer> endList = new ArrayList<>();
+                int curStart = 0;
+                boolean singleQuot = false;
+                boolean doubleQuot = false;
+                for (var token : tokens)
                 {
-                    if (token.length() == 1)
+                    int tokenPos = content.indexOf(token, curStart);
+                    if (token.startsWith("\"") && token.endsWith("\""))
+                    {
+                        if (token.length() == 1)
+                        {
+                            if (!singleQuot)
+                            {
+                                if (startList.size() > endList.size())
+                                    endList.add(tokenPos+token.length());
+                                else
+                                    startList.add(tokenPos);
+                                doubleQuot = !doubleQuot;
+                            }
+                        }
+                        else
+                        {
+                            if (!singleQuot && !doubleQuot)
+                            {
+                                startList.add(tokenPos);
+                                endList.add(tokenPos+token.length());
+                            }
+                        }
+                    }
+                    else if (token.startsWith("'") && token.endsWith("'"))
+                    {
+                        if (token.length() == 1)
+                        {
+                            if (!doubleQuot) 
+                            {
+                                if (startList.size() > endList.size())
+                                    endList.add(tokenPos+token.length());
+                                else
+                                    startList.add(tokenPos);
+                                singleQuot = !singleQuot;
+                            }
+                        }
+                        else
+                        {
+                            if (!singleQuot && !doubleQuot)
+                            {
+                                startList.add(tokenPos);
+                                endList.add(tokenPos+token.length());
+                            }
+                        }
+                    }
+                    else if (token.startsWith("\"") ^ token.endsWith("\""))
                     {
                         if (!singleQuot)
-                        {
-                            if (startList.size() > endList.size())
-                                endList.add(tokenPos+token.length());
-                            else
-                                startList.add(tokenPos);
+                        { 
                             doubleQuot = !doubleQuot;
+                            if (startList.size() > endList.size())
+                                endList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
+                            else
+                                startList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
                         }
-                    }
-                    else
-                    {
-                        if (!singleQuot && !doubleQuot)
-                        {
-                            startList.add(tokenPos);
-                            endList.add(tokenPos+token.length());
-                        }
-                    }
-                }
-                else if (token.startsWith("'") && token.endsWith("'"))
-                {
-                    if (token.length() == 1)
+                    } 
+                    else if (token.startsWith("'") ^ token.endsWith("'"))
                     {
                         if (!doubleQuot) 
                         {
-                            if (startList.size() > endList.size())
-                                endList.add(tokenPos+token.length());
-                            else
-                                startList.add(tokenPos);
                             singleQuot = !singleQuot;
+                            if (startList.size() > endList.size())
+                                endList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
+                            else
+                                startList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
                         }
                     }
                     else
                     {
-                        if (!singleQuot && !doubleQuot)
-                        {
-                            startList.add(tokenPos);
-                            endList.add(tokenPos+token.length());
-                        }
+                        formatter.setHighLight(doc, token, tokenPos, token.length());
                     }
+                    curStart = tokenPos + token.length();
                 }
-                else if (token.startsWith("\"") ^ token.endsWith("\""))
+                while (startList.size() > endList.size())
+                    endList.add(doc.getLength());
+                if (startList.size() == endList.size())
                 {
-                    if (!singleQuot)
-                    { 
-                        doubleQuot = !doubleQuot;
-                        if (startList.size() > endList.size())
-                            endList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
-                        else
-                            startList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
-                    }
-                } 
-                else if (token.startsWith("'") ^ token.endsWith("'"))
-                {
-                    if (!doubleQuot) 
+                    for (int i = 0; i < startList.size(); i++)
                     {
-                        singleQuot = !singleQuot;
-                        if (startList.size() > endList.size())
-                            endList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
-                        else
-                            startList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
+                        doc.setCharacterAttributes(startList.get(i), endList.get(i)-startList.get(i), quotAttr, false);
                     }
-                }
-                else
-                {
-                    formatter.setHighLight(doc, token, tokenPos, token.length());
-                }
-                curStart = tokenPos + token.length();
-            }
-            while (startList.size() > endList.size())
-                endList.add(doc.getLength());
-            if (startList.size() == endList.size())
-            {
-                for (int i = 0; i < startList.size(); i++)
-                {
-                    doc.setCharacterAttributes(startList.get(i), endList.get(i)-startList.get(i), quotAttr, false);
                 }
             }
         }
@@ -159,6 +180,68 @@ public class CodePane extends JTextPane
             g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight()+1)+g.getFontMetrics().getAscent()+3); 
         }
     }
+    /* Setter */
+    public void setSplitSymbol(String splitSymbol)
+    {
+        this.splitSymbol = splitSymbol;
+    }
+    public void setFormatter(String syntaxFile)
+    {
+        this.formatter = new SyntaxFormatter(syntaxFile);
+    }
+    public void setFONT_SIZE(int size)
+    {
+        FONT_SIZE = size;
+    }
+    public void setQuotAttrFontSize(int size)
+    {
+        StyleConstants.setFontSize(quotAttr, size);
+    }
+    public void setCodeFontSize(int size)
+    {
+        font = new Font(fontFamily, Font.PLAIN, size);
+    }
+    public void setCodeFontFamily(String family)
+    {
+        fontFamily = family;
+        font = new Font(fontFamily, Font.PLAIN, font.getSize());
+    }
+    // On-Off syntax
+    public void setHasSyntax(boolean syntax)
+    {   
+        this.hasSyntax = syntax;
+    }
+    /* Unital method */
+    //  On-Off syntax and update
+    public void updateSyntaxText(boolean syntax)
+    {
+        this.hasSyntax = syntax;
+        syntaxParse("");
+    }
+    // Update Syntax
+    public void updateSyntax(String syntaxFile, String splitSymbol)
+    {
+        setSplitSymbol(splitSymbol);
+        setFormatter(syntaxFile);
+        syntaxParse("");
+    }
+    // Update Font Size
+    public void updateFontSize(int size)
+    {
+        setFONT_SIZE(size);
+        setCodeFontSize(size);
+        setQuotAttrFontSize(size);
+        setFormatter(syntaxFile);
+        syntaxParse("");
+    }
+    // Update Font Family
+    public void updateFontFamily(String family)
+    {
+        setCodeFontFamily(family);
+        StyleConstants.setFontFamily(normalAttr, family);
+        StyleConstants.setFontFamily(quotAttr, family);
+        syntaxParse("");
+    }
 }
 
 class SyntaxFormatter
@@ -168,7 +251,7 @@ class SyntaxFormatter
     public SyntaxFormatter(String syntaxFile)
     {
         StyleConstants.setForeground(normalAttr, Color.BLACK);
-        StyleConstants.setFontSize(normalAttr, 16);
+        StyleConstants.setFontSize(normalAttr, CodePane.FONT_SIZE);
         Scanner scanner = null;
         try
         {
@@ -189,7 +272,7 @@ class SyntaxFormatter
                 {
                     var att = new SimpleAttributeSet();
                     StyleConstants.setForeground(att, new Color(color));
-                    StyleConstants.setFontSize(att, 16);
+                    StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
                     attMap.put(att, keywords);
                 }
                 keywords = new ArrayList<>();
@@ -208,7 +291,7 @@ class SyntaxFormatter
         {
             var att = new SimpleAttributeSet();
             StyleConstants.setForeground(att, new Color(color));
-            StyleConstants.setFontSize(att, 16);
+            StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
             attMap.put(att, keywords);
         }
     }

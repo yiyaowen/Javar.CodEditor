@@ -104,13 +104,26 @@ public class MenuItemProvider
                     // Set tab scrollable
                     var tmpPanel = new JPanel();
                     tmpPanel.setLayout(new BorderLayout());
-                    tmpPanel.add(new CodePane());
+                    /* Varies for languages */
+                    if (fileSuffix.equals("java"))
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("py"))
+                        tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("c"))
+                        tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("cpp"))
+                        tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("html"))
+                        tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
+                    else
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
                     var tmpScroll = new JScrollPane(tmpPanel);
                     tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
                     Javar.codeEditor.addTab(file.getName(), icon, tmpScroll);
                     var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(Javar.codeEditor.getTabCount()-1);
                     var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                     tmp2.setText(content);
+                    tmp2.syntaxParse("");
                     // Stay at the top
                     tmp2.setCaretPosition(0);
                     try
