@@ -34,6 +34,7 @@ public class TabbedPane extends JTabbedPane
     public void initTabbedOutputArea()
     {
         outputTextArea.setEditable(false);
+        debugTextArea.setEditable(false);
         previewLabel.setText(JavarConstants.previewLabelContent);
         previewLabel.setVerticalAlignment(SwingConstants.TOP);
         this.addTab("Output", new JScrollPane(outputTextArea));
@@ -50,7 +51,10 @@ public class TabbedPane extends JTabbedPane
         this.addChangeListener(e -> {
             var index = this.getSelectedIndex() - 1;
             if (index < 0)
+            {
+                Javar.fileList.clearSelection();
                 return;
+            }
             if (index >= Javar.fileList.getModel().getSize())
                 index = Javar.fileList.getModel().getSize() - 1;
             Javar.fileList.setSelectedIndex(index);

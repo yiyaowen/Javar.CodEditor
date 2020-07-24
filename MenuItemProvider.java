@@ -7,6 +7,10 @@ import javar.creatorwindow.CreatorWindow;
 import javar.codepane.CodePane;
 import javar.utils.JavarUtils;
 import javar.filelist.FileList;
+import javar.buildandrun.BuildAndRun;
+import javar.build.Build;
+import javar.upperbar.UpperBar;
+import javar.run.Run;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -119,7 +123,7 @@ public class MenuItemProvider
                     /* Set selected tab */
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
                     /* Set info box */
-                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + fileName + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 catch (Exception ex)
                 {
@@ -130,7 +134,7 @@ public class MenuItemProvider
             }
         };
         saveItemListener = e -> {
-            if (Javar.fileList.getModel().getSize() <= 0)
+            if (Javar.fileList.getSelectedIndex() < 0)
                 return;
             var source = ((Component)e.getSource()).getParent();
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
@@ -170,7 +174,7 @@ public class MenuItemProvider
             }
         };
         saveToItemListener = e -> {
-            if (Javar.fileList.getModel().getSize() <= 0)
+            if (Javar.fileList.getSelectedIndex() < 0)
                 return;
             var source = ((Component)e.getSource()).getParent();
             chooser = new JFileChooser();
@@ -199,7 +203,7 @@ public class MenuItemProvider
             }
         };
         renameItemListener = e -> {
-            if (Javar.fileList.getModel().getSize() <= 0)
+            if (Javar.fileList.getSelectedIndex() < 0)
                 return;
             var source = ((Component)e.getSource()).getParent();
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
@@ -281,104 +285,35 @@ public class MenuItemProvider
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasBuild = false;
-            try
-            {
-                /* Set process */
-                Process buildProcess = Runtime.getRuntime().exec("javac " + fileName, null, new File(dirPath));
-                if (buildProcess.waitFor() == 0)
-                   hasBuild = true;
-                /* Try to print */
-                try (
-                    var buildBuffer = new BufferedReader(new InputStreamReader(buildProcess.getInputStream()));
-                    var buildErrorBuffer = new BufferedReader(new InputStreamReader(buildProcess.getErrorStream())))
-                {
-                    String buff = null;
-                    if (hasBuild)
-                    {   
-                        Javar.outputArea.setSelectedIndex(0);
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
-                        // Print build information
-                        while ((buff = buildBuffer.readLine()) != null)
-                        {
-                            TabbedPane.outputTextArea.append(buff);
-                            // NEW LINE
-                            TabbedPane.outputTextArea.append("\n");
-                        }
-                    }
-                    else
-                    {
-                        Javar.outputArea.setSelectedIndex(1);
-                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
-                        // Print build error information
-                        while ((buff = buildErrorBuffer.readLine()) != null)
-                        {
-                            TabbedPane.debugTextArea.append(buff);
-                            // NEW LINE
-                            TabbedPane.debugTextArea.append("\n");
-                        }
-                    }
-                }
-                catch (Exception outputException)
-                {
-                    outputException.printStackTrace();
-                }
-            }
-            catch (Exception processException)
-            {
-                processException.printStackTrace();
-            }
+            if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
+                Build.Java(filePath, dirPath, fileName, filePrefix, hasBuild);
+            else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorC))
+                Build.C(filePath, dirPath, fileName, filePrefix, hasBuild);
+            else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorCpp))
+                Build.Cpp(filePath, dirPath, fileName, filePrefix, hasBuild);
         };
         runItemListener = e -> {
+            if (Javar.fileList.getSelectedIndex() < 0)
+                return;
+            var source = ((Component)e.getSource()).getParent();
+            // Fire save event
+            saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
             /* Run information */
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasRun = false;
-            try
-            {
-                Process runProcess = Runtime.getRuntime().exec("java " + filePrefix, null, new File(dirPath));
-                if (runProcess.waitFor() == 0)
-                    hasRun = true;
-                try (
-                    var runBuffer = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
-                    var runErrorBuffer = new BufferedReader(new InputStreamReader(runProcess.getErrorStream())))
-                {
-                    String buff = null;
-                    Javar.outputArea.setSelectedIndex(0);
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
-                    if (hasRun)
-                    {
-                        // print run information
-                        while ((buff = runBuffer.readLine()) != null)
-                        {
-                            TabbedPane.outputTextArea.append(buff);
-                            // new line
-                            TabbedPane.outputTextArea.append("\n");
-                        }
-                    }
-                    else
-                    {
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
-                        // print run error information
-                        while ((buff = runErrorBuffer.readLine()) != null)
-                        {
-                            TabbedPane.outputTextArea.append(buff);
-                            // new line
-                            TabbedPane.outputTextArea.append("\n");
-                        }
-                    }
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
-                }
-                catch (Exception outputException)
-                {
-                    outputException.printStackTrace();
-                }
-            }
-            catch (Exception processException)
-            {
-                processException.printStackTrace();
-            }
+            if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
+                Run.Java(filePath, dirPath, fileName, filePrefix, hasRun);
+            else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorPython))
+                Run.Python(filePath, dirPath, fileName, filePrefix, hasRun);
+            else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorC))
+                Run.C(filePath, dirPath, fileName, filePrefix, hasRun);
+            else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorCpp))
+                Run.Cpp(filePath, dirPath, fileName, filePrefix, hasRun);
+            else 
+                Run.Html(filePath, dirPath, fileName, filePrefix, hasRun);
         };
     }
     

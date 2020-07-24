@@ -33,7 +33,14 @@ public class JavarConstants
 
     /* String : names and contents */
     // Names
+    // Code editor
     public static final String navigatorLabelName = "Navigator";
+    // Compiler selector
+    public static final String compilerSelectorJava = "Java";
+    public static final String compilerSelectorPython = "Python";
+    public static final String compilerSelectorC = "C";
+    public static final String compilerSelectorCpp = "C++";
+    public static final String compilerSelectorHtml = "html";
     // Contents
     // Creator window contents
     public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?\n";
@@ -361,9 +368,9 @@ public class JavarConstants
     public static final int runBtnHeight = upperBarHeight;
     public static final int separator2Width = 30;
     public static final int separator2Height = upperBarHeight;
-    public static final int compilerSelectorWidth = 120;
+    public static final int compilerSelectorWidth = 130;
     public static final int compilerSelectorHeight = upperBarHeight;
-    public static final int separator3Width = 165;
+    public static final int separator3Width = 155;
     public static final int separator3Height = upperBarHeight;
     public static final int infoBoxWidth = 450;
     public static final int infoBoxHeight = upperBarHeight-8;

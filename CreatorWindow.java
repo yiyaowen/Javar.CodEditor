@@ -26,6 +26,9 @@ public class CreatorWindow extends JFrame
     {
         {
             put("java", "Java Source File");
+            put("py", "Python Source File");
+            put("c", "C Source File");
+            put("cpp", "C++ Source File");
             put("html", "html Source File");
         }
     };
@@ -38,10 +41,16 @@ public class CreatorWindow extends JFrame
         {
             put("allFiles", new ItemData[] {
                 new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
+                new ItemData("pyFile", "Python Source File", ItemData.TYPE),
+                new ItemData("cFile", "C Source File", ItemData.TYPE),
+                new ItemData("cppFile", "C++ Source File", ItemData.TYPE),
                 new ItemData("htmlFile", "html Source File", ItemData.TYPE)
             });
             put("sourceFiles", new ItemData[] {
                 new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
+                new ItemData("pyFile", "Python Source File", ItemData.TYPE),
+                new ItemData("cFile", "C Source File", ItemData.TYPE),
+                new ItemData("cppFile", "C++ Source File", ItemData.TYPE),
                 new ItemData("htmlFile", "html Source File", ItemData.TYPE)
             });
             put("javaTemplates", new ItemData[] {
@@ -53,6 +62,9 @@ public class CreatorWindow extends JFrame
     {
         {
             put("javaFile", ".java");
+            put("pyFile", ".py");
+            put("cFile", ".c");
+            put("cppFile", ".cpp");
             put("htmlFile", ".html");
         }
     };

@@ -5,6 +5,7 @@ import javar.constants.JavarConstants;
 import javar.tabbedpane.TabbedPane;
 import javar.Javar;
 import javar.menuitemprovider.MenuItemProvider;
+import javar.buildandrun.BuildAndRun;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,6 +13,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 import java.io.*;
+import java.nio.*;
+import java.nio.charset.*;
+import java.nio.channels.*;
 
 @SuppressWarnings(value = "unchecked")
 public class UpperBar extends JPanel
@@ -77,15 +81,26 @@ public class UpperBar extends JPanel
         this.add(separator4);
         this.add(searchBox);
         this.add(searchLabel);
+        /* Set component renderer */
+        // runBtn
         runIcon.setImage(JavarUtils.resizeImageToWH(runIcon.getImage(), JavarConstants.runBtnWidth, JavarConstants.runBtnHeight, Image.SCALE_SMOOTH));
         runBtn.setIcon(runIcon);
-        compilerSelector.addItem("Java");
+        // compilerSelector
         compilerSelector.setRenderer(new CompilerSelectorCellRenderer());
+        compilerSelector.addItem(JavarConstants.compilerSelectorJava);
+        compilerSelector.addItem(JavarConstants.compilerSelectorPython);
+        compilerSelector.addItem(JavarConstants.compilerSelectorC);
+        compilerSelector.addItem(JavarConstants.compilerSelectorCpp);
+        compilerSelector.addItem(JavarConstants.compilerSelectorHtml);
+        // infoBox
         infoBox.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        // searchLabel
         searchIcon.setImage(JavarUtils.resizeImageToWH(searchIcon.getImage(), JavarConstants.searchLabelWidth, JavarConstants.searchLabelHeight, Image.SCALE_SMOOTH));
         searchLabel.setIcon(searchIcon);
         /* Set listener */
         runBtn.addActionListener(e -> {
+            if (Javar.fileList.getSelectedIndex() < 0)
+                return;
             var source = ((Component)e.getSource()).getParent();
             // Fire save event
             MenuItemProvider.saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
@@ -96,80 +111,17 @@ public class UpperBar extends JPanel
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasBuild = false;
             boolean hasRun = false;
-            try 
-            {
-                /* Set process */
-                Process buildProcess = Runtime.getRuntime().exec("javac " + fileName, null, new File(dirPath));
-                if (buildProcess.waitFor() == 0)
-                   hasBuild = true; 
-                Process runProcess = Runtime.getRuntime().exec("java " + filePrefix, null, new File(dirPath));
-                if (hasBuild && runProcess.waitFor() == 0)
-                    hasRun = true;
-                /* Try to print */
-                try (
-                    var buildBuffer = new BufferedReader(new InputStreamReader(buildProcess.getInputStream()));
-                    var buildErrorBuffer = new BufferedReader(new InputStreamReader(buildProcess.getErrorStream()));
-                    var runBuffer = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
-                    var runErrorBuffer = new BufferedReader(new InputStreamReader(runProcess.getErrorStream())))
-                {
-                    String buff = null;
-                    if (hasBuild)
-                    {
-                        Javar.outputArea.setSelectedIndex(0);
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
-                        // Print build information
-                        while ((buff = buildBuffer.readLine()) != null)
-                        {
-                            TabbedPane.outputTextArea.append(buff);
-                            // NEW LINE
-                            TabbedPane.outputTextArea.append("\n");
-                        }
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
-                        if (hasRun)
-                        {
-                            // print run information
-                            while ((buff = runBuffer.readLine()) != null)
-                            {
-                                TabbedPane.outputTextArea.append(buff);
-                                // new line
-                                TabbedPane.outputTextArea.append("\n");
-                            }
-                        }
-                        else
-                        {
-                            TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
-                            // print run error information
-                            while ((buff = runErrorBuffer.readLine()) != null)
-                            {
-                                TabbedPane.outputTextArea.append(buff);
-                                // new line
-                                TabbedPane.outputTextArea.append("\n");
-                            }
-                        }
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
-                    }
-                    else
-                    {
-                        Javar.outputArea.setSelectedIndex(1);
-                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
-                        // Print build error information
-                        while ((buff = buildErrorBuffer.readLine()) != null)
-                        {
-                            TabbedPane.debugTextArea.append(buff);
-                            // NEW LINE
-                            TabbedPane.debugTextArea.append("\n");
-                        }
-                    }
-                }
-                catch (Exception outputException)
-                {
-                    outputException.printStackTrace();
-                }
-            }
-            catch (Exception processException)
-            {
-                processException.printStackTrace();
-            }
+            // Decide compiler
+            if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
+                BuildAndRun.Java(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+            else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorPython))
+                BuildAndRun.Python(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+            else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorC))
+                BuildAndRun.C(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+            else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorCpp))
+                BuildAndRun.Cpp(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+            else
+                BuildAndRun.Html(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
         });
     }
 }
