@@ -11,6 +11,7 @@ import javar.buildandrun.BuildAndRun;
 import javar.build.Build;
 import javar.upperbar.UpperBar;
 import javar.run.Run;
+import javar.generalwindow.GeneralWindow;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -327,6 +328,10 @@ public class MenuItemProvider
                 Run.Cpp(filePath, dirPath, fileName, filePrefix, hasRun);
             else 
                 Run.Html(filePath, dirPath, fileName, filePrefix, hasRun);
+        };
+        generalItemListener = e -> {
+            Javar.generalWindow = new GeneralWindow();
+            Javar.generalWindow.initGeneralWindow();
         };
     }
     

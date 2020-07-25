@@ -13,6 +13,7 @@ import java.io.*;
 public class CodePane extends JTextPane
 {
     public static int FONT_SIZE = JavarConstants.defaultFontSize;
+    public static String FONT_FAMILY = JavarConstants.defaultFontFamily;
     protected StyledDocument doc;
     protected SyntaxFormatter formatter;
     private SimpleAttributeSet normalAttr;
@@ -22,6 +23,8 @@ public class CodePane extends JTextPane
     private String syntaxFile;
     private String splitSymbol;
     private boolean hasSyntax;
+    private int lastLine = 1;
+    /* Constructor : create a new code pane */
     public CodePane(String syntaxFile, String splitSymbol, boolean hasSyntax)
     {
         /* Set syntax file and split symbol */
@@ -36,6 +39,7 @@ public class CodePane extends JTextPane
         /* Set basic attribute */
         StyleConstants.setForeground(quotAttr, new Color(JavarConstants.quoteColorHex)); 
         StyleConstants.setFontSize(quotAttr, FONT_SIZE);
+        StyleConstants.setFontFamily(quotAttr, FONT_FAMILY);
         /* Set basic configuration */
         this.doc = super.getStyledDocument();
         this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
@@ -44,6 +48,7 @@ public class CodePane extends JTextPane
         {
             public void keyTyped(KeyEvent ke)
             {
+                // Parse syntax
                 syntaxParse(String.valueOf(ke.getKeyChar()));
             }
         });
@@ -162,6 +167,7 @@ public class CodePane extends JTextPane
             e.printStackTrace();
         }
     }
+    /* Paint method */
     public void paint(Graphics g)
     {
         super.paint(g);
@@ -174,73 +180,37 @@ public class CodePane extends JTextPane
         g.setColor(new Color(JavarConstants.linebarColorHex));
         g.fillRect(0, 0, charsWidth+charWidth, getSize().height);
         g.setColor(new Color(JavarConstants.linenumColorHex));
+        // Set text pane margin
+        CodePane.this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft+charsWidth+charWidth, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
+        // Set text pane content
+        if ((line/10) != (lastLine/10))
+        {
+            CodePane.this.setText(CodePane.this.getText());
+            CodePane.this.syntaxParse("");
+        }
+        // Paint line number
         for (int count = 0, j = 1; count <= line; count++, j++)
         {
-            /* Strange +1 */
-            g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight()+1)+g.getFontMetrics().getAscent()+3); 
+            ///////////////
+            /* Punchline */
+            ///////////////
+            g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight())+g.getFontMetrics().getAscent()+3); 
         }
+        // Set last line
+        lastLine = line+1;
     }
-    /* Setter */
-    public void setSplitSymbol(String splitSymbol)
+    /* Getter */
+    public String getSyntaxFile()
     {
-        this.splitSymbol = splitSymbol;
+        return syntaxFile;
     }
-    public void setFormatter(String syntaxFile)
+    public String getSplitSymbol()
     {
-        this.formatter = new SyntaxFormatter(syntaxFile);
+        return splitSymbol;
     }
-    public void setFONT_SIZE(int size)
-    {
-        FONT_SIZE = size;
-    }
-    public void setQuotAttrFontSize(int size)
-    {
-        StyleConstants.setFontSize(quotAttr, size);
-    }
-    public void setCodeFontSize(int size)
-    {
-        font = new Font(fontFamily, Font.PLAIN, size);
-    }
-    public void setCodeFontFamily(String family)
-    {
-        fontFamily = family;
-        font = new Font(fontFamily, Font.PLAIN, font.getSize());
-    }
-    // On-Off syntax
-    public void setHasSyntax(boolean syntax)
+    public boolean getHasSyntax()
     {   
-        this.hasSyntax = syntax;
-    }
-    /* Unital method */
-    //  On-Off syntax and update
-    public void updateSyntaxText(boolean syntax)
-    {
-        this.hasSyntax = syntax;
-        syntaxParse("");
-    }
-    // Update Syntax
-    public void updateSyntax(String syntaxFile, String splitSymbol)
-    {
-        setSplitSymbol(splitSymbol);
-        setFormatter(syntaxFile);
-        syntaxParse("");
-    }
-    // Update Font Size
-    public void updateFontSize(int size)
-    {
-        setFONT_SIZE(size);
-        setCodeFontSize(size);
-        setQuotAttrFontSize(size);
-        setFormatter(syntaxFile);
-        syntaxParse("");
-    }
-    // Update Font Family
-    public void updateFontFamily(String family)
-    {
-        setCodeFontFamily(family);
-        StyleConstants.setFontFamily(normalAttr, family);
-        StyleConstants.setFontFamily(quotAttr, family);
-        syntaxParse("");
+        return hasSyntax;
     }
 }
 
@@ -252,6 +222,7 @@ class SyntaxFormatter
     {
         StyleConstants.setForeground(normalAttr, Color.BLACK);
         StyleConstants.setFontSize(normalAttr, CodePane.FONT_SIZE);
+        StyleConstants.setFontFamily(normalAttr, CodePane.FONT_FAMILY);
         Scanner scanner = null;
         try
         {
@@ -273,6 +244,7 @@ class SyntaxFormatter
                     var att = new SimpleAttributeSet();
                     StyleConstants.setForeground(att, new Color(color));
                     StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
+                    StyleConstants.setFontFamily(att, CodePane.FONT_FAMILY);
                     attMap.put(att, keywords);
                 }
                 keywords = new ArrayList<>();
@@ -292,6 +264,7 @@ class SyntaxFormatter
             var att = new SimpleAttributeSet();
             StyleConstants.setForeground(att, new Color(color));
             StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
+            StyleConstants.setFontFamily(att, CodePane.FONT_FAMILY);
             attMap.put(att, keywords);
         }
     }

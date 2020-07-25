@@ -2,6 +2,8 @@ package javar.constants;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 import java.util.*;
 
@@ -10,6 +12,9 @@ public class JavarConstants
     /* Invoke in advance */
     public static void initJavarConstants()
     {
+        // Look And Feel 
+        for (var info : UIManager.getInstalledLookAndFeels())
+            LAFs.add(info.getName()); 
         // Device relevant size
         var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.getWidth();
@@ -30,8 +35,11 @@ public class JavarConstants
 
     /* Locale */
     public static Locale LOCALE = Locale.US;
-    /* Font Size */
-    public static final int defaultFontSize = 16;
+    /* Font */
+    public static final int defaultFontSize = 22;
+    public static final String defaultFontFamily = "Monospaced";
+    /* Look And Feel */
+    public static ArrayList<String> LAFs = new ArrayList<>();
 
     /* String : names and contents */
     // Names
@@ -278,6 +286,12 @@ public class JavarConstants
     public static final int smallWidth = 1;
     public static final int smallHeight = 1;
     // Padding and Icon size
+    // General window Padding and Icon size
+    public static final int generalIconPadding = 2;
+    // Creator window Padding and Icon size
+    public static final int creatorListIconPadding = 2;
+    public static final int creatorListIconOffset = 10;
+    public static final int creatorDescriptionIconPadding = 10;
     // Main window Padding and Icon size
     public static final int compilerSelectorIconPadding = 10;
     public static final int tabIconWidth = 15;
@@ -285,13 +299,45 @@ public class JavarConstants
     public static final int fileListIconPadding = 10;
     public static final int fileListIconOffset = 20;
     public static final int codePanePaddingTop = 3;
-    public static final int codePanePaddingLeft = 50;
+    public static final int codePanePaddingLeft = 3;
     public static final int codePanePaddingBottom = 0;
     public static final int codePanePaddingRight = 0;
-    // Creator window Padding and Icon size
-    public static final int creatorListIconPadding = 2;
-    public static final int creatorListIconOffset = 10;
-    public static final int creatorDescriptionIconPadding = 10;
+    // Master window size
+    // General window size
+    public static final int generalWindowWidth = 300;
+    public static final int generalWindowHeight = 400;
+    public static final int generalPanelWidth = 300;
+    public static final int generalPanelHeight = 400;
+    public static final int generalIconLabelWidth = generalWindowWidth;
+    public static final int generalIconLabelHeight = 100;
+    public static final int generalThemeLabelPrefixPadding = 60;
+    public static final int generalThemeLabelWidth = 90;
+    public static final int generalThemeLabelHeight = 60;
+    public static final int generalThemeComboBoxWidth = 150;
+    public static final int generalThemeComboBoxHeight = 60;
+    public static final int generalFontFamilyLabelPrefixPadding = 60;
+    public static final int generalFontFamilyLabelWidth = 90;
+    public static final int generalFontFamilyLabelHeight = 60;
+    public static final int generalFontFamilyComboBoxWidth = 150;
+    public static final int generalFontFamilyComboBoxHeight = 60;
+    public static final int generalFontSizeLabelPrefixPadding = 60;
+    public static final int generalFontSizeLabelWidth = 90;
+    public static final int generalFontSizeLabelHeight = 60;
+    public static final int generalFontSizeComboBoxWidth = 150;
+    public static final int generalFontSizeComboBoxHeight = 60;
+    public static final int generalLanguageLabelPrefixPadding = 10;
+    public static final int generalLanguageLabelWidth = 70;
+    public static final int generalLanguageLabelHeight = 60;
+    public static final int generalLanguageBtn1Width = 100;
+    public static final int generalLanguageBtn1Height = 60;
+    public static final int generalLanguageBtn2Width = 100;
+    public static final int generalLanguageBtn2Height = 60;
+    public static final int generalCancelBtnWidth = 100;
+    public static final int generalCancelBtnHeight = 40;
+    public static final int generalBtnPaddingWidth = 100;
+    public static final int generalBtnPaddingHeight = 40;
+    public static final int generalOKBtnWidth = 100;
+    public static final int generalOKBtnHeight = 40;
     // Creator window size
     public static final int creatorWindowWidth = 800;
     public static final int creatorWindowHeight = 550;

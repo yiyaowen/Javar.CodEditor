@@ -9,6 +9,7 @@ import javar.managerbar.ManagerBar;
 import javar.menuitemprovider.MenuItemProvider;
 import javar.creatorwindow.CreatorWindow;
 import javar.infolabel.InfoLabel;
+import javar.generalwindow.GeneralWindow;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -25,6 +26,7 @@ public class Javar
     public static UpperBar upperBar;
     public static ManagerBar managerBar;
     public static CreatorWindow creatorWindow;
+    public static GeneralWindow generalWindow;
     
     public void initMainWindow()
     {
@@ -37,6 +39,7 @@ public class Javar
         upperBar = new UpperBar();
         managerBar = new ManagerBar();
         creatorWindow = new CreatorWindow();
+        generalWindow = new GeneralWindow();
         // Set file list scrollable
         var fileListScrollable = new JScrollPane(fileList);
         /* Start init */
