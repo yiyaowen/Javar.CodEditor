@@ -34,18 +34,14 @@ public class CreatorWindow extends JFrame
     };
     public static ItemData[] categoryItems = new ItemData[] {
         new ItemData("sourceFiles", "Source Files", ItemData.CATEGORY), 
-        new ItemData("javaTemplates", "Java Templates", ItemData.CATEGORY)
+        new ItemData("pyTemplates", "Python Templates", ItemData.CATEGORY),
+        new ItemData("javaTemplates", "Java Templates", ItemData.CATEGORY),
+        new ItemData("ccppTemplates", "C/C++ Templates", ItemData.CATEGORY),
+        new ItemData("htmlTemplates", "html Templates", ItemData.CATEGORY)
     };
     public static HashMap<String, ItemData[]> typeItems = new HashMap<>() 
     {
         {
-            put("allFiles", new ItemData[] {
-                new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
-                new ItemData("pyFile", "Python Source File", ItemData.TYPE),
-                new ItemData("cFile", "C Source File", ItemData.TYPE),
-                new ItemData("cppFile", "C++ Source File", ItemData.TYPE),
-                new ItemData("htmlFile", "html Source File", ItemData.TYPE)
-            });
             put("sourceFiles", new ItemData[] {
                 new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
                 new ItemData("pyFile", "Python Source File", ItemData.TYPE),
@@ -55,6 +51,16 @@ public class CreatorWindow extends JFrame
             });
             put("javaTemplates", new ItemData[] {
                 new ItemData("javaFile", "Java Source File", ItemData.TYPE)
+            });
+            put("pyTemplates", new ItemData[] {
+                new ItemData("pyFile", "Python Source File", ItemData.TYPE)
+            });
+            put("ccppTemplates", new ItemData[] {
+                new ItemData("cFile", "C Source File", ItemData.TYPE),
+                new ItemData("cppFile", "C++ Source File", ItemData.TYPE)
+            });
+            put("htmlTemplates", new ItemData[] {
+                new ItemData("htmlFile", "html Source File", ItemData.TYPE)
             });
         }
     };
