@@ -1,4 +1,4 @@
-#CD853F
+&CD853F
 if
 else
 elif
@@ -24,10 +24,10 @@ break
 class
 continue
 with
-#C71585
+&C71585
 from
 import
-#4682B4
+&4682B4
 None
 range
 int

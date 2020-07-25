@@ -237,7 +237,7 @@ class SyntaxFormatter
         while (scanner.hasNextLine())
         {
             String line = scanner.nextLine();
-            if (line.startsWith("#"))
+            if (line.startsWith("&"))
             {
                 if (keywords.size() > 0 && color > -1)
                 {

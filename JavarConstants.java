@@ -36,8 +36,8 @@ public class JavarConstants
     /* Locale */
     public static Locale LOCALE = Locale.US;
     /* Font */
-    public static final int defaultFontSize = 22;
-    public static final String defaultFontFamily = "Monospaced";
+    public static final int defaultFontSize = 18;
+    public static final String defaultFontFamily = "Monaco";
     /* Look And Feel */
     public static ArrayList<String> LAFs = new ArrayList<>();
 

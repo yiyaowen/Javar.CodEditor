@@ -1,4 +1,4 @@
-#3CB371
+&3CB371
 namespace
 void
 char
@@ -19,10 +19,14 @@ register
 extern
 const
 volatile
-#C71585
-include
-define
-#D2691E
+&C71585
+#if
+#endif
+#include
+#define
+#ifdef
+#ifndef
+&D2691E
 using
 return
 continue
@@ -37,6 +41,6 @@ for
 do
 while
 sizeof
-#A52A2A
+&A52A2A
 nullptr
 NULL

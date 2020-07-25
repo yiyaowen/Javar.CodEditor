@@ -3,6 +3,7 @@ package javar.generalwindow;
 import javar.utils.JavarUtils;
 import javar.constants.JavarConstants;
 import javar.Javar;
+import javar.codepane.CodePane;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -73,10 +74,16 @@ public class GeneralWindow extends JFrame
         fontFamilyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontFamilyLabel.setVerticalAlignment(SwingConstants.CENTER);
         fontFamilyLabel.setText("Font Family");
+        for (var family : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+            fontFamilyComboBox.addItem(family);
+        fontFamilyComboBox.setSelectedItem(CodePane.FONT_FAMILY);
         // Font size
         fontSizeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontSizeLabel.setVerticalAlignment(SwingConstants.CENTER);
         fontSizeLabel.setText("Font Size");
+        for (int size = 12; size <= 26; size++)
+            fontSizeComboBox.addItem(size); 
+        fontSizeComboBox.setSelectedItem(CodePane.FONT_SIZE);
         // Language
         languageLabel.setHorizontalAlignment(SwingConstants.LEFT);
         languageLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -111,6 +118,32 @@ public class GeneralWindow extends JFrame
             {
                 failure.printStackTrace();
             }
+            // Update font family and size
+            CodePane.FONT_FAMILY = (String) fontFamilyComboBox.getSelectedItem();
+            CodePane.FONT_SIZE = (Integer) fontSizeComboBox.getSelectedItem();
+            int selectedIndex = Javar.codeEditor.getSelectedIndex();
+            for (var index = 1; index < Javar.codeEditor.getTabCount(); index++)
+            {
+                // Always get second tab
+                String title = Javar.codeEditor.getTitleAt(1);
+                Icon tabIcon = Javar.codeEditor.getIconAt(1);
+                var tmp1 = (JScrollPane) Javar.codeEditor.getComponentAt(1);
+                var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
+                String content = tmp2.getText();
+                tmp2 = new CodePane(tmp2.getSyntaxFile(), tmp2.getSplitSymbol(), tmp2.getHasSyntax());
+                tmp2.setText(content);
+                var tmpPanel = new JPanel();
+                tmpPanel.setLayout(new BorderLayout());
+                tmpPanel.add(tmp2);
+                var tmpScroll = new JScrollPane(tmpPanel);
+                tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                // Always remove second tab
+                Javar.codeEditor.remove(1);
+                // Add new tab to the end
+                Javar.codeEditor.addTab(title, tabIcon, tmpScroll);
+                Javar.codeEditor.setSelectedIndex(selectedIndex);
+            }
+            // Update language
         });
         cancelBtn.addActionListener(e -> {
             this.dispose();
