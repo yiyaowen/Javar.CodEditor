@@ -1,17 +1,28 @@
 package javar.constants;
 
+import javar.utils.JavarUtils;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import java.util.*;
+import java.io.*;
 
 public class JavarConstants
 {
     /* Invoke in advance */
     public static void initJavarConstants()
     {
+        // Lang
+        JavarUtils.readProperties();
+        if (LANG == "EN")
+            LOCALE = Locale.US;
+        else if (LANG == "CN")
+            LOCALE = Locale.CHINA;
+        else
+            LOCALE = Locale.US;
         // Look And Feel 
         for (var info : UIManager.getInstalledLookAndFeels())
             LAFs.add(info.getName()); 
@@ -33,18 +44,21 @@ public class JavarConstants
         runItemModifier = NATIVE_MASK;
     }
 
-    /* Locale */
+    /* Properties: LANG and LOCALE */
+    public static String LANG = "EN"; 
     public static Locale LOCALE = Locale.US;
     /* Font */
-    public static final int defaultFontSize = 18;
-    public static final String defaultFontFamily = "Monaco";
+    public static int defaultFontSize = 18;
+    public static String defaultFontFamily = "Monaco";
     /* Look And Feel */
     public static ArrayList<String> LAFs = new ArrayList<>();
+    public static String defaultLAF = "NONE";
 
     /* String : names and contents */
     // Names
     // Code editor
     public static final String navigatorLabelName = "Navigator";
+    public static final String navigatorLabelName_cn = "主页";
     // Compiler selector
     public static final String compilerSelectorJava = "Java";
     public static final String compilerSelectorPython = "Python";
@@ -53,15 +67,26 @@ public class JavarConstants
     public static final String compilerSelectorHtml = "html";
     // Creator window
     public static final String invalidNamePropertyMessage = "<html><font>Name: <font color='red'>invalid</font></font></html>";
+    public static final String invalidNamePropertyMessage_cn = "<html><font>文件名: <font color='red'>无效</font></font></html>";
     // Contents
     // Creator window contents
     public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?\n";
+    public static final String creatorWindowFileExistsMessage_cn = "文件已经存在!\n是否覆盖该文件?\n";
     public static final String creatorWindowFileExistsTitle = "File Already Exists";
+    public static final String creatorWindowFileExistsTitle_cn = "文件已存在";
     public static final String creatorWindowFileErrorMessage = "Unable to read or write the directory/file!\nPlease check the relevant permissions.\n";
+    public static final String creatorWindowFileErrorMessage_cn = "无法读/写该目录/文件!\n请检查相关权限.\n";
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
+    public static final String creatorWindowFileErrorTitle_cn = "无法读/写";
     public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.\n";
+    public static final String creatorWindowFileUnknownErrorMessage_cn = "发生了未知错误!\n无法创建文件.\n";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
+    public static final String creatorWindowFileUnknownErrorTitle_cn = "发生了未知错误";
     public static final String creatorCategoryDescription1 = 
+    "<html>" + 
+        "<body>" + 
+            "<h1>";
+    public static final String creatorCategoryDescription1_cn = 
     "<html>" + 
         "<body>" + 
             "<h1>";
@@ -69,17 +94,35 @@ public class JavarConstants
             "</h1>" +
         "</body>" +
     "</html>";
+    public static final String creatorCategoryDescription2_cn = 
+            "</h1>" +
+        "</body>" +
+    "</html>";
     public static final String fileDescription1 = 
         "Create a(n) ";
+    public static final String fileDescription1_cn = 
+        "创建一个 ";
     public static final String fileDescription2 = 
         ". Check 'Use Template' to enable the designed java template. " +
         "Check 'Generate Prefix Statement' to generate some identifier information automatically. "+
         "The identifier information comes from 'Name', 'Developer', 'Team' and local date (If accessible).";
+    public static final String fileDescription2_cn = 
+        ". 勾选‘使用模板’来使用预定义的java模板. " +
+        "勾选‘生成声明前缀’来自动生成预定义的版权信息. "+
+        "版权信息可在‘文件名’, ‘开发者’, ‘团队’中设置. 该信息也将包含文件创建时间 (如果可以获取).";
     public static final String creatorDescription1 = 
     "<html>" +
         "<body>" +
             "<p><strong>";
+    public static final String creatorDescription1_cn = 
+    "<html>" +
+        "<body>" +
+            "<p><strong>";
     public static String creatorDescription2 = 
+            "</strong></p>" +
+            "<hr />" +
+            "<p>" + fileDescription1;
+    public static String creatorDescription2_cn = 
             "</strong></p>" +
             "<hr />" +
             "<p>" + fileDescription1;
@@ -88,58 +131,117 @@ public class JavarConstants
             "</p>" +
         "</body>" +
     "</html>";
+    public static String creatorDescription3_cn = 
+            fileDescription2_cn + 
+            "</p>" +
+        "</body>" +
+    "</html>";
     // Main window contents
     public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.\n";
+    public static final String openItemListenerErrorMessage_cn = "无法打开文件!\n请检查文件的完整性并尝试重新打开.\n";
     public static final String openItemListenerErrorTitle = "Unable To Open The File";
+    public static final String openItemListenerErrorTitle_cn = "无法打开文件";
     public static final String openItemListenerSuccessContent = "Open File - ";
+    public static final String openItemListenerSuccessContent_cn = "打开文件 - ";
     public static final String openItemListenerErrorContent1 = "<html><font color='red'>Open File</font><font> - ";
+    public static final String openItemListenerErrorContent1_cn = "<html><font color='red'>打开文件</font><font> - ";
     public static final String openItemListenerErrorContent2 = "</font><font color='red'> Failed </font><font>";
+    public static final String openItemListenerErrorContent2_cn = "</font><font color='red'> 失败 </font><font>";
     public static final String newItemListenerSuccessContent = "Create File - ";
+    public static final String newItemListenerSuccessContent_cn = "创建文件 - ";
     public static final String newItemListenerErrorContent = "<html><font color='red'>Create File Failed</font><font> - ";
+    public static final String newItemListenerErrorContent_cn = "<html><font color='red'>创建文件失败</font><font> - ";
     public static final String saveItemListenerSuccessMessage = "File Saved Successfully - ";
+    public static final String saveItemListenerSuccessMessage_cn = "文件保存成功 - ";
     public static final String saveItemListenerErrorMessage = "<html><font color='red'>Save File Failed</font><font> - ";
+    public static final String saveItemListenerErrorMessage_cn = "<html><font color='red'>文件保存失败</font><font> - ";
     public static final String saveFileUpdateInfoErrorMessage = "<html><font color='red'>Update File Info Failed</font><font> - ";
+    public static final String saveFileUpdateInfoErrorMessage_cn = "<html><font color='red'>更新文件信息失败</font><font> - ";
     public static final String saveToItemListenerSuccessMessage1 = "File Saved To - ";
+    public static final String saveToItemListenerSuccessMessage1_cn = "文件保存至 - ";
     public static final String saveToItemListenerSuccessMessage2 = " - Successfully";
+    public static final String saveToItemListenerSuccessMessage2_cn = " - 成功";
     public static final String saveToItemListenerErrorMessage1 = "<html><font color='red'>File Saved To</font><font> - ";
+    public static final String saveToItemListenerErrorMessage1_cn = "<html><font color='red'>文件保存至</font><font> - ";
     public static final String saveToItemListenerErrorMessage2 = "</font><font color='red'> Failed </font><font>";
+    public static final String saveToItemListenerErrorMessage2_cn = "</font><font color='red'> 失败 </font><font>";
     public static final String saveToFileChooserLabelContent = "File Name:";
+    public static final String saveToFileChooserLabelContent_cn = "文件名:";
     public static final String saveToFileChooserLabelTitle = "Input File Name";
+    public static final String saveToFileChooserLabelTitle_cn = "输入文件名";
     public static final String saveToFileChooserContent = "Save To";
+    public static final String saveToFileChooserContent_cn = "保存至";
     public static final String saveToFileChooserWarningMessage = "The filename cannot be empty or starts with \".\".\nPlease try again.";
+    public static final String saveToFileChooserWarningMessage_cn = "文件名不得为空或者以“.”开头\n请重新输入.";
     public static final String saveToFileChooserWarningTitle = "Invalid File Name";
+    public static final String saveToFileChooserWarningTitle_cn = "无效的文件名";
     public static final String renameItemListenerContent = "New Name:";
+    public static final String renameItemListenerContent_cn = "新文件名:";
     public static final String renameItemListenerTitle = "Input New Name";
+    public static final String renameItemListenerTitle_cn = "输入新文件名";
     public static final String renameItemListenerErrorMessage = "Unable to rename the file.\nPlease try again.";
+    public static final String renameItemListenerErrorMessage_cn = "无法重命名文件.\n请再尝试一次.";
     public static final String renameItemListenerErrorTitle = "Unable To Rename";
+    public static final String renameItemListenerErrorTitle_cn = "无法重命名";
     public static final String deleteItemListenerContent = "Do you delete the file completely?";
+    public static final String deleteItemListenerContent_cn = "是否彻底删除文件?";
     public static final String deleteItemListenerTitle = "Delete The File";
+    public static final String deleteItemListenerTitle_cn = "删除文件";
     public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
+    public static final String deleteItemListenerSuccessMessage_cn = "删除成功 - ";
     public static final String deleteItemListenerErrorMessage = "<html><font color='red'>Delete Failed</font><font> - ";
+    public static final String deleteItemListenerErrorMessage_cn = "<html><font color='red'>删除失败</font><font> - ";
     public static final String buildMessage = "===> Build Successful <===\n";
+    public static final String buildMessage_cn = "===> 构建成功 <===\n";
     public static final String buildErrorMessage = "===> Build Error(s) <===\n";
+    public static final String buildErrorMessage_cn = "===> 构建失败 <===\n";
     public static final String runStartMessage = "===> Run Start <===\n";
+    public static final String runStartMessage_cn = "===> 开始运行 <===\n";
     public static final String runOverMessage = "===> Run Over <===\n";
+    public static final String runOverMessage_cn = "===> 运行结束 <===\n";
     public static final String runErrorMessage = "===> Run Error(s) <==\n";
+    public static final String runErrorMessage_cn = "===> 运行错误 <==\n";
     public static final String infoLabelContent1 = 
+    "<html>" +
+        "<body>" +
+            "<strong>";
+    public static final String infoLabelContent1_cn = 
     "<html>" +
         "<body>" +
             "<strong>";
     public static final String infoLabelContent2 = 
             "</strong> - <i>";
+    public static final String infoLabelContent2_cn = 
+            "</strong> - <i>";
     public static final String infoLabelContent3 = 
             "</i>" +
             "<hr />" +
             "<strong>Size:</strong> <div>";
+    public static final String infoLabelContent3_cn = 
+            "</i>" +
+            "<hr />" +
+            "<strong>文件大小:</strong> <div>";
     public static final String infoLabelContent4 = 
             "</div>" +
             "<br />" +
             "<strong>Created:</strong> <div>";
+    public static final String infoLabelContent4_cn = 
+            "</div>" +
+            "<br />" +
+            "<strong>创建时间:</strong> <div>";
     public static final String infoLabelContent5 = 
             "</div>" +
             "<br />" +
             "<strong>Last Modified:</strong> <div>";
+    public static final String infoLabelContent5_cn = 
+            "</div>" +
+            "<br />" +
+            "<strong>上次修改时间:</strong> <div>";
     public static final String infoLabelContent6 = 
+            "</div>" +
+        "</body>" +
+    "</html>";
+    public static final String infoLabelContent6_cn = 
             "</div>" +
         "</body>" +
     "</html>";
@@ -151,14 +253,32 @@ public class JavarConstants
             "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
             "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
             "<hr />" +
-            "<p>Develeper: Fort_W</p>" +
+            "<p>Develeper: Yiyao Wen</p>" +
             "<p>Version: 1.0.0</p>" +
+        "</body>" +
+    "</html>";
+    public static final String navigatorLabelContent_cn = 
+    "<html>" +
+        "<body>" +
+            "<h1>Javar - 轻量级代码编辑器</h1>" +
+            "<hr />" +
+            "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
+            "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+            "<hr />" +
+            "<p>开发者: Yiyao Wen</p>" +
+            "<p>版本号: 1.0.0</p>" +
         "</body>" +
     "</html>";
     public static final String previewLabelContent = 
     "<html>" +
         "<body>" +
             "<h1>Coder Preview - Web Simulator</h1>" +
+        "</body>" +
+    "</html>";
+    public static final String previewLabelContent_cn = 
+    "<html>" +
+        "<body>" +
+            "<h1>预览 - Web 模拟器</h1>" +
         "</body>" +
     "</html>";
 
@@ -305,7 +425,7 @@ public class JavarConstants
     // Master window size
     // General window size
     public static final int generalWindowWidth = 300;
-    public static final int generalWindowHeight = 400;
+    public static final int generalWindowHeight = 450; // Extra 50 padding
     public static final int generalPanelWidth = 300;
     public static final int generalPanelHeight = 400;
     public static final int generalIconLabelWidth = generalWindowWidth;

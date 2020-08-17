@@ -68,7 +68,13 @@ public class MenuItemProvider
             chooser = new JFileChooser();
             chooser.setAcceptAllFileFilterUsed(true);
             var source = ((Component)e.getSource()).getParent();
-            int result = chooser.showDialog(source, "Open File");
+            int result;
+            if (JavarConstants.LANG.equals("EN"))
+                result = chooser.showDialog(source, "Open File");
+            else if (JavarConstants.LANG.equals("CN"))
+                result = chooser.showDialog(source, "打开文件");
+            else
+                result = chooser.showDialog(source, "Open File");
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 File file = chooser.getSelectedFile();
@@ -137,12 +143,30 @@ public class MenuItemProvider
                     /* Set selected tab */
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount()-1);
                     /* Set info box */
-                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + fileName + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + fileName + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent_cn + " " + fileName + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerSuccessContent + " " + fileName + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 catch (Exception ex)
                 {
-                    JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1 + file.getName() + JavarConstants.openItemListenerErrorContent2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    if (JavarConstants.LANG.equals("EN"))
+                    {
+                        JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1 + file.getName() + JavarConstants.openItemListenerErrorContent2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    }
+                    else if (JavarConstants.LANG.equals("CN"))
+                    {
+                        JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1_cn + file.getName() + JavarConstants.openItemListenerErrorContent2_cn + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                        Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1 + file.getName() + JavarConstants.openItemListenerErrorContent2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    }
                     //ex.printStackTrace();
                 }
             }
@@ -159,11 +183,21 @@ public class MenuItemProvider
                 var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                 String content = tmp2.getText();        
                 fw.write(content);
-                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                if (JavarConstants.LANG.equals("EN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                else if (JavarConstants.LANG.equals("CN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage_cn + Javar.fileList.getSelectedItemDataFileName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                else
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerSuccessMessage + Javar.fileList.getSelectedItemDataFileName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
             }
             catch (Exception ex)
             {
-                Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
+                if (JavarConstants.LANG.equals("EN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                else if (JavarConstants.LANG.equals("CN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage_cn + ex.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                else
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveItemListenerErrorMessage + ex.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
                 //ex.printStackTrace();
             }
             try
@@ -183,7 +217,12 @@ public class MenuItemProvider
             }
             catch (Exception update)
             {
-                Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
+                if (JavarConstants.LANG.equals("EN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                else if (JavarConstants.LANG.equals("CN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage_cn + update.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                else
+                    Javar.upperBar.infoBox.setText(JavarConstants.saveFileUpdateInfoErrorMessage + update.getMessage() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                 //update.printStackTrace();
             }
         };
@@ -193,10 +232,22 @@ public class MenuItemProvider
             var source = ((Component)e.getSource()).getParent();
             chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            String fileName = JOptionPane.showInputDialog(source, JavarConstants.saveToFileChooserLabelContent, JavarConstants.saveToFileChooserLabelTitle, JOptionPane.INFORMATION_MESSAGE);
+            String fileName;
+            if (JavarConstants.LANG.equals("EN"))
+                fileName = JOptionPane.showInputDialog(source, JavarConstants.saveToFileChooserLabelContent, JavarConstants.saveToFileChooserLabelTitle, JOptionPane.INFORMATION_MESSAGE);
+            else if (JavarConstants.LANG.equals("CN"))
+                fileName = JOptionPane.showInputDialog(source, JavarConstants.saveToFileChooserLabelContent_cn, JavarConstants.saveToFileChooserLabelTitle_cn, JOptionPane.INFORMATION_MESSAGE);
+            else
+                fileName = JOptionPane.showInputDialog(source, JavarConstants.saveToFileChooserLabelContent, JavarConstants.saveToFileChooserLabelTitle, JOptionPane.INFORMATION_MESSAGE);
             if (fileName == null)
                 return;
-            int result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent);
+            int result;
+            if (JavarConstants.LANG.equals("EN"))
+                result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent);
+            else if (JavarConstants.LANG.equals("CN"))
+                result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent_cn);
+            else
+                result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent);
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String filePath = chooser.getSelectedFile().getPath() + "/" + fileName;
@@ -207,11 +258,21 @@ public class MenuItemProvider
                     var tmp2 = (CodePane) ((JPanel) tmp1.getViewport().getComponents()[0]).getComponents()[0];
                     String content = tmp2.getText();        
                     fw.write(content);
-                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1_cn + fileName + JavarConstants.saveToItemListenerSuccessMessage2_cn + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerSuccessMessage1 + fileName + JavarConstants.saveToItemListenerSuccessMessage2 + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 catch (Exception ex)
                 {
-                    Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2 + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2 + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1_cn + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2_cn + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.saveToItemListenerErrorMessage1 + ex.getMessage() + JavarConstants.saveToItemListenerErrorMessage2 + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>"); 
                     //ex.printStackTrace();
                 }
             }
@@ -223,7 +284,13 @@ public class MenuItemProvider
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
             File file = new File(filePath);
-            String newName = JOptionPane.showInputDialog(source, JavarConstants.renameItemListenerContent, JavarConstants.renameItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            String newName;
+            if (JavarConstants.LANG.equals("EN"))
+                newName = JOptionPane.showInputDialog(source, JavarConstants.renameItemListenerContent, JavarConstants.renameItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            else if (JavarConstants.LANG.equals("CN"))
+                newName = JOptionPane.showInputDialog(source, JavarConstants.renameItemListenerContent_cn, JavarConstants.renameItemListenerTitle_cn, JOptionPane.INFORMATION_MESSAGE);
+            else
+                newName = JOptionPane.showInputDialog(source, JavarConstants.renameItemListenerContent, JavarConstants.renameItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
             if (newName == null)
                 return;
             String fileType = newName.substring(newName.lastIndexOf(".")+1);
@@ -250,7 +317,12 @@ public class MenuItemProvider
             }
             else
             {
-                JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage, JavarConstants.renameItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                if (JavarConstants.LANG.equals("EN"))
+                    JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage, JavarConstants.renameItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
+                else if (JavarConstants.LANG.equals("CN"))
+                    JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage_cn, JavarConstants.renameItemListenerErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(source, JavarConstants.renameItemListenerErrorMessage, JavarConstants.renameItemListenerErrorTitle, JOptionPane.ERROR_MESSAGE);
             }
         };
         renameItemPopupListener = renameItemListener;
@@ -270,7 +342,13 @@ public class MenuItemProvider
             if (Javar.fileList.getSelectedIndex() < 0)
                 return;
             var source = ((Component)e.getSource()).getParent();
-            int delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent, JavarConstants.deleteItemListenerTitle, JOptionPane.YES_NO_OPTION);
+            int delete;
+            if (JavarConstants.LANG.equals("EN"))
+                delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent, JavarConstants.deleteItemListenerTitle, JOptionPane.YES_NO_OPTION);
+            else if (JavarConstants.LANG.equals("CN"))
+                delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent_cn, JavarConstants.deleteItemListenerTitle_cn, JOptionPane.YES_NO_OPTION);
+            else
+                delete = JOptionPane.showConfirmDialog(source, JavarConstants.deleteItemListenerContent, JavarConstants.deleteItemListenerTitle, JOptionPane.YES_NO_OPTION);
             if (delete == JOptionPane.OK_OPTION)
             {
                 File file = new File(Javar.fileList.getSelectedItemDataFilePath());
@@ -278,11 +356,21 @@ public class MenuItemProvider
                 {
                     // Fire remove event
                     removeItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
-                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerSuccessMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                 }
                 else
                 {
-                    Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.deleteItemListenerErrorMessage + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                 }
             }
         };
@@ -337,116 +425,233 @@ public class MenuItemProvider
     
     public static JMenuItem createMenuItem(int type)
     {
-        switch (type)
+        if (JavarConstants.LANG.equals("EN"))
         {
-            case JavarConstants.javaItemType:
-                JMenuItem javaItem = new JMenuItem("Java Source file");
-                javaItem.addActionListener(javaItemListener);
-                return javaItem;
-            case JavarConstants.newItemType:
-                JMenuItem newItem = new JMenuItem("New");
-                newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));
-                newItem.addActionListener(newItemListener);
-                return newItem;
-            case JavarConstants.openItemType:
-                JMenuItem openItem = new JMenuItem("Open");
-                openItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.openItemChar, JavarConstants.openItemModifier));
-                openItem.addActionListener(openItemListener);
-                return openItem;
-            case JavarConstants.saveItemType:
-                JMenuItem saveItem = new JMenuItem("Save");
-                saveItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveItemChar, JavarConstants.saveItemModifier));
-                saveItem.addActionListener(saveItemListener);
-                return saveItem;
-            case JavarConstants.saveToItemType:
-                JMenuItem saveToItem = new JMenuItem("Save To...");
-                saveToItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveToItemChar, JavarConstants.saveToItemModifier));
-                saveToItem.addActionListener(saveToItemListener);
-                return saveToItem;
-            case JavarConstants.renameItemType:
-                JMenuItem renameItem = new JMenuItem("Rename");
-                renameItem.addActionListener(renameItemListener);
-                return renameItem;
-            case JavarConstants.renameItemPopupType:
-                JMenuItem renamePopupItem = new JMenuItem("Rename");
-                renamePopupItem.addActionListener(renameItemPopupListener);
-                return renamePopupItem;
-            case JavarConstants.removeItemType:
-                JMenuItem removeItem = new JMenuItem("Remove");
-                removeItem.addActionListener(removeItemListener);
-                removeItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.removeItemChar, JavarConstants.removeItemModifier));
-                return removeItem;
-            case JavarConstants.removeItemPopupType:
-                JMenuItem removePopupItem = new JMenuItem("Remove");
-                removePopupItem.addActionListener(removeItemPopupListener);
-                return removePopupItem;
-            case JavarConstants.deleteItemType:
-                JMenuItem deleteItem = new JMenuItem("Delete");
-                deleteItem.addActionListener(deleteItemListener);
-                return deleteItem;
-            case JavarConstants.deleteItemPopupType:
-                JMenuItem deletePopupItem = new JMenuItem("Delete");
-                deletePopupItem.addActionListener(deleteItemPopupListener);
-                return deletePopupItem;
-            case JavarConstants.copyItemType:
-                JMenuItem copyItem = new JMenuItem("Copy");
-                copyItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.copyItemChar, JavarConstants.copyItemModifier));
-                copyItem.addActionListener(copyItemListener);
-                return copyItem;
-            case JavarConstants.pasteItemType:
-                JMenuItem pasteItem = new JMenuItem("Paste");
-                pasteItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.pasteItemChar, JavarConstants.pasteItemModifier));
-                pasteItem.addActionListener(pasteItemListener);
-                return pasteItem;
-            case JavarConstants.cutItemType:
-                JMenuItem cutItem = new JMenuItem("Cut");
-                cutItem.addActionListener(cutItemListener);
-                return cutItem;
-            case JavarConstants.commentItemType:
-                JMenuItem commentItem = new JMenuItem("Comment/Uncomment");
-                commentItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.commentItemChar, JavarConstants.commentItemModifier));
-                commentItem.addActionListener(commentItemListener);
-                return commentItem;
-            case JavarConstants.replaceItemType:
-                JMenuItem replaceItem = new JMenuItem("Replace");
-                replaceItem.addActionListener(replaceItemListener);
-                return replaceItem;
-            case JavarConstants.buildItemType:
-                JMenuItem buildItem = new JMenuItem("Build");
-                buildItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.buildItemChar, JavarConstants.buildItemModifier));
-                buildItem.addActionListener(buildItemListener);
-                return buildItem;
-            case JavarConstants.runItemType:
-                JMenuItem runItem = new JMenuItem("Run");
-                runItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.runItemChar, JavarConstants.runItemModifier));
-                runItem.addActionListener(runItemListener);
-                return runItem;
-            case JavarConstants.codeAnalysisItemType:
-                JMenuItem codeAnalysisItem = new JMenuItem("Code Analysis");
-                codeAnalysisItem.addActionListener(codeAnalysisItemListener);
-                return codeAnalysisItem;
-            case JavarConstants.codeAnalysisItemPopupType:
-                JMenuItem codeAnalysisPopupItem = new JMenuItem("Code Analysis");
-                codeAnalysisPopupItem.addActionListener(codeAnalysisItemPopupListener);
-                return codeAnalysisPopupItem;
-            case JavarConstants.generalItemType:
-                JMenuItem generalItem = new JMenuItem("General");
-                generalItem.addActionListener(generalItemListener);
-                return generalItem;
-            case JavarConstants.highlightConfigurationItemType:
-                JMenuItem highlightConfigurationItem = new JMenuItem("Highlight Configuration");
-                highlightConfigurationItem.addActionListener(highlightConfigurationItemListener);
-                return highlightConfigurationItem;
-            case JavarConstants.licenseItemType:
-                JMenuItem licenseItem = new JMenuItem("License");
-                licenseItem.addActionListener(licenseItemListener);
-                return licenseItem;
-            case JavarConstants.readmeItemType:
-                JMenuItem readmeItem = new JMenuItem("README");
-                readmeItem.addActionListener(readmeItemListener);
-                return readmeItem;
-            default:
-                return new JMenuItem();
+            switch (type)
+            {
+                case JavarConstants.javaItemType:
+                    JMenuItem javaItem = new JMenuItem("Java Source file");
+                    javaItem.addActionListener(javaItemListener);
+                    return javaItem;
+                case JavarConstants.newItemType:
+                    JMenuItem newItem = new JMenuItem("New");
+                    newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));
+                    newItem.addActionListener(newItemListener);
+                    return newItem;
+                case JavarConstants.openItemType:
+                    JMenuItem openItem = new JMenuItem("Open");
+                    openItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.openItemChar, JavarConstants.openItemModifier));
+                    openItem.addActionListener(openItemListener);
+                    return openItem;
+                case JavarConstants.saveItemType:
+                    JMenuItem saveItem = new JMenuItem("Save");
+                    saveItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveItemChar, JavarConstants.saveItemModifier));
+                    saveItem.addActionListener(saveItemListener);
+                    return saveItem;
+                case JavarConstants.saveToItemType:
+                    JMenuItem saveToItem = new JMenuItem("Save To...");
+                    saveToItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveToItemChar, JavarConstants.saveToItemModifier));
+                    saveToItem.addActionListener(saveToItemListener);
+                    return saveToItem;
+                case JavarConstants.renameItemType:
+                    JMenuItem renameItem = new JMenuItem("Rename");
+                    renameItem.addActionListener(renameItemListener);
+                    return renameItem;
+                case JavarConstants.renameItemPopupType:
+                    JMenuItem renamePopupItem = new JMenuItem("Rename");
+                    renamePopupItem.addActionListener(renameItemPopupListener);
+                    return renamePopupItem;
+                case JavarConstants.removeItemType:
+                    JMenuItem removeItem = new JMenuItem("Remove");
+                    removeItem.addActionListener(removeItemListener);
+                    removeItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.removeItemChar, JavarConstants.removeItemModifier));
+                    return removeItem;
+                case JavarConstants.removeItemPopupType:
+                    JMenuItem removePopupItem = new JMenuItem("Remove");
+                    removePopupItem.addActionListener(removeItemPopupListener);
+                    return removePopupItem;
+                case JavarConstants.deleteItemType:
+                    JMenuItem deleteItem = new JMenuItem("Delete");
+                    deleteItem.addActionListener(deleteItemListener);
+                    return deleteItem;
+                case JavarConstants.deleteItemPopupType:
+                    JMenuItem deletePopupItem = new JMenuItem("Delete");
+                    deletePopupItem.addActionListener(deleteItemPopupListener);
+                    return deletePopupItem;
+                case JavarConstants.copyItemType:
+                    JMenuItem copyItem = new JMenuItem("Copy");
+                    copyItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.copyItemChar, JavarConstants.copyItemModifier));
+                    copyItem.addActionListener(copyItemListener);
+                    return copyItem;
+                case JavarConstants.pasteItemType:
+                    JMenuItem pasteItem = new JMenuItem("Paste");
+                    pasteItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.pasteItemChar, JavarConstants.pasteItemModifier));
+                    pasteItem.addActionListener(pasteItemListener);
+                    return pasteItem;
+                case JavarConstants.cutItemType:
+                    JMenuItem cutItem = new JMenuItem("Cut");
+                    cutItem.addActionListener(cutItemListener);
+                    return cutItem;
+                case JavarConstants.commentItemType:
+                    JMenuItem commentItem = new JMenuItem("Comment/Uncomment");
+                    commentItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.commentItemChar, JavarConstants.commentItemModifier));
+                    commentItem.addActionListener(commentItemListener);
+                    return commentItem;
+                case JavarConstants.replaceItemType:
+                    JMenuItem replaceItem = new JMenuItem("Replace");
+                    replaceItem.addActionListener(replaceItemListener);
+                    return replaceItem;
+                case JavarConstants.buildItemType:
+                    JMenuItem buildItem = new JMenuItem("Build");
+                    buildItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.buildItemChar, JavarConstants.buildItemModifier));
+                    buildItem.addActionListener(buildItemListener);
+                    return buildItem;
+                case JavarConstants.runItemType:
+                    JMenuItem runItem = new JMenuItem("Run");
+                    runItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.runItemChar, JavarConstants.runItemModifier));
+                    runItem.addActionListener(runItemListener);
+                    return runItem;
+                case JavarConstants.codeAnalysisItemType:
+                    JMenuItem codeAnalysisItem = new JMenuItem("Code Analysis");
+                    codeAnalysisItem.addActionListener(codeAnalysisItemListener);
+                    return codeAnalysisItem;
+                case JavarConstants.codeAnalysisItemPopupType:
+                    JMenuItem codeAnalysisPopupItem = new JMenuItem("Code Analysis");
+                    codeAnalysisPopupItem.addActionListener(codeAnalysisItemPopupListener);
+                    return codeAnalysisPopupItem;
+                case JavarConstants.generalItemType:
+                    JMenuItem generalItem = new JMenuItem("General");
+                    generalItem.addActionListener(generalItemListener);
+                    return generalItem;
+                case JavarConstants.highlightConfigurationItemType:
+                    JMenuItem highlightConfigurationItem = new JMenuItem("Highlight Configuration");
+                    highlightConfigurationItem.addActionListener(highlightConfigurationItemListener);
+                    return highlightConfigurationItem;
+                case JavarConstants.licenseItemType:
+                    JMenuItem licenseItem = new JMenuItem("License");
+                    licenseItem.addActionListener(licenseItemListener);
+                    return licenseItem;
+                case JavarConstants.readmeItemType:
+                    JMenuItem readmeItem = new JMenuItem("README");
+                    readmeItem.addActionListener(readmeItemListener);
+                    return readmeItem;
+                default:
+                    return new JMenuItem();
+            }
+        }
+        else
+        {
+            switch (type)
+            {
+                case JavarConstants.javaItemType:
+                    JMenuItem javaItem = new JMenuItem("Java 源文件");
+                    javaItem.addActionListener(javaItemListener);
+                    return javaItem;
+                case JavarConstants.newItemType:
+                    JMenuItem newItem = new JMenuItem("新建");
+                    newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));
+                    newItem.addActionListener(newItemListener);
+                    return newItem;
+                case JavarConstants.openItemType:
+                    JMenuItem openItem = new JMenuItem("打开");
+                    openItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.openItemChar, JavarConstants.openItemModifier));
+                    openItem.addActionListener(openItemListener);
+                    return openItem;
+                case JavarConstants.saveItemType:
+                    JMenuItem saveItem = new JMenuItem("保存");
+                    saveItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveItemChar, JavarConstants.saveItemModifier));
+                    saveItem.addActionListener(saveItemListener);
+                    return saveItem;
+                case JavarConstants.saveToItemType:
+                    JMenuItem saveToItem = new JMenuItem("另存为...");
+                    saveToItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveToItemChar, JavarConstants.saveToItemModifier));
+                    saveToItem.addActionListener(saveToItemListener);
+                    return saveToItem;
+                case JavarConstants.renameItemType:
+                    JMenuItem renameItem = new JMenuItem("重命名");
+                    renameItem.addActionListener(renameItemListener);
+                    return renameItem;
+                case JavarConstants.renameItemPopupType:
+                    JMenuItem renamePopupItem = new JMenuItem("重命名");
+                    renamePopupItem.addActionListener(renameItemPopupListener);
+                    return renamePopupItem;
+                case JavarConstants.removeItemType:
+                    JMenuItem removeItem = new JMenuItem("移除");
+                    removeItem.addActionListener(removeItemListener);
+                    removeItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.removeItemChar, JavarConstants.removeItemModifier));
+                    return removeItem;
+                case JavarConstants.removeItemPopupType:
+                    JMenuItem removePopupItem = new JMenuItem("移除");
+                    removePopupItem.addActionListener(removeItemPopupListener);
+                    return removePopupItem;
+                case JavarConstants.deleteItemType:
+                    JMenuItem deleteItem = new JMenuItem("删除");
+                    deleteItem.addActionListener(deleteItemListener);
+                    return deleteItem;
+                case JavarConstants.deleteItemPopupType:
+                    JMenuItem deletePopupItem = new JMenuItem("删除");
+                    deletePopupItem.addActionListener(deleteItemPopupListener);
+                    return deletePopupItem;
+                case JavarConstants.copyItemType:
+                    JMenuItem copyItem = new JMenuItem("复制");
+                    copyItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.copyItemChar, JavarConstants.copyItemModifier));
+                    copyItem.addActionListener(copyItemListener);
+                    return copyItem;
+                case JavarConstants.pasteItemType:
+                    JMenuItem pasteItem = new JMenuItem("粘贴");
+                    pasteItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.pasteItemChar, JavarConstants.pasteItemModifier));
+                    pasteItem.addActionListener(pasteItemListener);
+                    return pasteItem;
+                case JavarConstants.cutItemType:
+                    JMenuItem cutItem = new JMenuItem("剪切");
+                    cutItem.addActionListener(cutItemListener);
+                    return cutItem;
+                case JavarConstants.commentItemType:
+                    JMenuItem commentItem = new JMenuItem("注释/取消注释");
+                    commentItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.commentItemChar, JavarConstants.commentItemModifier));
+                    commentItem.addActionListener(commentItemListener);
+                    return commentItem;
+                case JavarConstants.replaceItemType:
+                    JMenuItem replaceItem = new JMenuItem("替换");
+                    replaceItem.addActionListener(replaceItemListener);
+                    return replaceItem;
+                case JavarConstants.buildItemType:
+                    JMenuItem buildItem = new JMenuItem("编译");
+                    buildItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.buildItemChar, JavarConstants.buildItemModifier));
+                    buildItem.addActionListener(buildItemListener);
+                    return buildItem;
+                case JavarConstants.runItemType:
+                    JMenuItem runItem = new JMenuItem("运行");
+                    runItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.runItemChar, JavarConstants.runItemModifier));
+                    runItem.addActionListener(runItemListener);
+                    return runItem;
+                case JavarConstants.codeAnalysisItemType:
+                    JMenuItem codeAnalysisItem = new JMenuItem("代码分析");
+                    codeAnalysisItem.addActionListener(codeAnalysisItemListener);
+                    return codeAnalysisItem;
+                case JavarConstants.codeAnalysisItemPopupType:
+                    JMenuItem codeAnalysisPopupItem = new JMenuItem("代码分析");
+                    codeAnalysisPopupItem.addActionListener(codeAnalysisItemPopupListener);
+                    return codeAnalysisPopupItem;
+                case JavarConstants.generalItemType:
+                    JMenuItem generalItem = new JMenuItem("通用");
+                    generalItem.addActionListener(generalItemListener);
+                    return generalItem;
+                case JavarConstants.highlightConfigurationItemType:
+                    JMenuItem highlightConfigurationItem = new JMenuItem("高亮配置");
+                    highlightConfigurationItem.addActionListener(highlightConfigurationItemListener);
+                    return highlightConfigurationItem;
+                case JavarConstants.licenseItemType:
+                    JMenuItem licenseItem = new JMenuItem("License");
+                    licenseItem.addActionListener(licenseItemListener);
+                    return licenseItem;
+                case JavarConstants.readmeItemType:
+                    JMenuItem readmeItem = new JMenuItem("README");
+                    readmeItem.addActionListener(readmeItemListener);
+                    return readmeItem;
+                default:
+                    return new JMenuItem();
+            }
         }
     }
 }

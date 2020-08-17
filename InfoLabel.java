@@ -61,11 +61,26 @@ public class InfoLabel extends JLabel
     }
     public void updateText()
     {
-        this.setText(JavarConstants.infoLabelContent1 + currentFile +
-            JavarConstants.infoLabelContent2 + fileType + 
-            JavarConstants.infoLabelContent3 + fileSize + 
-            JavarConstants.infoLabelContent4 + fileCreated +
-            JavarConstants.infoLabelContent5 + fileLastModified + 
-            JavarConstants.infoLabelContent6);
+        if (JavarConstants.LANG.equals("EN"))
+            this.setText(JavarConstants.infoLabelContent1 + currentFile +
+                JavarConstants.infoLabelContent2 + fileType + 
+                JavarConstants.infoLabelContent3 + fileSize + 
+                JavarConstants.infoLabelContent4 + fileCreated +
+                JavarConstants.infoLabelContent5 + fileLastModified + 
+                JavarConstants.infoLabelContent6);
+        else if (JavarConstants.LANG.equals("CN"))
+            this.setText(JavarConstants.infoLabelContent1_cn + currentFile +
+                JavarConstants.infoLabelContent2_cn + fileType + 
+                JavarConstants.infoLabelContent3_cn + fileSize + 
+                JavarConstants.infoLabelContent4_cn + fileCreated +
+                JavarConstants.infoLabelContent5_cn + fileLastModified + 
+                JavarConstants.infoLabelContent6_cn);
+        else
+            this.setText(JavarConstants.infoLabelContent1 + currentFile +
+                JavarConstants.infoLabelContent2 + fileType + 
+                JavarConstants.infoLabelContent3 + fileSize + 
+                JavarConstants.infoLabelContent4 + fileCreated +
+                JavarConstants.infoLabelContent5 + fileLastModified + 
+                JavarConstants.infoLabelContent6);
     }
 }

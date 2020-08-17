@@ -206,13 +206,36 @@ public class CreatorWindow extends JFrame
         typeList.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         propertyPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         /* Set button content */
-        chooseDirPropertyButton.setText("Create In Directory:");
-        hasPrefixStatementCheckBox.setText("Generate Prefix Statement");
-        hasPrefixStatementCheckBox.setSelected(false);
-        hasTemplatePropertyCheckBox.setText("Use Template");
-        hasTemplatePropertyCheckBox.setSelected(false);
-        cancelPropertyButton.setText("Cancel");
-        createPropertyButton.setText("Create");
+        if (JavarConstants.LANG.equals("EN"))
+        {
+            chooseDirPropertyButton.setText("Create In Directory:");
+            hasPrefixStatementCheckBox.setText("Generate Prefix Statement");
+            hasPrefixStatementCheckBox.setSelected(false);
+            hasTemplatePropertyCheckBox.setText("Use Template");
+            hasTemplatePropertyCheckBox.setSelected(false);
+            cancelPropertyButton.setText("Cancel");
+            createPropertyButton.setText("Create");
+        }
+        else if (JavarConstants.LANG.equals("CN"))
+        {
+            chooseDirPropertyButton.setText("选择创建目录:");
+            hasPrefixStatementCheckBox.setText("生成声明前缀");
+            hasPrefixStatementCheckBox.setSelected(false);
+            hasTemplatePropertyCheckBox.setText("使用模板");
+            hasTemplatePropertyCheckBox.setSelected(false);
+            cancelPropertyButton.setText("取消");
+            createPropertyButton.setText("创建");
+        }
+        else
+        {
+            chooseDirPropertyButton.setText("Create In Directory:");
+            hasPrefixStatementCheckBox.setText("Generate Prefix Statement");
+            hasPrefixStatementCheckBox.setSelected(false);
+            hasTemplatePropertyCheckBox.setText("Use Template");
+            hasTemplatePropertyCheckBox.setSelected(false);
+            cancelPropertyButton.setText("Cancel");
+            createPropertyButton.setText("Create");
+        }
         createPropertyButton.setEnabled(false);
         /* Set label content */
         categoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -227,14 +250,39 @@ public class CreatorWindow extends JFrame
         descriptionRightLabel.setVerticalAlignment(SwingConstants.CENTER);
         namePropertyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         namePropertyLabel.setVerticalAlignment(SwingConstants.CENTER);
-        categoryLabel.setText("Category");
-        typeLabel.setText("Type");
-        propertyLabel.setText("Property");
-        //descriptionRightLabel.setText("description:");
-        namePropertyLabel.setText("Name:");
-        developerPropertyLabel.setText("Developer:");
-        teamPropertyLabel.setText("Team:");
-        templatePropertyLabel.setText("Template:");
+        if (JavarConstants.LANG.equals("EN"))
+        {
+            categoryLabel.setText("Category");
+            typeLabel.setText("Type");
+            propertyLabel.setText("Property");
+            //descriptionRightLabel.setText("description:");
+            namePropertyLabel.setText("Name:");
+            developerPropertyLabel.setText("Developer:");
+            teamPropertyLabel.setText("Team:");
+            templatePropertyLabel.setText("Template:");
+        }
+        else if (JavarConstants.LANG.equals("CN"))
+        {
+            categoryLabel.setText("分类");
+            typeLabel.setText("类型");
+            propertyLabel.setText("属性");
+            //descriptionRightLabel.setText("description:");
+            namePropertyLabel.setText("文件名:");
+            developerPropertyLabel.setText("开发者:");
+            teamPropertyLabel.setText("团队:");
+            templatePropertyLabel.setText("模板:");
+        }
+        else
+        {
+            categoryLabel.setText("Category");
+            typeLabel.setText("Type");
+            propertyLabel.setText("Property");
+            //descriptionRightLabel.setText("description:");
+            namePropertyLabel.setText("Name:");
+            developerPropertyLabel.setText("Developer:");
+            teamPropertyLabel.setText("Team:");
+            templatePropertyLabel.setText("Template:");
+        }
         /* Set listener */
         createPropertyButton.addActionListener(e -> {
             String fileName = namePropertyTextField.getText();
@@ -423,14 +471,25 @@ public class CreatorWindow extends JFrame
             {
                 if (hasInvalidFileName)
                 {
-                    namePropertyLabel.setText("Name:");
+                    if (JavarConstants.LANG.equals("EN"))
+                        namePropertyLabel.setText("Name:");
+                    else if (JavarConstants.LANG.equals("CN"))
+                        namePropertyLabel.setText("文件名:");
+                    else
+                        namePropertyLabel.setText("Name:");
                     hasInvalidFileName = false;
                 }
                 namePropertyTextField.setCaretPosition(0);
             }
         });
         chooseDirPropertyButton.addActionListener(e -> {
-            int result = chooser.showDialog(CreatorWindow.this, "Choose Directory");
+            int result;
+            if (JavarConstants.LANG.equals("EN"))
+                result = chooser.showDialog(CreatorWindow.this, "Choose Directory");
+            else if (JavarConstants.LANG.equals("CN"))
+                result = chooser.showDialog(CreatorWindow.this, "选择目录");
+            else
+                result = chooser.showDialog(CreatorWindow.this, "Choose Directory");
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String path = chooser.getSelectedFile().getPath();

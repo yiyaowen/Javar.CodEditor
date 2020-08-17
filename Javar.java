@@ -73,8 +73,32 @@ public class Javar
         mainWindow.setJMenuBar(managerBar);
         mainWindow.pack();
         mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 0);
+        /* Show main window */
         mainWindow.setVisible(true);
     }
+
+    /* Update LAF */
+    /*public void updateLAF()
+    {
+        try
+        {
+            for (var info : UIManager.getInstalledLookAndFeels())
+            {
+                if (JavarConstants.defaultLAF.equals(info.getName()))
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+            SwingUtilities.updateComponentTreeUI(mainWindow.getContentPane());
+            SwingUtilities.updateComponentTreeUI(creatorWindow.getContentPane());
+            SwingUtilities.updateComponentTreeUI(generalWindow.getContentPane());
+        }
+        catch (Exception failure)
+        {
+            failure.printStackTrace();
+        }
+    }*/
 
     public static void main(String[] args)
     {
@@ -82,5 +106,6 @@ public class Javar
         MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
         app.initMainWindow();
+        //app.updateLAF();
     }
 }

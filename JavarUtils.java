@@ -12,6 +12,47 @@ import java.text.*;
 
 public class JavarUtils
 {
+    /* Properties */
+    // Get property
+    public static void readProperties()
+    {
+        Properties props = new Properties();
+        try (
+            InputStream is = new FileInputStream(new File("Javar.properties")))
+        {
+            props.load(is);
+            JavarConstants.LANG = props.getProperty("LANG");
+            JavarConstants.defaultFontSize = Integer.parseInt(props.getProperty("defaultFontSize"));
+            JavarConstants.defaultFontFamily = props.getProperty("defaultFontFamily");
+            JavarConstants.defaultLAF = props.getProperty("defaultLAF");
+        }
+        catch (Exception ex)
+        {
+            //ex.printStackTrace();
+            System.out.println("Read Properties Failed.");
+        }
+    }
+    // Set property
+    public static void writeProperties()
+    {
+        Properties props = new Properties();
+        try (
+            InputStream is = new FileInputStream(new File("Javar.properties"));
+            OutputStream os = new FileOutputStream(new File("Javar.properties")))
+        {
+            props.load(is);
+            props.setProperty("LANG", JavarConstants.LANG);
+            props.setProperty("defaultFontSize", String.valueOf(JavarConstants.defaultFontSize));
+            props.setProperty("defaultFontFamily", JavarConstants.defaultFontFamily);
+            props.setProperty("defaultLAF", JavarConstants.defaultLAF);
+            props.store(os, "Update Javar properties");
+        }
+        catch (Exception ex)
+        {
+            //ex.printStackTrace();
+            System.out.println("Write Properties Failed.");
+        }
+    }
     /* Date and Time */
     // Get current time with MEDIUM format
     public static String getCurrentTimeMEDIUM()

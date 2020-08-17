@@ -35,19 +35,49 @@ public class TabbedPane extends JTabbedPane
     {
         outputTextArea.setEditable(false);
         debugTextArea.setEditable(false);
-        previewLabel.setText(JavarConstants.previewLabelContent);
+        if (JavarConstants.LANG.equals("EN"))
+            previewLabel.setText(JavarConstants.previewLabelContent);
+        else if (JavarConstants.LANG.equals("CN"))
+            previewLabel.setText(JavarConstants.previewLabelContent_cn);
+        else
+            previewLabel.setText(JavarConstants.previewLabelContent);
         previewLabel.setVerticalAlignment(SwingConstants.TOP);
-        this.addTab("Output", new JScrollPane(outputTextArea));
-        this.addTab("Debug", new JScrollPane(debugTextArea));
-        this.addTab("Preview", new JScrollPane(previewLabel));
+        if (JavarConstants.LANG.equals("EN"))
+        {
+            this.addTab("Output", new JScrollPane(outputTextArea));
+            this.addTab("Debug", new JScrollPane(debugTextArea));
+            this.addTab("Preview", new JScrollPane(previewLabel));
+        }
+        else if (JavarConstants.LANG.equals("CN"))
+        {
+            this.addTab("输出", new JScrollPane(outputTextArea));
+            this.addTab("调试", new JScrollPane(debugTextArea));
+            this.addTab("预览", new JScrollPane(previewLabel));
+        }
+        else
+        {
+            this.addTab("Output", new JScrollPane(outputTextArea));
+            this.addTab("Debug", new JScrollPane(debugTextArea));
+            this.addTab("Preview", new JScrollPane(previewLabel));
+        }
     }
     public void initTabbedCodePane()
     {
         JLabel navigatorLabel = new JLabel();
-        navigatorLabel.setText(JavarConstants.navigatorLabelContent);
+        if (JavarConstants.LANG.equals("EN"))
+            navigatorLabel.setText(JavarConstants.navigatorLabelContent);
+        else if (JavarConstants.LANG.equals("CN"))
+            navigatorLabel.setText(JavarConstants.navigatorLabelContent_cn);
+        else
+            navigatorLabel.setText(JavarConstants.navigatorLabelContent);
         navigatorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         navigatorLabel.setVerticalAlignment(SwingConstants.CENTER);
-        this.addTab(JavarConstants.navigatorLabelName, navigatorLabel);
+        if (JavarConstants.LANG.equals("EN"))
+            this.addTab(JavarConstants.navigatorLabelName, navigatorLabel);
+        else if (JavarConstants.LANG.equals("CN"))
+            this.addTab(JavarConstants.navigatorLabelName_cn, navigatorLabel);
+        else
+            this.addTab(JavarConstants.navigatorLabelName, navigatorLabel);
         this.addChangeListener(e -> {
             var index = this.getSelectedIndex() - 1;
             if (index < 0)

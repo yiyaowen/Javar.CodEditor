@@ -51,7 +51,12 @@ public class Run
             {
                 String buff = null;
                 Javar.outputArea.setSelectedIndex(0);
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
                 if (hasRun)
                 {
                     // print run information
@@ -64,7 +69,12 @@ public class Run
                 }
                 else
                 {
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    if (JavarConstants.LANG.equals("EN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    else if (JavarConstants.LANG.equals("CN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage_cn);
+                    else
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
                     // print run error information
                     while ((buff = runErrorBuffer.readLine()) != null)
                     {
@@ -73,7 +83,12 @@ public class Run
                         TabbedPane.outputTextArea.append("\n");
                     }
                 }
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
             }
             catch (Exception outputException)
             {
@@ -100,7 +115,12 @@ public class Run
             {
                 String buff = null;
                 Javar.outputArea.setSelectedIndex(0);
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
                 if (hasRun)
                 {
                     // print run information
@@ -113,7 +133,12 @@ public class Run
                 }
                 else
                 {
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    if (JavarConstants.LANG.equals("EN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    else if (JavarConstants.LANG.equals("CN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage_cn);
+                    else
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
                     // print run error information
                     while ((buff = runErrorBuffer.readLine()) != null)
                     {
@@ -122,7 +147,12 @@ public class Run
                         TabbedPane.outputTextArea.append("\n");
                     }
                 }
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
             }
             catch (Exception outputException)
             {
@@ -149,7 +179,12 @@ public class Run
             {
                 String buff = null;
                 Javar.outputArea.setSelectedIndex(0);
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
                 if (hasRun)
                 {
                     // print run information
@@ -162,7 +197,12 @@ public class Run
                 }
                 else
                 {
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    if (JavarConstants.LANG.equals("EN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    else if (JavarConstants.LANG.equals("CN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage_cn);
+                    else
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
                     // print run error information
                     while ((buff = runErrorBuffer.readLine()) != null)
                     {
@@ -171,7 +211,12 @@ public class Run
                         TabbedPane.outputTextArea.append("\n");
                     }
                 }
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
             }
             catch (Exception outputException)
             {
@@ -198,7 +243,12 @@ public class Run
             {
                 String buff = null;
                 Javar.outputArea.setSelectedIndex(0);
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runStartMessage);
                 if (hasRun)
                 {
                     // print run information
@@ -211,7 +261,12 @@ public class Run
                 }
                 else
                 {
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    if (JavarConstants.LANG.equals("EN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
+                    else if (JavarConstants.LANG.equals("CN"))
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage_cn);
+                    else
+                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runErrorMessage);
                     // print run error information
                     while ((buff = runErrorBuffer.readLine()) != null)
                     {
@@ -220,7 +275,12 @@ public class Run
                         TabbedPane.outputTextArea.append("\n");
                     }
                 }
-                TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage_cn);
+                else
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.runOverMessage);
             }
             catch (Exception outputException)
             {
