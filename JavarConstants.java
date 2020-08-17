@@ -42,6 +42,87 @@ public class JavarConstants
         commentItemModifier = NATIVE_MASK;
         buildItemModifier = NATIVE_MASK;
         runItemModifier = NATIVE_MASK;
+        if (NATIVE_MASK == InputEvent.META_DOWN_MASK)
+        {
+            navigatorLabelContent = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+                    "<hr />" +
+                    "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
+                    "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
+                    "<hr />" +
+                    "<p>Develeper: Yiyao Wen</p>" +
+                    "<p>Version: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+            navigatorLabelContent_cn = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - 轻量级代码编辑器</h1>" +
+                    "<hr />" +
+                    "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
+                    "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+                    "<hr />" +
+                    "<p>开发者: Yiyao Wen</p>" +
+                    "<p>版本号: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+        }
+        else if (NATIVE_MASK == InputEvent.CTRL_DOWN_MASK)
+        {
+            navigatorLabelContent = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+                    "<hr />" +
+                    "<h3><strong>Ctrl+N</strong> - Create New File or Project</h3>" +
+                    "<h3><strong>Ctrl+O</strong> - Open File or Project</h3>" +
+                    "<hr />" +
+                    "<p>Develeper: Yiyao Wen</p>" +
+                    "<p>Version: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+            navigatorLabelContent_cn = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - 轻量级代码编辑器</h1>" +
+                    "<hr />" +
+                    "<h3><strong>Ctrl+N</strong> - 创建新文件或项目</h3>" +
+                    "<h3><strong>Ctrl+O</strong> - 打开文件或项目</h3>" +
+                    "<hr />" +
+                    "<p>开发者: Yiyao Wen</p>" +
+                    "<p>版本号: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+        }
+        else
+        {
+            navigatorLabelContent = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+                    "<hr />" +
+                    "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
+                    "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
+                    "<hr />" +
+                    "<p>Develeper: Yiyao Wen</p>" +
+                    "<p>Version: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+            navigatorLabelContent_cn = 
+            "<html>" +
+                "<body>" +
+                    "<h1>Javar - 轻量级代码编辑器</h1>" +
+                    "<hr />" +
+                    "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
+                    "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+                    "<hr />" +
+                    "<p>开发者: Yiyao Wen</p>" +
+                    "<p>版本号: 1.0.0</p>" +
+                "</body>" +
+            "</html>";
+        }
     }
 
     /* Properties: LANG and LOCALE */
@@ -125,7 +206,7 @@ public class JavarConstants
     public static String creatorDescription2_cn = 
             "</strong></p>" +
             "<hr />" +
-            "<p>" + fileDescription1;
+            "<p>" + fileDescription1_cn;
     public static String creatorDescription3 = 
             fileDescription2 + 
             "</p>" +
@@ -245,7 +326,7 @@ public class JavarConstants
             "</div>" +
         "</body>" +
     "</html>";
-    public static final String navigatorLabelContent = 
+    public static String navigatorLabelContent = 
     "<html>" +
         "<body>" +
             "<h1>Javar - A Lightweight Powerful Coder</h1>" +
@@ -257,7 +338,7 @@ public class JavarConstants
             "<p>Version: 1.0.0</p>" +
         "</body>" +
     "</html>";
-    public static final String navigatorLabelContent_cn = 
+    public static String navigatorLabelContent_cn = 
     "<html>" +
         "<body>" +
             "<h1>Javar - 轻量级代码编辑器</h1>" +
@@ -424,7 +505,7 @@ public class JavarConstants
     public static final int codePanePaddingRight = 0;
     // Master window size
     // General window size
-    public static final int generalWindowWidth = 300;
+    public static final int generalWindowWidth = 350;
     public static final int generalWindowHeight = 450; // Extra 50 padding
     public static final int generalPanelWidth = 300;
     public static final int generalPanelHeight = 400;

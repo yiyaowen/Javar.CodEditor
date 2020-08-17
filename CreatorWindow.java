@@ -289,7 +289,12 @@ public class CreatorWindow extends JFrame
             if (fileName.indexOf(".") == 0)
             {
                 hasInvalidFileName = true;
-                namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
+                if (JavarConstants.LANG.equals("EN"))
+                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
+                else if (JavarConstants.LANG.equals("CN"))
+                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage_cn);
+                else
+                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
                 return;
             }
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
@@ -358,7 +363,12 @@ public class CreatorWindow extends JFrame
                         /* Set selected tab */
                         Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                         /* Set info box */
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                        if (JavarConstants.LANG.equals("EN"))
+                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                        else if (JavarConstants.LANG.equals("CN"))
+                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                        else
+                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                         this.dispose();
                     }
                     else
@@ -369,16 +379,46 @@ public class CreatorWindow extends JFrame
                 else if (!file.createNewFile())
                 {
                     /* Set info box */
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
-                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    if (JavarConstants.LANG.equals("EN"))
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                            JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if (JavarConstants.LANG.equals("CN"))
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage_cn,
+                            JavarConstants.creatorWindowFileUnknownErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                            JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else if (!file.canWrite() || !file.canRead())
                 {
                     /* Set info box */
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
-                        JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    if (JavarConstants.LANG.equals("EN"))
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
+                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if (JavarConstants.LANG.equals("CN"))
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
+                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
+                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else
                 {
@@ -425,16 +465,36 @@ public class CreatorWindow extends JFrame
                     catch (Exception ignore) {}
                     Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
                     /* Set info box */
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
                     this.dispose();
                 }
             }
             catch (Exception ex)
             {
                 /* Set info box */
-                Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
-                    JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                if (JavarConstants.LANG.equals("EN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else if (JavarConstants.LANG.equals("CN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else 
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
                 //ex.printStackTrace();
             }
         });
@@ -581,7 +641,7 @@ public class CreatorWindow extends JFrame
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         this.pack();
         this.setResizable(false);
-        this.setLocation((int)Javar.mainWindow.getLocation().getX() + (int)(Javar.mainWindow.getWidth()/2-this.getWidth()/2), (int)Javar.mainWindow.getLocation().getY());
+        this.setLocation((int)Javar.mainWindow.getLocation().getX() + (int)(Javar.mainWindow.getWidth()/2-this.getWidth()/2), ((int)Javar.mainWindow.getLocation().getY() + (int)(Javar.mainWindow.getHeight()/2-this.getHeight()/2)));
         this.setVisible(true);
     }
 }
@@ -613,13 +673,36 @@ class ItemData
     }
     public String toString()
     {
-        if (list == CATEGORY)
-            return JavarConstants.creatorCategoryDescription1 + name
-                + JavarConstants.creatorCategoryDescription2;
+        if (JavarConstants.LANG.equals("EN"))
+        {
+            if (list == CATEGORY)
+                return JavarConstants.creatorCategoryDescription1 + name
+                    + JavarConstants.creatorCategoryDescription2;
+            else
+                return JavarConstants.creatorDescription1 + name 
+                    + JavarConstants.creatorDescription2 + name 
+                    + JavarConstants.creatorDescription3;
+        }
+        else if (JavarConstants.LANG.equals("CN"))
+        {
+            if (list == CATEGORY)
+                return JavarConstants.creatorCategoryDescription1_cn + name
+                    + JavarConstants.creatorCategoryDescription2_cn;
+            else
+                return JavarConstants.creatorDescription1_cn + name 
+                    + JavarConstants.creatorDescription2_cn + name 
+                    + JavarConstants.creatorDescription3_cn;
+        }
         else
-            return JavarConstants.creatorDescription1 + name 
-                + JavarConstants.creatorDescription2 + name 
-                + JavarConstants.creatorDescription3;
+        {
+            if (list == CATEGORY)
+                return JavarConstants.creatorCategoryDescription1 + name
+                    + JavarConstants.creatorCategoryDescription2;
+            else
+                return JavarConstants.creatorDescription1 + name 
+                    + JavarConstants.creatorDescription2 + name 
+                    + JavarConstants.creatorDescription3;
+        }
     }
 }
 
