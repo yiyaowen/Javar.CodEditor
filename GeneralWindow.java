@@ -150,6 +150,7 @@ public class GeneralWindow extends JFrame
                         }
                     }
                     SwingUtilities.updateComponentTreeUI(Javar.mainWindow.getContentPane());
+                    SwingUtilities.updateComponentTreeUI(Javar.managerBar);
                     SwingUtilities.updateComponentTreeUI(Javar.creatorWindow.getContentPane());
                     SwingUtilities.updateComponentTreeUI(Javar.generalWindow.getContentPane());
                 }

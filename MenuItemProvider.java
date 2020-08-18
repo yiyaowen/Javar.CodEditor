@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.*;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
@@ -53,12 +54,20 @@ public class MenuItemProvider
     public static ActionListener highlightConfigurationItemListener;
     public static ActionListener licenseItemListener;
     public static ActionListener readmeItemListener;
+    public static ActionListener anyItemListener;
     public static ActionListener javaItemListener;
+    public static ActionListener cItemListener;
+    public static ActionListener cppItemListener;
+    public static ActionListener pyItemListener;
+    public static ActionListener htmlItemListener;
     /* File chooser */
     public static JFileChooser chooser;
 
     public static void initMenuItemProvider()
     {
+        /* Init file chooser */
+        chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         /* Init listeners */
         newItemListener = e -> {
             Javar.creatorWindow = new CreatorWindow();
@@ -159,7 +168,7 @@ public class MenuItemProvider
                     }
                     else if (JavarConstants.LANG.equals("CN"))
                     {
-                        JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage+ex.getMessage(), JavarConstants.openItemListenerErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(source, JavarConstants.openItemListenerErrorMessage_cn+ex.getMessage(), JavarConstants.openItemListenerErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
                         Javar.upperBar.infoBox.setText(JavarConstants.openItemListenerErrorContent1_cn + file.getName() + JavarConstants.openItemListenerErrorContent2_cn + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
                     }
                     else
@@ -421,6 +430,294 @@ public class MenuItemProvider
             Javar.generalWindow = new GeneralWindow();
             Javar.generalWindow.initGeneralWindow();
         };
+        anyItemListener = e -> {
+            var fileName = getFileName(null);
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+        javaItemListener = e -> {
+            var fileName = getFileName(".java");
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+        cItemListener = e -> {
+            var fileName = getFileName(".c");
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+        cppItemListener = e -> {
+            var fileName = getFileName(".cpp");
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+        pyItemListener = e -> {
+            var fileName = getFileName(".py");
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+        htmlItemListener = e -> {
+            var fileName = getFileName(".html");
+            if (fileName == null) return;
+            var filePath = getFilePath();
+            if (filePath == null) return;
+            createNewFile(fileName, filePath);
+        };
+    }
+
+    private static String getFileName(String type)
+    {
+        /* Get fileName */
+        String fileName;
+        if (type != null)
+        {
+            if (JavarConstants.LANG.equals("EN"))
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.fileItemListenerContent + type, JavarConstants.fileItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            else if (JavarConstants.LANG.equals("CN"))
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.fileItemListenerContent_cn + type, JavarConstants.fileItemListenerTitle_cn, JOptionPane.INFORMATION_MESSAGE);
+            else
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.fileItemListenerContent + type, JavarConstants.fileItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            if (!fileName.substring(fileName.lastIndexOf(".")+1).equals(type))
+                fileName += type;
+        }
+        else
+        {
+            if (JavarConstants.LANG.equals("EN"))
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.anyFileItemListenerContent, JavarConstants.fileItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+            else if (JavarConstants.LANG.equals("CN"))
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.anyFileItemListenerContent_cn, JavarConstants.fileItemListenerTitle_cn, JOptionPane.INFORMATION_MESSAGE);
+            else
+                fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.anyFileItemListenerContent, JavarConstants.fileItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+        }
+        return fileName;
+    }
+
+    private static String getFilePath()
+    {
+        /* Get filePath */
+        int result;
+        String filePath;
+        if (JavarConstants.LANG.equals("EN"))
+            result = chooser.showDialog(Javar.mainWindow, "Choose Directory");
+        else if (JavarConstants.LANG.equals("CN"))
+            result = chooser.showDialog(Javar.mainWindow, "选择目录");
+        else
+            result = chooser.showDialog(Javar.mainWindow, "Choose Directory");
+        if (result == JFileChooser.APPROVE_OPTION)
+        {
+            filePath = chooser.getSelectedFile().getPath();
+            return filePath;
+        }
+        else
+            return null;
+    }
+
+    private static void createNewFile(String fileName, String filePath)
+    {
+        if (fileName == null || filePath == null)
+            return;
+        String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
+        String fileType = CreatorWindow.suffixTypeMap.get(fileSuffix);
+        if (fileType == null)
+            fileType = fileSuffix;
+        File file = new File(filePath + "/" + fileName);
+        try
+        {
+            /* Create file */
+            if (file.exists())
+            {
+                int result = JOptionPane.showConfirmDialog(Javar.mainWindow, JavarConstants.creatorWindowFileExistsMessage,
+                    JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (result == JOptionPane.OK_OPTION)
+                {
+                    file.delete();
+                    file.createNewFile();
+                    /* Get file attributes */
+                    Path path = Paths.get(file.getPath());
+                    BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+                    BasicFileAttributes basicAttributes = basicView.readAttributes();
+                    String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+                    String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                    double byteSize = (double) basicAttributes.size();
+                    double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                    double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                    String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                    var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
+                    /* Set tabbed pane */
+                    ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
+                    if (icon == null)
+                        icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                    icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                    // JScrollPane + JPanel ==> horizontal scrollable
+                    var tmpPanel = new JPanel();
+                    tmpPanel.setLayout(new BorderLayout());
+                    /* Varies for languages */
+                    if (fileSuffix.equals("java"))
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("py"))
+                        tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("c"))
+                        tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("cpp"))
+                        tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
+                    else if (fileSuffix.equals("html"))
+                        tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
+                    else
+                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
+                    var tmpScroll = new JScrollPane(tmpPanel);
+                    tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                    Javar.codeEditor.addTab(fileName, icon, tmpScroll);
+                    try
+                    {
+                        /* Set file list */
+                        FileList.fileItems.add(data);
+                        Javar.fileList.setListData(FileList.fileItems);
+                    }
+                    catch (Exception ignore) {}
+                    /* Set selected tab */
+                    Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                    /* Set info box */
+                    if (JavarConstants.LANG.equals("EN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else if (JavarConstants.LANG.equals("CN"))
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                    else
+                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (!file.createNewFile())
+            {
+                /* Set info box */
+                if (JavarConstants.LANG.equals("EN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else if (JavarConstants.LANG.equals("CN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage_cn,
+                        JavarConstants.creatorWindowFileUnknownErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage,
+                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else if (!file.canWrite() || !file.canRead())
+            {
+                /* Set info box */
+                if (JavarConstants.LANG.equals("EN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileErrorMessage,
+                        JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else if (JavarConstants.LANG.equals("CN"))
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileErrorMessage,
+                        JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                    JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileErrorMessage,
+                        JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else
+            {
+                /* Get file attributes */
+                Path path = Paths.get(file.getPath());
+                BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+                BasicFileAttributes basicAttributes = basicView.readAttributes();
+                String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+                String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+                double byteSize = (double) basicAttributes.size();
+                double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+                double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+                String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+                var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
+                /* Set tabbed pane */
+                ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
+                if (icon == null)
+                    icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
+                icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
+                var tmpPanel = new JPanel();
+                tmpPanel.setLayout(new BorderLayout());
+                /* Varies for languages */
+                if (fileSuffix.equals("java"))
+                    tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
+                else if (fileSuffix.equals("py"))
+                    tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
+                else if (fileSuffix.equals("c"))
+                    tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
+                else if (fileSuffix.equals("cpp"))
+                    tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
+                else if (fileSuffix.equals("html"))
+                    tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
+                else
+                    tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
+                var tmpScroll = new JScrollPane(tmpPanel);
+                tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
+                Javar.codeEditor.addTab(fileName, icon, tmpScroll);
+                try
+                {
+                    /* Set file list */
+                    FileList.fileItems.add(data);
+                    Javar.fileList.setListData(FileList.fileItems);
+                }
+                catch (Exception ignore) {}
+                Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
+                /* Set info box */
+                if (JavarConstants.LANG.equals("EN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                else if (JavarConstants.LANG.equals("CN"))
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+                else
+                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+            }
+        }
+        catch (Exception ex)
+        {
+            /* Set info box */
+            if (JavarConstants.LANG.equals("EN"))
+            {
+                Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                    JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+            }
+            else if (JavarConstants.LANG.equals("CN"))
+            {
+                Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                    JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                JOptionPane.showMessageDialog(Javar.mainWindow, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
+                    JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
+            }
+            //ex.printStackTrace();
+        }
     }
     
     public static JMenuItem createMenuItem(int type)
@@ -429,10 +726,30 @@ public class MenuItemProvider
         {
             switch (type)
             {
+                case JavarConstants.anyItemType:
+                    JMenuItem anyItem = new JMenuItem("Any");
+                    anyItem.addActionListener(anyItemListener);
+                    return anyItem;
                 case JavarConstants.javaItemType:
-                    JMenuItem javaItem = new JMenuItem("Java Source file");
+                    JMenuItem javaItem = new JMenuItem("Java Source File");
                     javaItem.addActionListener(javaItemListener);
                     return javaItem;
+                case JavarConstants.cItemType:
+                    JMenuItem cItem = new JMenuItem("C Source File");
+                    cItem.addActionListener(cItemListener);
+                    return cItem;
+                case JavarConstants.cppItemType:
+                    JMenuItem cppItem = new JMenuItem("C++ Source File");
+                    cppItem.addActionListener(cppItemListener);
+                    return cppItem;
+                case JavarConstants.pyItemType:
+                    JMenuItem pyItem = new JMenuItem("Python Source File");
+                    pyItem.addActionListener(pyItemListener);
+                    return pyItem;
+                case JavarConstants.htmlItemType:
+                    JMenuItem htmlItem = new JMenuItem("html Source File");
+                    htmlItem.addActionListener(htmlItemListener);
+                    return htmlItem;
                 case JavarConstants.newItemType:
                     JMenuItem newItem = new JMenuItem("New");
                     newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));
@@ -543,10 +860,30 @@ public class MenuItemProvider
         {
             switch (type)
             {
+                case JavarConstants.anyItemType:
+                    JMenuItem anyItem = new JMenuItem("自定义文件");
+                    anyItem.addActionListener(anyItemListener);
+                    return anyItem;
                 case JavarConstants.javaItemType:
                     JMenuItem javaItem = new JMenuItem("Java 源文件");
                     javaItem.addActionListener(javaItemListener);
                     return javaItem;
+                case JavarConstants.cItemType:
+                    JMenuItem cItem = new JMenuItem("C 源文件");
+                    cItem.addActionListener(cItemListener);
+                    return cItem;
+                case JavarConstants.cppItemType:
+                    JMenuItem cppItem = new JMenuItem("C++ 源文件");
+                    cppItem.addActionListener(cppItemListener);
+                    return cppItem;
+                case JavarConstants.pyItemType:
+                    JMenuItem pyItem = new JMenuItem("Python 源文件");
+                    pyItem.addActionListener(pyItemListener);
+                    return pyItem;
+                case JavarConstants.htmlItemType:
+                    JMenuItem htmlItem = new JMenuItem("html 源文件");
+                    htmlItem.addActionListener(htmlItemListener);
+                    return htmlItem;
                 case JavarConstants.newItemType:
                     JMenuItem newItem = new JMenuItem("新建");
                     newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));

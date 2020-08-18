@@ -1,7 +1,5 @@
 # Javar.Project
 
-[TOC]
-
 ![generalIcon](https://tva1.sinaimg.cn/large/007S8ZIlgy1ghu4wcmd2lj30go05kgmq.jpg)
 
 **Javar** is a lightweight and powerful coder for C/C++, Java, Python and HTML. 

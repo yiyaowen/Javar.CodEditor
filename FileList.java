@@ -43,6 +43,20 @@ public class FileList extends JList
             if (index >= Javar.codeEditor.getTabCount())
                 index = Javar.codeEditor.getTabCount() - 1;
             Javar.codeEditor.setSelectedIndex(index);
+            /* Set compiler selector */
+            String suffix = data.getFileName().substring(data.getFileName().lastIndexOf(".")+1);
+            if (suffix.equals("java"))
+                Javar.upperBar.compilerSelector.setSelectedItem("Java");
+            else if (suffix.equals("c"))
+                Javar.upperBar.compilerSelector.setSelectedItem("C");
+            else if (suffix.equals("cpp"))
+                Javar.upperBar.compilerSelector.setSelectedItem("C++");
+            else if (suffix.equals("py"))
+                Javar.upperBar.compilerSelector.setSelectedItem("Python");
+            else if (suffix.equals("HTML"))
+                Javar.upperBar.compilerSelector.setSelectedItem("html");
+            else
+                Javar.upperBar.compilerSelector.setSelectedItem("Java");
             /* Set info label content */
             Javar.infoLabel.setAll(data.getFileName(), data.getFileType(), data.getFilePath(), data.getFileSize(), data.getFileCreated(), data.getFileLastModified());
             Javar.infoLabel.updateText();

@@ -41,7 +41,12 @@ public class MenuProvider
                     newMenu = new JMenu("新建");
                 else
                     newMenu = new JMenu("New");
+                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.anyItemType));
                 newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.javaItemType));
+                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cItemType));
+                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cppItemType));
+                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.pyItemType));
+                newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.htmlItemType));
                 return newMenu;
             case JavarConstants.fileMenuType:
                 JMenu fileMenu;

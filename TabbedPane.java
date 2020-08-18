@@ -35,6 +35,10 @@ public class TabbedPane extends JTabbedPane
     {
         outputTextArea.setEditable(false);
         debugTextArea.setEditable(false);
+        Font font1 = outputTextArea.getFont();
+        outputTextArea.setFont(new Font(font1.getName(), font1.getStyle(), 14));
+        Font font2 = debugTextArea.getFont();
+        debugTextArea.setFont(new Font(font2.getName(), font2.getStyle(), 14));
         if (JavarConstants.LANG.equals("EN"))
             previewLabel.setText(JavarConstants.previewLabelContent);
         else if (JavarConstants.LANG.equals("CN"))

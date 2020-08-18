@@ -49,11 +49,16 @@ public class JavarConstants
                 "<body>" +
                     "<h1>Javar - A Lightweight Powerful Coder</h1>" +
                     "<hr />" +
-                    "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
-                    "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
+                    "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
+                    "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
+                    "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
+                    "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
+                    "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
+                    "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
+                    "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
                     "<hr />" +
-                    "<p>Develeper: Yiyao Wen</p>" +
-                    "<p>Version: 1.0.0</p>" +
+                    "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>Version: 2.0.0</p>" +
                 "</body>" +
             "</html>";
             navigatorLabelContent_cn = 
@@ -61,11 +66,16 @@ public class JavarConstants
                 "<body>" +
                     "<h1>Javar - 轻量级代码编辑器</h1>" +
                     "<hr />" +
-                    "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
-                    "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+                    "<h3><strong>⌘+N</strong> - 创建新文件或项目</h3>" +
+                    "<h3><strong>⌘+O</strong> - 打开文件或项目</h3>" +
+                    "<h3><strong>⌘+S</strong> - 保存当前文件</h3>" +
+                    "<h3><strong>⇧+⌘+S</strong> - 另存文件为...</h3>" +
+                    "<h3><strong>⌘+W</strong> - 移除当前文件</h3>" +
+                    "<h3><strong>⌘+B</strong> - 构建/编译 Coder</h3>" +
+                    "<h3><strong>⌘+R</strong> - 运行/渲染 Coder</h3>" +
                     "<hr />" +
-                    "<p>开发者: Yiyao Wen</p>" +
-                    "<p>版本号: 1.0.0</p>" +
+                    "<p>关于: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>版本号: 2.0.0</p>" +
                 "</body>" +
             "</html>";
         }
@@ -78,9 +88,14 @@ public class JavarConstants
                     "<hr />" +
                     "<h3><strong>Ctrl+N</strong> - Create New File or Project</h3>" +
                     "<h3><strong>Ctrl+O</strong> - Open File or Project</h3>" +
+                    "<h3><strong>Ctrl+S</strong> - Save Current File</h3>" +
+                    "<h3><strong>⇧+Ctrl+S</strong> - Save File To...</h3>" +
+                    "<h3><strong>Ctrl+W</strong> - Remove Current File</h3>" +
+                    "<h3><strong>Ctrl+B</strong> - Build/Compile Coder</h3>" +
+                    "<h3><strong>Ctrl+R</strong> - Run/Render Coder</h3>" +
                     "<hr />" +
-                    "<p>Develeper: Yiyao Wen</p>" +
-                    "<p>Version: 1.0.0</p>" +
+                    "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>Version: 2.0.0</p>" +
                 "</body>" +
             "</html>";
             navigatorLabelContent_cn = 
@@ -90,9 +105,14 @@ public class JavarConstants
                     "<hr />" +
                     "<h3><strong>Ctrl+N</strong> - 创建新文件或项目</h3>" +
                     "<h3><strong>Ctrl+O</strong> - 打开文件或项目</h3>" +
+                    "<h3><strong>Ctrl+S</strong> - 保存当前文件</h3>" +
+                    "<h3><strong>⇧+Ctrl+S</strong> - 另存文件为...</h3>" +
+                    "<h3><strong>Ctrl+W</strong> - 移除当前文件</h3>" +
+                    "<h3><strong>Ctrl+B</strong> - 构建/编译 Coder</h3>" +
+                    "<h3><strong>Ctrl+R</strong> - 运行/渲染 Coder</h3>" +
                     "<hr />" +
-                    "<p>开发者: Yiyao Wen</p>" +
-                    "<p>版本号: 1.0.0</p>" +
+                    "<p>关于: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>版本号: 2.0.0</p>" +
                 "</body>" +
             "</html>";
         }
@@ -103,11 +123,16 @@ public class JavarConstants
                 "<body>" +
                     "<h1>Javar - A Lightweight Powerful Coder</h1>" +
                     "<hr />" +
-                    "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
-                    "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
+                    "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
+                    "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
+                    "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
+                    "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
+                    "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
+                    "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
+                    "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
                     "<hr />" +
-                    "<p>Develeper: Yiyao Wen</p>" +
-                    "<p>Version: 1.0.0</p>" +
+                    "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>Version: 2.0.0</p>" +
                 "</body>" +
             "</html>";
             navigatorLabelContent_cn = 
@@ -115,11 +140,16 @@ public class JavarConstants
                 "<body>" +
                     "<h1>Javar - 轻量级代码编辑器</h1>" +
                     "<hr />" +
-                    "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
-                    "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+                    "<h3><strong>⌘+N</strong> - 创建新文件或项目</h3>" +
+                    "<h3><strong>⌘+O</strong> - 打开文件或项目</h3>" +
+                    "<h3><strong>⌘+S</strong> - 保存当前文件</h3>" +
+                    "<h3><strong>⇧+⌘+S</strong> - 另存文件为...</h3>" +
+                    "<h3><strong>⌘+W</strong> - 移除当前文件</h3>" +
+                    "<h3><strong>⌘+B</strong> - 构建/编译 Coder</h3>" +
+                    "<h3><strong>⌘+R</strong> - 运行/渲染 Coder</h3>" +
                     "<hr />" +
-                    "<p>开发者: Yiyao Wen</p>" +
-                    "<p>版本号: 1.0.0</p>" +
+                    "<p>关于: https://github.com/yiyaowen/Javar.Project</p>" +
+                    "<p>版本号: 2.0.0</p>" +
                 "</body>" +
             "</html>";
         }
@@ -147,8 +177,8 @@ public class JavarConstants
     public static final String compilerSelectorCpp = "C++";
     public static final String compilerSelectorHtml = "html";
     // Creator window
-    public static final String invalidNamePropertyMessage = "<html><font>Name: <font color='red'>invalid</font></font></html>";
-    public static final String invalidNamePropertyMessage_cn = "<html><font>文件名: <font color='red'>无效</font></font></html>";
+    public static final String invalidNamePropertyMessage = "<html><font>Name: <font color='rgb(180,0,0)'>invalid</font></font></html>";
+    public static final String invalidNamePropertyMessage_cn = "<html><font>文件名: <font color='rgb(180,0,0)'>无效</font></font></html>";
     // Contents
     // Creator window contents
     public static final String creatorWindowFileExistsMessage = "File already exists!\nDo you overwrite the file?\n";
@@ -224,28 +254,28 @@ public class JavarConstants
     public static final String openItemListenerErrorTitle_cn = "无法打开文件";
     public static final String openItemListenerSuccessContent = "Open File - ";
     public static final String openItemListenerSuccessContent_cn = "打开文件 - ";
-    public static final String openItemListenerErrorContent1 = "<html><font color='red'>Open File</font><font> - ";
-    public static final String openItemListenerErrorContent1_cn = "<html><font color='red'>打开文件</font><font> - ";
-    public static final String openItemListenerErrorContent2 = "</font><font color='red'> Failed </font><font>";
-    public static final String openItemListenerErrorContent2_cn = "</font><font color='red'> 失败 </font><font>";
+    public static final String openItemListenerErrorContent1 = "<html><font color='rgb(180,0,0)'>Open File</font><font> - ";
+    public static final String openItemListenerErrorContent1_cn = "<html><font color='rgb(180,0,0)'>打开文件</font><font> - ";
+    public static final String openItemListenerErrorContent2 = "</font><font color='rgb(180,0,0)'> Failed </font><font>";
+    public static final String openItemListenerErrorContent2_cn = "</font><font color='rgb(180,0,0)'> 失败 </font><font>";
     public static final String newItemListenerSuccessContent = "Create File - ";
     public static final String newItemListenerSuccessContent_cn = "创建文件 - ";
-    public static final String newItemListenerErrorContent = "<html><font color='red'>Create File Failed</font><font> - ";
-    public static final String newItemListenerErrorContent_cn = "<html><font color='red'>创建文件失败</font><font> - ";
+    public static final String newItemListenerErrorContent = "<html><font color='rgb(180,0,0)'>Create File Failed</font><font> - ";
+    public static final String newItemListenerErrorContent_cn = "<html><font color='rgb(180,0,0)'>创建文件失败</font><font> - ";
     public static final String saveItemListenerSuccessMessage = "File Saved Successfully - ";
     public static final String saveItemListenerSuccessMessage_cn = "文件保存成功 - ";
-    public static final String saveItemListenerErrorMessage = "<html><font color='red'>Save File Failed</font><font> - ";
-    public static final String saveItemListenerErrorMessage_cn = "<html><font color='red'>文件保存失败</font><font> - ";
-    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='red'>Update File Info Failed</font><font> - ";
-    public static final String saveFileUpdateInfoErrorMessage_cn = "<html><font color='red'>更新文件信息失败</font><font> - ";
+    public static final String saveItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Save File Failed</font><font> - ";
+    public static final String saveItemListenerErrorMessage_cn = "<html><font color='rgb(180,0,0)'>文件保存失败</font><font> - ";
+    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='rgb(180,0,0)'>Update File Info Failed</font><font> - ";
+    public static final String saveFileUpdateInfoErrorMessage_cn = "<html><font color='rgb(180,0,0)'>更新文件信息失败</font><font> - ";
     public static final String saveToItemListenerSuccessMessage1 = "File Saved To - ";
     public static final String saveToItemListenerSuccessMessage1_cn = "文件保存至 - ";
     public static final String saveToItemListenerSuccessMessage2 = " - Successfully";
     public static final String saveToItemListenerSuccessMessage2_cn = " - 成功";
-    public static final String saveToItemListenerErrorMessage1 = "<html><font color='red'>File Saved To</font><font> - ";
-    public static final String saveToItemListenerErrorMessage1_cn = "<html><font color='red'>文件保存至</font><font> - ";
-    public static final String saveToItemListenerErrorMessage2 = "</font><font color='red'> Failed </font><font>";
-    public static final String saveToItemListenerErrorMessage2_cn = "</font><font color='red'> 失败 </font><font>";
+    public static final String saveToItemListenerErrorMessage1 = "<html><font color='rgb(180,0,0)'>File Saved To</font><font> - ";
+    public static final String saveToItemListenerErrorMessage1_cn = "<html><font color='rgb(180,0,0)'>文件保存至</font><font> - ";
+    public static final String saveToItemListenerErrorMessage2 = "</font><font color='rgb(180,0,0)'> Failed </font><font>";
+    public static final String saveToItemListenerErrorMessage2_cn = "</font><font color='rgb(180,0,0)'> 失败 </font><font>";
     public static final String saveToFileChooserLabelContent = "File Name:";
     public static final String saveToFileChooserLabelContent_cn = "文件名:";
     public static final String saveToFileChooserLabelTitle = "Input File Name";
@@ -260,6 +290,12 @@ public class JavarConstants
     public static final String renameItemListenerContent_cn = "新文件名:";
     public static final String renameItemListenerTitle = "Input New Name";
     public static final String renameItemListenerTitle_cn = "输入新文件名";
+    public static final String fileItemListenerContent = "Auto-expand ";
+    public static final String fileItemListenerContent_cn = "自动补全 ";
+    public static final String fileItemListenerTitle = "Create New File";
+    public static final String fileItemListenerTitle_cn = "创建新文件";
+    public static final String anyFileItemListenerContent = "Input File Name:";
+    public static final String anyFileItemListenerContent_cn = "输入文件名:";
     public static final String renameItemListenerErrorMessage = "Unable to rename the file.\nPlease try again.";
     public static final String renameItemListenerErrorMessage_cn = "无法重命名文件.\n请再尝试一次.";
     public static final String renameItemListenerErrorTitle = "Unable To Rename";
@@ -270,8 +306,8 @@ public class JavarConstants
     public static final String deleteItemListenerTitle_cn = "删除文件";
     public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
     public static final String deleteItemListenerSuccessMessage_cn = "删除成功 - ";
-    public static final String deleteItemListenerErrorMessage = "<html><font color='red'>Delete Failed</font><font> - ";
-    public static final String deleteItemListenerErrorMessage_cn = "<html><font color='red'>删除失败</font><font> - ";
+    public static final String deleteItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Delete Failed</font><font> - ";
+    public static final String deleteItemListenerErrorMessage_cn = "<html><font color='rgb(180,0,0)'>删除失败</font><font> - ";
     public static final String buildMessage = "===> Build Successful <===\n";
     public static final String buildMessage_cn = "===> 构建成功 <===\n";
     public static final String buildErrorMessage = "===> Build Error(s) <===\n";
@@ -280,8 +316,8 @@ public class JavarConstants
     public static final String runStartMessage_cn = "===> 开始运行 <===\n";
     public static final String runOverMessage = "===> Run Over <===\n";
     public static final String runOverMessage_cn = "===> 运行结束 <===\n";
-    public static final String runErrorMessage = "===> Run Error(s) <==\n";
-    public static final String runErrorMessage_cn = "===> 运行错误 <==\n";
+    public static final String runErrorMessage = "===> Run Error(s) <===\n";
+    public static final String runErrorMessage_cn = "===> 运行错误 <===\n";
     public static final String infoLabelContent1 = 
     "<html>" +
         "<body>" +
@@ -331,11 +367,16 @@ public class JavarConstants
         "<body>" +
             "<h1>Javar - A Lightweight Powerful Coder</h1>" +
             "<hr />" +
-            "<h3><strong>⌘N</strong> - Create New File or Project</h3>" +
-            "<h3><strong>⌘O</strong> - Open File or Project</h3>" +
+            "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
+            "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
+            "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
+            "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
+            "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
+            "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
+            "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
             "<hr />" +
-            "<p>Develeper: Yiyao Wen</p>" +
-            "<p>Version: 1.0.0</p>" +
+            "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
+            "<p>Version: 2.0.0</p>" +
         "</body>" +
     "</html>";
     public static String navigatorLabelContent_cn = 
@@ -343,11 +384,16 @@ public class JavarConstants
         "<body>" +
             "<h1>Javar - 轻量级代码编辑器</h1>" +
             "<hr />" +
-            "<h3><strong>⌘N</strong> - 创建新文件或项目</h3>" +
-            "<h3><strong>⌘O</strong> - 打开文件或项目</h3>" +
+            "<h3><strong>⌘+N</strong> - 创建新文件或项目</h3>" +
+            "<h3><strong>⌘+O</strong> - 打开文件或项目</h3>" +
+            "<h3><strong>⌘+S</strong> - 保存当前文件</h3>" +
+            "<h3><strong>⇧+⌘+S</strong> - 另存文件为...h3>" +
+            "<h3><strong>⌘+W</strong> - 移除当前文件</h3>" +
+            "<h3><strong>⌘+B</strong> - 构建/编译 Coder</h3>" +
+            "<h3><strong>⌘+R</strong> - 运行/渲染 Coder</h3>" +
             "<hr />" +
-            "<p>开发者: Yiyao Wen</p>" +
-            "<p>版本号: 1.0.0</p>" +
+            "<p>关于: https://github.com/yiyaowen/Javar.Project</p>" +
+            "<p>版本号: 2.0.0</p>" +
         "</body>" +
     "</html>";
     public static final String previewLabelContent = 
@@ -405,12 +451,17 @@ public class JavarConstants
     public static final int readmeItemType = 20;
     // New menu
     public static final int javaItemType = 21;
+    public static final int cItemType = 22;
+    public static final int cppItemType = 23;
+    public static final int pyItemType = 24;
+    public static final int htmlItemType = 25;
+    public static final int anyItemType = 26;
     // Popup menu
-    public static final int newItemPopupType = 22;
-    public static final int renameItemPopupType = 23;
-    public static final int removeItemPopupType = 24;
-    public static final int deleteItemPopupType = 25;
-    public static final int codeAnalysisItemPopupType = 26;
+    public static final int newItemPopupType = 27;
+    public static final int renameItemPopupType = 28;
+    public static final int removeItemPopupType = 29;
+    public static final int deleteItemPopupType = 30;
+    public static final int codeAnalysisItemPopupType = 31;
 
     /* MenuItem accelerator parameter */
     // Char

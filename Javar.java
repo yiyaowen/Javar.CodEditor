@@ -71,15 +71,19 @@ public class Javar
         gb.setConstraints(centerPanel, gbc);
         mainWindow.add(centerPanel);
         mainWindow.setJMenuBar(managerBar);
+        /* Final adjustment */
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
         mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), (int)(JavarConstants.screenHeight/2-mainWindow.getHeight()/2));
         /* Show main window */
         mainWindow.setVisible(true);
     }
 
-    /* Update LAF */
-    /*public void updateLAF()
+    /* Set LAF */
+    public void setLAF()
     {
+        if (JavarConstants.defaultLAF.equals("NONE"))
+            return;
         try
         {
             for (var info : UIManager.getInstalledLookAndFeels())
@@ -90,22 +94,19 @@ public class Javar
                     break;
                 }
             }
-            SwingUtilities.updateComponentTreeUI(mainWindow.getContentPane());
-            SwingUtilities.updateComponentTreeUI(creatorWindow.getContentPane());
-            SwingUtilities.updateComponentTreeUI(generalWindow.getContentPane());
         }
-        catch (Exception failure)
+        catch (Exception ex)
         {
-            failure.printStackTrace();
+            ex.printStackTrace();
         }
-    }*/
+    }
 
     public static void main(String[] args)
     {
         JavarConstants.initJavarConstants();
         MenuItemProvider.initMenuItemProvider();
         var app = new Javar();
+        app.setLAF();
         app.initMainWindow();
-        //app.updateLAF();
     }
 }
