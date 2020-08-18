@@ -312,8 +312,21 @@ public class CreatorWindow extends JFrame
                 /* Create file */
                 if (file.exists()) 
                 {
+<<<<<<< HEAD
+					int result;
+					if (JavarConstants.LANG.equals("EN"))
+						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
+							JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+					else if (JavarConstants.LANG.equals("CN"))
+						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage_cn,
+							JavarConstants.creatorWindowFileExistsTitle_cn, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+					else
+						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
+							JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+=======
                     int result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
                         JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                     if (result == JOptionPane.OK_OPTION)
                     {
                         file.delete();

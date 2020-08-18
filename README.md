@@ -66,6 +66,15 @@ Only support Python3.x.
 python3 example.py
 ```
 
+<<<<<<< HEAD
+Sometimes the system only has Python3.x installed. In this case Javar still run well, since it will try to run the following command instead:
+
+```
+python example.py
+```
+
+=======
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
 ### HTML
 
 A example.html should be rendered well with your browser.

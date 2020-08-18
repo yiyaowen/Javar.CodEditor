@@ -142,7 +142,11 @@ public class Build
         try
         {
             /* Set process */
+<<<<<<< HEAD
+            Process buildProcess = Runtime.getRuntime().exec("javac -encoding utf-8 -d . " + fileName, null, new File(dirPath));
+=======
             Process buildProcess = Runtime.getRuntime().exec("javac -encoding utf-8-d . " + fileName, null, new File(dirPath));
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             if (buildProcess.waitFor() == 0)
                hasBuild = true;
             /* Try to print */

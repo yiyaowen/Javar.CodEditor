@@ -53,7 +53,11 @@ public class FileList extends JList
                 Javar.upperBar.compilerSelector.setSelectedItem("C++");
             else if (suffix.equals("py"))
                 Javar.upperBar.compilerSelector.setSelectedItem("Python");
+<<<<<<< HEAD
+            else if (suffix.equals("html"))
+=======
             else if (suffix.equals("HTML"))
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 Javar.upperBar.compilerSelector.setSelectedItem("html");
             else
                 Javar.upperBar.compilerSelector.setSelectedItem("Java");

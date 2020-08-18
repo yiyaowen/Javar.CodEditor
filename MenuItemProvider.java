@@ -65,9 +65,12 @@ public class MenuItemProvider
 
     public static void initMenuItemProvider()
     {
+<<<<<<< HEAD
+=======
         /* Init file chooser */
         chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
         /* Init listeners */
         newItemListener = e -> {
             Javar.creatorWindow = new CreatorWindow();
@@ -259,7 +262,11 @@ public class MenuItemProvider
                 result = chooser.showDialog(source, JavarConstants.saveToFileChooserContent);
             if (result == JFileChooser.APPROVE_OPTION)
             {
+<<<<<<< HEAD
+                String filePath = chooser.getSelectedFile().getPath() + JavarConstants.pathDelimiter + fileName;
+=======
                 String filePath = chooser.getSelectedFile().getPath() + "/" + fileName;
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 try (
                     var fw = new FileWriter(filePath))
                 {
@@ -291,7 +298,11 @@ public class MenuItemProvider
                 return;
             var source = ((Component)e.getSource()).getParent();
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
+<<<<<<< HEAD
+            String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+=======
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             File file = new File(filePath);
             String newName;
             if (JavarConstants.LANG.equals("EN"))
@@ -392,8 +403,13 @@ public class MenuItemProvider
             saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
             /* Build information */
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
+<<<<<<< HEAD
+            String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+            String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+=======
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasBuild = false;
             if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
@@ -411,8 +427,13 @@ public class MenuItemProvider
             saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
             /* Run information */
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
+<<<<<<< HEAD
+            String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+            String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+=======
             String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasRun = false;
             if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
@@ -486,7 +507,11 @@ public class MenuItemProvider
                 fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.fileItemListenerContent_cn + type, JavarConstants.fileItemListenerTitle_cn, JOptionPane.INFORMATION_MESSAGE);
             else
                 fileName = JOptionPane.showInputDialog(Javar.mainWindow, JavarConstants.fileItemListenerContent + type, JavarConstants.fileItemListenerTitle, JOptionPane.INFORMATION_MESSAGE);
+<<<<<<< HEAD
+            if (fileName != null && !fileName.substring(fileName.lastIndexOf(".")+1).equals(type))
+=======
             if (!fileName.substring(fileName.lastIndexOf(".")+1).equals(type))
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 fileName += type;
         }
         else
@@ -503,6 +528,11 @@ public class MenuItemProvider
 
     private static String getFilePath()
     {
+<<<<<<< HEAD
+        chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+=======
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
         /* Get filePath */
         int result;
         String filePath;
@@ -529,14 +559,31 @@ public class MenuItemProvider
         String fileType = CreatorWindow.suffixTypeMap.get(fileSuffix);
         if (fileType == null)
             fileType = fileSuffix;
+<<<<<<< HEAD
+        File file = new File(filePath + JavarConstants.pathDelimiter + fileName);
+=======
         File file = new File(filePath + "/" + fileName);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
         try
         {
             /* Create file */
             if (file.exists())
             {
+<<<<<<< HEAD
+				int result;
+				if (JavarConstants.LANG.equals("EN"))
+					result = JOptionPane.showConfirmDialog(Javar.mainWindow, JavarConstants.creatorWindowFileExistsMessage,
+						JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+				else if (JavarConstants.LANG.equals("CN"))
+					result = JOptionPane.showConfirmDialog(Javar.mainWindow, JavarConstants.creatorWindowFileExistsMessage_cn,
+						JavarConstants.creatorWindowFileExistsTitle_cn, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+				else
+					result = JOptionPane.showConfirmDialog(Javar.mainWindow, JavarConstants.creatorWindowFileExistsMessage,
+						JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+=======
                 int result = JOptionPane.showConfirmDialog(Javar.mainWindow, JavarConstants.creatorWindowFileExistsMessage,
                     JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 if (result == JOptionPane.OK_OPTION)
                 {
                     file.delete();

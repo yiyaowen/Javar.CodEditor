@@ -44,6 +44,10 @@ public class JavarConstants
         runItemModifier = NATIVE_MASK;
         if (NATIVE_MASK == InputEvent.META_DOWN_MASK)
         {
+<<<<<<< HEAD
+			pathDelimiter = "/";
+=======
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             navigatorLabelContent = 
             "<html>" +
                 "<body>" +
@@ -81,6 +85,10 @@ public class JavarConstants
         }
         else if (NATIVE_MASK == InputEvent.CTRL_DOWN_MASK)
         {
+<<<<<<< HEAD
+			pathDelimiter = "\\";
+=======
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             navigatorLabelContent = 
             "<html>" +
                 "<body>" +
@@ -154,6 +162,12 @@ public class JavarConstants
             "</html>";
         }
     }
+<<<<<<< HEAD
+	/* Multi-platform */
+	// Windows & MacOS
+	public static String pathDelimiter = "/";
+=======
+>>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
 
     /* Properties: LANG and LOCALE */
     public static String LANG = "EN"; 
