@@ -42,7 +42,6 @@ public class BuildAndRun
         try 
         {
             /* Set process */
-<<<<<<< HEAD
             Process buildProcess = Runtime.getRuntime().exec("g++ -std=c++11 -o " + filePrefix + " " + fileName, null, new File(dirPath));
             if (buildProcess.waitFor() == 0)
                hasBuild = true; 
@@ -51,16 +50,6 @@ public class BuildAndRun
             if (hasBuild)
             {
                 runProcess = Runtime.getRuntime().exec(dirPath + JavarConstants.pathDelimiter + filePrefix, null, new File(dirPath));
-=======
-            Process buildProcess = Runtime.getRuntime().exec("g++ -std=c++1 -o " + filePrefix + " " + fileName, null, new File(dirPath));
-            if (buildProcess.waitFor() == 0)
-               hasBuild = true; 
-            // Adjustment
-            Process runProcess = Runtime.getRuntime().exec("cd .");
-            if (hasBuild)
-            {
-                runProcess = Runtime.getRuntime().exec("./" + filePrefix, null, new File(dirPath));
->>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 if (runProcess.waitFor() == 0)
                     hasRun = true;
             }
@@ -171,17 +160,10 @@ public class BuildAndRun
             if (buildProcess.waitFor() == 0)
                hasBuild = true; 
             // Adjustment
-<<<<<<< HEAD
             Process runProcess = null;
             if (hasBuild)
             {
                 runProcess = Runtime.getRuntime().exec(dirPath + JavarConstants.pathDelimiter + filePrefix, null, new File(dirPath));
-=======
-            Process runProcess = Runtime.getRuntime().exec("cd .");
-            if (hasBuild)
-            {
-                runProcess = Runtime.getRuntime().exec("./" + filePrefix, null, new File(dirPath));
->>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
                 if (runProcess.waitFor() == 0)
                     hasRun = true;
             }
@@ -363,11 +345,7 @@ public class BuildAndRun
             if (buildProcess.waitFor() == 0)
                hasBuild = true; 
             // Adjustment
-<<<<<<< HEAD
             Process runProcess = null;
-=======
-            Process runProcess = Runtime.getRuntime().exec("cd .");
->>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             if (hasBuild)
             {
                 runProcess = Runtime.getRuntime().exec("java " + filePrefix, null, new File(dirPath));

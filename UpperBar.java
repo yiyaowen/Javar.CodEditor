@@ -106,13 +106,8 @@ public class UpperBar extends JPanel
             MenuItemProvider.saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
             /* Build and Run information */
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
-<<<<<<< HEAD
             String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
             String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
-=======
-            String dirPath = filePath.substring(0, filePath.lastIndexOf("/")+1);
-            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
->>>>>>> a28bec5d6fdf8e3c14bc40f126ffb1890dbb11e2
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasBuild = false;
             boolean hasRun = false;
