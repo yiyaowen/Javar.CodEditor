@@ -1,14 +1,14 @@
-package javar.buildandrun;
+package com.yiyaowen.javar;
 
-import javar.tabbedpane.TabbedPane;
-import javar.constants.JavarConstants;
-import javar.utils.JavarUtils;
-import javar.Javar;
+import com.yiyaowen.javar.Javar;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarUtils;
+import com.yiyaowen.javar.TabbedPane;
 
 import java.io.*;
 import java.nio.*;
-import java.nio.charset.*;
 import java.nio.channels.*;
+import java.nio.charset.*;
 
 public class BuildAndRun
 {

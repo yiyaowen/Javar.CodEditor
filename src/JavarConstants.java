@@ -1,22 +1,26 @@
-package javar.constants;
+package com.yiyaowen.javar;
 
-import javar.utils.JavarUtils;
+import com.yiyaowen.javar.JavarUtils;
 
+import java.io.*;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import java.util.*;
-import java.io.*;
-
 public class JavarConstants
 {
-    /* Invoke in advance */
-    public static void initJavarConstants()
+    /**
+     * Initialize application global constants
+     *
+     * @param
+     * @return initResult (Initialization result code)
+     */
+    public static int initJavarConstants()
     {
         // Lang
-        JavarUtils.readProperties();
+        JavarUtils.loadGlobalProperties();
         if (LANG == "EN")
             LOCALE = Locale.US;
         else if (LANG == "CN")
@@ -156,9 +160,10 @@ public class JavarConstants
             "</html>";
         }
     }
-	/* Multi-platform */
-	// Windows & MacOS
-	public static String pathDelimiter = "/";
+
+    /* Multi-platform */
+    // Windows & MacOS
+    public static String pathDelimiter = "/";
 
     /* Properties: LANG and LOCALE */
     public static String LANG = "EN"; 

@@ -1,6 +1,6 @@
-package javar.infolabel;
+package com.yiyaowen.javar;
 
-import javar.constants.JavarConstants;
+import com.yiyaowen.javar.JavarConstants;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,22 +10,36 @@ import javax.swing.border.*;
 
 public class InfoLabel extends JLabel
 {
+    //////////////
+    // Property //
+    //////////////
+
     String currentFile;
     String fileType;
     String filePath;
     String fileSize;
     String fileCreated;
     String fileLastModified;
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
     public InfoLabel()
     {
-        /* Set preferred size */
+        // Set preferred size
         this.setPreferredSize(new Dimension(JavarConstants.infoLabelWidth, JavarConstants.infoLabelHeight));
-        /* Set border */
+        // Set border
         this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        /* Set alignment */
+        // Set alignment
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setVerticalAlignment(SwingConstants.CENTER);
     }
+
+    ////////////
+    // setter //
+    ////////////
+
     public void setAll(String currentFile, String fileType, String filePath, String fileSize, String fileCreated, String fileLastModified)
     {
         setCurrentFile(currentFile);
@@ -59,28 +73,42 @@ public class InfoLabel extends JLabel
     {
         this.fileLastModified = fileLastModified;
     }
+
+    ////////////
+    // Method //
+    ////////////
+
+    /**
+     * Update label's text information of current file
+     *
+     * @param
+     * @return
+     */
     public void updateText()
     {
-        if (JavarConstants.LANG.equals("EN"))
+        if (JavarConstants.LANG.equals("EN")) {
             this.setText(JavarConstants.infoLabelContent1 + currentFile +
                 JavarConstants.infoLabelContent2 + fileType + 
                 JavarConstants.infoLabelContent3 + fileSize + 
                 JavarConstants.infoLabelContent4 + fileCreated +
                 JavarConstants.infoLabelContent5 + fileLastModified + 
                 JavarConstants.infoLabelContent6);
-        else if (JavarConstants.LANG.equals("CN"))
+        }
+        else if (JavarConstants.LANG.equals("CN")) {
             this.setText(JavarConstants.infoLabelContent1_cn + currentFile +
                 JavarConstants.infoLabelContent2_cn + fileType + 
                 JavarConstants.infoLabelContent3_cn + fileSize + 
                 JavarConstants.infoLabelContent4_cn + fileCreated +
                 JavarConstants.infoLabelContent5_cn + fileLastModified + 
                 JavarConstants.infoLabelContent6_cn);
-        else
+        }
+        else {
             this.setText(JavarConstants.infoLabelContent1 + currentFile +
                 JavarConstants.infoLabelContent2 + fileType + 
                 JavarConstants.infoLabelContent3 + fileSize + 
                 JavarConstants.infoLabelContent4 + fileCreated +
                 JavarConstants.infoLabelContent5 + fileLastModified + 
                 JavarConstants.infoLabelContent6);
+        }
     }
 }

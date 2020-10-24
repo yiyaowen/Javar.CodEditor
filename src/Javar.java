@@ -1,15 +1,16 @@
-package javar;
+package com.yiyaowen.javar;
 
-import javar.constants.JavarConstants;
-import javar.codepane.CodePane;
-import javar.filelist.FileList;
-import javar.tabbedpane.TabbedPane;
-import javar.upperbar.UpperBar;
-import javar.managerbar.ManagerBar;
-import javar.menuitemprovider.MenuItemProvider;
-import javar.creatorwindow.CreatorWindow;
-import javar.infolabel.InfoLabel;
-import javar.generalwindow.GeneralWindow;
+import com.yiyaowen.javar.CodePane;
+import com.yiyaowen.javar.CreatorWindow;
+import com.yiyaowen.javar.FileList;
+import com.yiyaowen.javar.GeneralWindow;
+import com.yiyaowen.javar.InfoLabel;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarLogger;
+import com.yiyaowen.javar.ManagerBar;
+import com.yiyaowen.javar.MenuItemProvider;
+import com.yiyaowen.javar.TabbedPane;
+import com.yiyaowen.javar.UpperBar;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +19,10 @@ import javax.swing.event.*;
 
 public class Javar
 {
+    ////////////////
+    // Properties //
+    ////////////////
+
     public static JFrame mainWindow;
     public static TabbedPane codeEditor;
     public static TabbedPane outputArea;
@@ -27,6 +32,12 @@ public class Javar
     public static ManagerBar managerBar;
     public static CreatorWindow creatorWindow;
     public static GeneralWindow generalWindow;
+
+    public static JavarLogger logger = new JavarLogger();
+
+    ////////////
+    // Method //
+    ////////////
     
     public void initMainWindow()
     {
@@ -74,7 +85,8 @@ public class Javar
         /* Final adjustment */
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
-        mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), (int)(JavarConstants.screenHeight/2-mainWindow.getHeight()/2));
+        mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 
+                               (int)(JavarConstants.screenHeight/2-mainWindow.getHeight()/2));
         /* Show main window */
         mainWindow.setVisible(true);
     }
@@ -82,8 +94,10 @@ public class Javar
     /* Set LAF */
     public void setLAF()
     {
-        if (JavarConstants.defaultLAF.equals("NONE"))
+        if (JavarConstants.defaultLAF.equals("NONE")) {
+            logger.log("i", "Default LAF (Look And Feel) equals \"NONE\"");
             return;
+        }
         try
         {
             for (var info : UIManager.getInstalledLookAndFeels())
@@ -97,15 +111,20 @@ public class Javar
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Javar.logger.log("e", ex.getMessage());
         }
     }
+
+    //////////
+    // Main //
+    //////////
 
     public static void main(String[] args)
     {
         JavarConstants.initJavarConstants();
         MenuItemProvider.initMenuItemProvider();
-        var app = new Javar();
+
+        Javar app = new Javar();
         app.setLAF();
         app.initMainWindow();
     }

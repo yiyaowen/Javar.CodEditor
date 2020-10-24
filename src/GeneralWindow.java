@@ -203,7 +203,7 @@ public class GeneralWindow extends JFrame
             {
                 JavarConstants.LANG = "EN";
             }
-            JavarUtils.writeProperties();
+            JavarUtils.saveGlobalProperties();
         });
         cancelBtn.addActionListener(e -> {
             this.dispose();

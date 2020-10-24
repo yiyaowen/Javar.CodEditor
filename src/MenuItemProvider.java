@@ -1,31 +1,31 @@
-package javar.menuitemprovider;
+package com.yiyaowen.javar;
 
-import javar.constants.JavarConstants;
-import javar.tabbedpane.TabbedPane;
-import javar.Javar;
-import javar.creatorwindow.CreatorWindow;
-import javar.codepane.CodePane;
-import javar.utils.JavarUtils;
-import javar.filelist.FileList;
-import javar.buildandrun.BuildAndRun;
-import javar.build.Build;
-import javar.upperbar.UpperBar;
-import javar.run.Run;
-import javar.generalwindow.GeneralWindow;
+import com.yiyaowen.javar.Build;
+import com.yiyaowen.javar.BuildAndRun;
+import com.yiyaowen.javar.CodePane;
+import com.yiyaowen.javar.CreatorWindow;
+import com.yiyaowen.javar.FileList;
+import com.yiyaowen.javar.GeneralWindow;
+import com.yiyaowen.javar.Javar;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarUtils;
+import com.yiyaowen.javar.Run;
+import com.yiyaowen.javar.TabbedPane;
+import com.yiyaowen.javar.UpperBar;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
-import java.util.*;
 import java.text.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
 
 @SuppressWarnings(value = "unchecked")
 public class MenuItemProvider
@@ -394,11 +394,11 @@ public class MenuItemProvider
             String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
             boolean hasBuild = false;
             if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
-                Build.Java(filePath, dirPath, fileName, filePrefix, hasBuild);
+                Build.Java(dirPath, fileName, filePrefix, hasBuild);
             else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorC))
-                Build.C(filePath, dirPath, fileName, filePrefix, hasBuild);
+                Build.C(dirPath, fileName, filePrefix, hasBuild);
             else if (UpperBar.compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorCpp))
-                Build.Cpp(filePath, dirPath, fileName, filePrefix, hasBuild);
+                Build.Cpp(dirPath, fileName, filePrefix, hasBuild);
         };
         runItemListener = e -> {
             if (Javar.fileList.getSelectedIndex() < 0)
