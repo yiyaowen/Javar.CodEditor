@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
+import java.util.HashMap;
  
 public class Build
 {
@@ -17,101 +18,95 @@ public class Build
     // Method //
     ////////////
 
-    /**
-     * Try to compile *.cpp files
-     *
-     * @param dirPath (Target *.cpp file directory path)
-     * @param fileName (Target *.cpp file name)
-     * @param filePrefix (Target *.cpp file pure name without .cpp)
-     * @param hasBuilt (If build successfully equals true, otherwise false)
-     * @return
+	/**
+     * Try to build C++ project
+     * 
+     * @param filePath (Target *.cpp file path)
+     * @return hasBuilt (If build successfully return true, otherwise return false)
      */
-    public static void Cpp(String dirPath, String fileName, String filePrefix, boolean hasBuilt)
+    public static boolean Cpp(String filePath)
     {
-        TryBuild("g++ -std=c++11 -o "+filePrefix+" "+fileName, dirPath, hasBuilt);
+    	HashMap<String,String> fileMap = JavarUtils.unpackFilePath(filePath);
+    	String dirPath = fileMap.get("dirPath");
+    	String fileName = fileMap.get("fileName");
+    	String filePrefix = fileMap.get("filePrefix");
+    	String fileSuffix = fileMap.get("fileSuffix");
+        return TryBuild("g++ -std=c++11 -o "+filePrefix+" "+fileName, dirPath);
     }
 
     /**
-     * Try to compile *.c files
-     *
-     * @param dirPath (Target *.c file directory path)
-     * @param fileName (Target *.c file name)
-     * @param filePrefix (Target *.c file pure name without .cpp)
-     * @param hasBuilt (If build successfully equals true, otherwise false)
-     * @return
+     * Try to build C project
+     * 
+     * @param filePath (Target *.c file path)
+     * @return hasBuilt (If build successfully return true, otherwise return false)
      */
-    public static void C(String dirPath, String fileName, String filePrefix, boolean hasBuilt)
+    public static boolean C(String filePath)
     {
-        TryBuild("gcc -std=c11 -o "+filePrefix+" "+fileName, dirPath, hasBuilt);
+    	HashMap<String,String> fileMap = JavarUtils.unpackFilePath(filePath);
+    	String dirPath = fileMap.get("dirPath");
+    	String fileName = fileMap.get("fileName");
+    	String filePrefix = fileMap.get("filePrefix");
+    	String fileSuffix = fileMap.get("fileSuffix");
+        return TryBuild("gcc -std=c11 -o "+filePrefix+" "+fileName, dirPath);
     }
 
     /**
-     * Try to compile *.java files
-     *
-     * @param dirPath (Target *.java file directory path)
-     * @param fileName (Target *.java file name)
-     * @param filePrefix (Target *.java file pure name without .cpp)
-     * @param hasBuilt (If build successfully equals true, otherwise false)
-     * @return
+     * Try to build Java project
+     * 
+     * @param filePath (Target *.java file path)
+     * @return hasBuilt (If build successfully return true, otherwise return false)
      */
-    public static void Java(String dirPath, String fileName, String filePrefix, boolean hasBuilt)
+    public static boolean Java(String filePath)
     {
-        TryBuild("javac -encoding utf-8 -d . "+fileName, dirPath, hasBuilt);
+    	HashMap<String,String> fileMap = JavarUtils.unpackFilePath(filePath);
+    	String dirPath = fileMap.get("dirPath");
+    	String fileName = fileMap.get("fileName");
+    	String filePrefix = fileMap.get("filePrefix");
+    	String fileSuffix = fileMap.get("fileSuffix");
+        return TryBuild("javac -encoding utf-8 -d . "+fileName, dirPath);
     }
 
-    /** Try to run the specific build command
+    /** Try to run specific build command
      *
-     * @param cmd (The build command)
-     * @param workDir (The working directory path)
-     * @param hasBuilt (If build successfully equals true, otherwise false)
-     * @return
+     * @param cmd (Build command)
+     * @param workDir (Working directory path)
+     * @return hasBuilt (If build successfully return true, otherwise return false)
      */
-    protected static void TryBuild(String cmd, String workDir, boolean hasBuilt)
+    protected static boolean TryBuild(String cmd, String workDir)
     {
+    	boolean hasBuilt = false;
         try
         {
-            // Set process
+            // Initialize build process
             Process buildProcess = Runtime.getRuntime().exec(cmd, null, new File(workDir));
             if (buildProcess.waitFor() == 0)
+            {
                hasBuilt = true;
-            // Try to print
+            }
+            // Try to display build result
             try (
                 var buildBuffer = new BufferedReader(new InputStreamReader(buildProcess.getInputStream()));
                 var buildErrorBuffer = new BufferedReader(new InputStreamReader(buildProcess.getErrorStream())))
             {
                 String buff = null;
                 if (hasBuilt)
-                {   
+                {
+                	// Build successful
                     Javar.outputArea.setSelectedIndex(0);
-                    if (JavarConstants.LANG.equals("EN"))
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
-                    else if (JavarConstants.LANG.equals("CN"))
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage_cn);
-                    else
-                        TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildMessage);
-                    // Print build information
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildMessage) + "\n");
                     while ((buff = buildBuffer.readLine()) != null)
                     {
-                        TabbedPane.outputTextArea.append(buff);
-                        // NEW LINE
-                        TabbedPane.outputTextArea.append("\n");
+                        TabbedPane.outputTextArea.append(buff + "\n");
                     }
                 }
                 else
                 {
+                	// Build failed
                     Javar.outputArea.setSelectedIndex(1);
-                    if (JavarConstants.LANG.equals("EN"))
-                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
-                    else if (JavarConstants.LANG.equals("CN"))
-                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage_cn);
-                    else
-                        TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarConstants.buildErrorMessage);
-                    // Print build error information
+                    TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildErrorMessage) + "\n");
                     while ((buff = buildErrorBuffer.readLine()) != null)
                     {
-                        TabbedPane.debugTextArea.append(buff);
-                        // NEW LINE
-                        TabbedPane.debugTextArea.append("\n");
+                        TabbedPane.debugTextArea.append(buff + "\n");
                     }
                 }
             }
@@ -124,5 +119,6 @@ public class Build
         {
             Javar.logger.log("e", processEx.getMessage());
         }
+        return hasBuilt;
     }
 }

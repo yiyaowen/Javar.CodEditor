@@ -1,17 +1,21 @@
-package javar.codepane;
+package com.yiyaowen.javar;
 
-import javar.constants.JavarConstants;
+import com.yiyaowen.javar.JavarConstants;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
-import java.util.*;
-import java.io.*;
 
 public class CodePane extends JTextPane
 {
+	//////////////
+	// Property //
+	//////////////
+	
     public static int FONT_SIZE = JavarConstants.defaultFontSize;
     public static String FONT_FAMILY = JavarConstants.defaultFontFamily;
     protected StyledDocument doc;
@@ -24,10 +28,14 @@ public class CodePane extends JTextPane
     private String splitSymbol;
     private boolean hasSyntax;
     private int lastLine = 1;
-    /* Constructor : create a new code pane */
+    
+    /////////////////
+    // Constructor //
+    /////////////////
+    
     public CodePane(String syntaxFile, String splitSymbol, boolean hasSyntax)
     {
-        /* Set syntax file and split symbol */
+        // Set syntax file and split symbol
         this.syntaxFile = syntaxFile;
         this.splitSymbol = splitSymbol;
         this.hasSyntax = hasSyntax;
@@ -36,11 +44,11 @@ public class CodePane extends JTextPane
         fontFamily = StyleConstants.getFontFamily(normalAttr);
         font = new Font(fontFamily, Font.PLAIN, FONT_SIZE);
         quotAttr = new SimpleAttributeSet();
-        /* Set basic attribute */
+        // Set basic attribute
         StyleConstants.setForeground(quotAttr, new Color(JavarConstants.quoteColorHex)); 
         StyleConstants.setFontSize(quotAttr, FONT_SIZE);
         StyleConstants.setFontFamily(quotAttr, FONT_FAMILY);
-        /* Set basic configuration */
+        // Set basic configuration
         this.doc = super.getStyledDocument();
         this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
         this.setCharacterAttributes(normalAttr, false);
@@ -53,23 +61,31 @@ public class CodePane extends JTextPane
             }
         });
     }
-    // Update highlight
-    // Normal update : tail ==> "" (Empty String)
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Update highlight
+     * 
+     * @param tail (Equals "" when use normal update)
+     * @return
+     */
     public void syntaxParse(String tail)
     {
         try
         {
-            /* Initialization */
+            // Initialization
             doc.setCharacterAttributes(0, doc.getLength(), normalAttr, false);
-            /* Not Perfect Support */
+            // WARNING : Not perfect support
             int cursorPos = this.getCaretPosition();
             String content = doc.getText(0, doc.getLength());
             if (!tail.equals("\t") && !tail.equals("\b"))
                 content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
-            /* Varies for different languages */
-            // splitSymbol ==> Change Among Languages
             if (hasSyntax)
             {
+                // Varies for different languages
                 String[] tokens = content.split(splitSymbol);
                 ArrayList<Integer> startList = new ArrayList<>();
                 ArrayList<Integer> endList = new ArrayList<>();
@@ -162,12 +178,18 @@ public class CodePane extends JTextPane
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            e.printStackTrace();
+        	Javar.logger.log("e", ex.getMessage());
         }
     }
-    /* Paint method */
+    
+    /**
+     * Override from JPanel
+     * 
+     * @param
+     * @return
+     */
     public void paint(Graphics g)
     {
         super.paint(g);
@@ -191,15 +213,16 @@ public class CodePane extends JTextPane
         // Paint line number
         for (int count = 0, j = 1; count <= line; count++, j++)
         {
-            ///////////////
-            /* Punchline */
-            ///////////////
             g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight())+g.getFontMetrics().getAscent()+3); 
         }
         // Set last line
         lastLine = line+1;
     }
-    /* Getter */
+    
+    ////////////
+    // getter //
+    ////////////
+    
     public String getSyntaxFile()
     {
         return syntaxFile;
@@ -216,8 +239,17 @@ public class CodePane extends JTextPane
 
 class SyntaxFormatter
 {
+	//////////////
+	// Property //
+	//////////////
+	
     private Map<SimpleAttributeSet, ArrayList<String>> attMap = new HashMap<>();
     SimpleAttributeSet normalAttr = new SimpleAttributeSet();
+    
+    /////////////////
+    // Constructor //
+    /////////////////
+    
     public SyntaxFormatter(String syntaxFile)
     {
         StyleConstants.setForeground(normalAttr, Color.BLACK);
@@ -228,9 +260,9 @@ class SyntaxFormatter
         {
             scanner = new Scanner(new File(syntaxFile));
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException ex)
         {
-            throw new RuntimeException("语法文件丢失：" + e.getMessage());
+        	Javar.logger.log("e", ex.getMessage());
         }
         var color = -1;
         ArrayList<String> keywords = new ArrayList<>();
@@ -268,10 +300,29 @@ class SyntaxFormatter
             attMap.put(att, keywords);
         }
     }
+    
+    ////////////
+    // getter //
+    ////////////
+    
     public SimpleAttributeSet getNormalAttributeSet()
     {
         return normalAttr;
     }
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Set specific document's highlight
+     * 
+     * @param doc (Target document)
+     * @param token (Key word)
+     * @param start (Start position)
+     * @param length (Key word length)
+     * @return
+     */
     public void setHighLight(StyledDocument doc, String token, int start, int length)
     {
         SimpleAttributeSet currentAttributeSet = null;

@@ -9,11 +9,10 @@ public class JavarLogger
     // Constants //
     ///////////////
    
-    /* private */
     private static final int JavarLogger_OK = 0;
     private static final int JavarLogger_Failed = 1;
 
-    private static final int JavarLogger_DefaultLevel = 2; // LogLevel_Error
+    private static final int JavarLogger_DefaultLevel = 2; // LogLevel_Debug
     private static final String JavarLogger_DefaultLogFile = "../Javar.log";
 
     private static final String JavarLogger_InfoPrefix = " (Info) ";
@@ -21,7 +20,6 @@ public class JavarLogger
     private static final String JavarLogger_ErrorPrefix = " <#>Error<#> ";
     private static final String JavarLogger_FatalPrefix = " @@@Fatal@@@ ";
 
-    /* public */
     public static final int LogLevel_All = 0;
     public static final int LogLevel_Info = 1;
     public static final int LogLevel_Debug = 2;
@@ -87,8 +85,8 @@ public class JavarLogger
     /**
      * Log specific type of message to current log file
      *
-     * @param type (Log message type)
-     * @param msg (The message text)
+     * @param type (Message type)
+     * @param msg (Message text)
      * @return
      */
     public void log(String type, String msg)
@@ -111,10 +109,10 @@ public class JavarLogger
     }
     
     /**
-     * Get current log level's string description instead of type code
+     * Get current log level's string description
      *
-     * @param style (The description style)
-     * @return levelDesc (The description of current log level)
+     * @param style (Description style)
+     * @return levelDesc (Description of current log level)
      */
     public String getLevelDesc(int style)
     {
@@ -186,7 +184,9 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_InfoPrefix+msg+"\n");
+            // Generally used for ex.getMessage(), which ends with '\n'
+            // Other normal messages should append '\n' before logged
+            fw.write(LocalDateTime.now()+JavarLogger_InfoPrefix+msg);
             fw.close();
             return JavarLogger_OK;    
         }
@@ -211,7 +211,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_DebugPrefix+msg+"\n");
+            fw.write(LocalDateTime.now()+JavarLogger_DebugPrefix+msg);
             fw.close();
             return JavarLogger_OK;    
         }
@@ -236,7 +236,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_ErrorPrefix+msg+"\n");
+            fw.write(LocalDateTime.now()+JavarLogger_ErrorPrefix+msg);
             fw.close();
             return JavarLogger_OK;    
         }
@@ -261,7 +261,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_FatalPrefix+msg+"\n");
+            fw.write(LocalDateTime.now()+JavarLogger_FatalPrefix+msg);
             fw.close();
             return JavarLogger_OK;    
         }

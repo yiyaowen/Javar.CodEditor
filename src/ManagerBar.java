@@ -1,7 +1,7 @@
-package javar.managerbar;
+package com.yiyaowen.javar;
 
-import javar.constants.JavarConstants;
-import javar.menuprovider.MenuProvider;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.MenuProvider;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,10 +10,19 @@ import javax.swing.event.*;
 
 public class ManagerBar extends JMenuBar
 {
+	/////////////////
+	// Constructor //
+	/////////////////
+	
     public ManagerBar()
     {
         initManagerBar();
     }
+    
+    ////////////
+    // Method //
+    ////////////
+    
     public void initManagerBar()
     {
         this.add(MenuProvider.createMenu(JavarConstants.fileMenuType));

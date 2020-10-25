@@ -1,19 +1,24 @@
-package javar.generalwindow;
+package com.yiyaowen.javar;
 
-import javar.utils.JavarUtils;
-import javar.constants.JavarConstants;
-import javar.Javar;
-import javar.codepane.CodePane;
+import com.yiyaowen.javar.CodePane;
+import com.yiyaowen.javar.Javar;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarUtils;
+import com.yiyaowen.javar.JavarTranslator;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.border.*;
+import javax.swing.event.*;
 
 @SuppressWarnings(value = "unchecked")
 public class GeneralWindow extends JFrame
 {
+	//////////////
+	// Property //
+	//////////////
+	
     JLabel iconLabel = new JLabel();
     JLabel themeLabel = new JLabel();
     JComboBox themeComboBox = new JComboBox();
@@ -27,9 +32,20 @@ public class GeneralWindow extends JFrame
     JButton cancelBtn = new JButton();
     JButton OKBtn = new JButton();
     JPanel generalPanel = new JPanel();
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Initialize general window
+     * 
+     * @param
+     * @return
+     */
     public void initGeneralWindow()
     {
-        /* Set absolute layout */
+        // Set absolute layout
         this.setLayout(null);
         this.setPreferredSize(new Dimension(JavarConstants.generalWindowWidth, JavarConstants.generalWindowHeight));
         iconLabel.setBounds(0, 0, JavarConstants.generalIconLabelWidth, JavarConstants.generalIconLabelHeight);
@@ -56,22 +72,17 @@ public class GeneralWindow extends JFrame
         this.add(cancelBtn);
         OKBtn.setBounds(JavarConstants.generalCancelBtnWidth+JavarConstants.generalBtnPaddingWidth, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight+JavarConstants.generalLanguageBtn2Height, JavarConstants.generalOKBtnWidth, JavarConstants.generalOKBtnHeight);
         this.add(OKBtn);
-        /* Set component content */
-        // Icon 
-        ImageIcon icon = new ImageIcon("images/icons/generalIcon.png");
+        // Set component content
+        	// Icon 
+        ImageIcon icon = new ImageIcon("../images/icons/generalIcon.png");
         icon.setImage(JavarUtils.resizeImageToFitHeightWithPadding(iconLabel, icon.getImage(), Image.SCALE_SMOOTH, JavarConstants.generalIconPadding));
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
         iconLabel.setVerticalAlignment(SwingConstants.CENTER);
         iconLabel.setIcon(icon);
-        // Theme 
+        	// Theme 
         themeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         themeLabel.setVerticalAlignment(SwingConstants.CENTER);
-        if (JavarConstants.LANG.equals("EN"))
-            themeLabel.setText("Theme");
-        else if (JavarConstants.LANG.equals("CN"))
-            themeLabel.setText("外观");
-        else
-            themeLabel.setText("Theme");
+        themeLabel.setText(JavarTranslator.translate("Theme"));
         for (var LAF : JavarConstants.LAFs)
             themeComboBox.addItem(LAF);
         if (JavarConstants.defaultLAF.equals("NONE"))
@@ -81,24 +92,14 @@ public class GeneralWindow extends JFrame
         // Font family
         fontFamilyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontFamilyLabel.setVerticalAlignment(SwingConstants.CENTER);
-        if (JavarConstants.LANG.equals("EN"))
-            fontFamilyLabel.setText("Font Family");
-        else if (JavarConstants.LANG.equals("CN"))
-            fontFamilyLabel.setText("字体");
-        else
-            fontFamilyLabel.setText("Font Family");
+        fontFamilyLabel.setText(JavarTranslator.translate("Font Family"));
         for (var family : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
             fontFamilyComboBox.addItem(family);
         fontFamilyComboBox.setSelectedItem(JavarConstants.defaultFontFamily);
         // Font size
         fontSizeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontSizeLabel.setVerticalAlignment(SwingConstants.CENTER);
-        if (JavarConstants.LANG.equals("EN"))
-            fontSizeLabel.setText("Font Size");
-        else if (JavarConstants.LANG.equals("CN"))
-            fontSizeLabel.setText("字体大小");
-        else
-            fontSizeLabel.setText("Font Size");
+        fontSizeLabel.setText(JavarTranslator.translate("Font Size"));
         for (int size = 12; size <= 26; size++)
             fontSizeComboBox.addItem(size); 
         fontSizeComboBox.setSelectedItem(JavarConstants.defaultFontSize);
@@ -108,31 +109,16 @@ public class GeneralWindow extends JFrame
         languageLabel.setText("Language");
         languageBtn1.setText("简体中文");
         languageBtn2.setText("English");
-        if (JavarConstants.LANG.equals("EN"))
-            languageBtn2.setSelected(true);
-        else if (JavarConstants.LANG.equals("CN"))
+        if (JavarConstants.LANG.equals("CN"))
             languageBtn1.setSelected(true);
         else
             languageBtn2.setSelected(true);
         // Button
-        if (JavarConstants.LANG.equals("EN"))
-        {
-            cancelBtn.setText("Cancel");
-            OKBtn.setText("OK");
-        }
-        else if (JavarConstants.LANG.equals("CN"))
-        {
-            cancelBtn.setText("取消");
-            OKBtn.setText("确认");
-        }
-        else
-        {
-            cancelBtn.setText("Cancel");
-            OKBtn.setText("OK");
-        }
-        /* Set component border */
+        cancelBtn.setText(JavarTranslator.translate("Cancel"));
+        OKBtn.setText(JavarTranslator.translate("OK"));
+        // Set component border
         iconLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-        /* Set listener */
+        // Set listener
         OKBtn.addActionListener(e -> {
             // Update LAF
             String theme = (String) themeComboBox.getSelectedItem();
@@ -191,11 +177,7 @@ public class GeneralWindow extends JFrame
                 }
             }
             // Update language
-            if (languageBtn1.isSelected())
-            {
-                JavarConstants.LANG = "CN";
-            }
-            else if (languageBtn2.isSelected())
+            if (languageBtn2.isSelected())
             {
                 JavarConstants.LANG = "EN";
             }
@@ -214,7 +196,7 @@ public class GeneralWindow extends JFrame
         languageBtn2.addActionListener(e -> {
             languageBtn1.setSelected(!languageBtn1.isSelected());
         });
-        /* Final adjustment */
+        // Final adjustment
         this.pack();
         //this.setResizable(false);
         this.setLocation((int)Javar.mainWindow.getLocation().getX() + (int)(Javar.mainWindow.getWidth()/2-this.getWidth()/2), (int)Javar.mainWindow.getLocation().getY() + (int)(Javar.mainWindow.getHeight()/2-this.getHeight()/2));

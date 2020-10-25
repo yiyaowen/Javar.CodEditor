@@ -20,12 +20,16 @@ public class JavarTranslator
     {
         default_translator = new Properties();
         chinese_translator = new Properties();
-
         try (
             InputStream chinese_is = new FileInputStream(new File("../configs/trans/Javar_zh_CN.trans")))
         {
             chinese_translator.load(chinese_is);
         }
+        catch (Exception ex)
+        {
+            Javar.logger.log("e", ex.getMessage());
+        }
+        translator = default_translator;
     }
 
     ////////////
@@ -33,9 +37,9 @@ public class JavarTranslator
     ////////////
 
     /**
-     * Update translator according to the specific language
+     * Update translator according to specific language
      * 
-     * @param lang (The language of the target translator)
+     * @param lang (Language of the target translator)
      * @return
      */
     public static void UpdateTranslator(String lang)
@@ -49,10 +53,10 @@ public class JavarTranslator
     }
 
     /**
-     * Translate the specific text to current language preference
+     * Translate specific text to current language preference
      *
-     * @param text (The text to be translated)
-     * @return trans_text (The text translated)
+     * @param text (Text to be translated)
+     * @return trans_text (Text translated)
      */
     public static String translate(String text)
     {

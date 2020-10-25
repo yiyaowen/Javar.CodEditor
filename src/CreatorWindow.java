@@ -1,27 +1,31 @@
-package javar.creatorwindow;
+package com.yiyaowen.javar;
 
-import javar.utils.JavarUtils;
-import javar.constants.JavarConstants;
-import javar.Javar;
-import javar.codepane.CodePane;
-import javar.filelist.FileList;
+import com.yiyaowen.javar.CodePane;
+import com.yiyaowen.javar.Javar;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarUtils;
+import com.yiyaowen.javar.FileList;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.text.*;
-import javax.swing.filechooser.*;
-import java.util.*;
 import java.io.*;
+import java.util.*;
 import java.nio.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
+import javax.swing.text.*;
 
 @SuppressWarnings(value = "unchecked")
 public class CreatorWindow extends JFrame
 {
+	//////////////
+	// Property //
+	//////////////
+	
     public static HashMap<String, String> suffixTypeMap = new HashMap<>() 
     {
         {
@@ -32,35 +36,35 @@ public class CreatorWindow extends JFrame
             put("html", "html Source File");
         }
     };
-    public static ItemData[] categoryItems = new ItemData[] {
-        new ItemData("sourceFiles", "Source Files", ItemData.CATEGORY), 
-        new ItemData("pyTemplates", "Python Templates", ItemData.CATEGORY),
-        new ItemData("javaTemplates", "Java Templates", ItemData.CATEGORY),
-        new ItemData("ccppTemplates", "C/C++ Templates", ItemData.CATEGORY),
-        new ItemData("htmlTemplates", "html Templates", ItemData.CATEGORY)
+    public static CWItemData[] categoryItems = new CWItemData[] {
+        new CWItemData("sourceFiles", "Source Files", CWItemData.CATEGORY), 
+        new CWItemData("pyTemplates", "Python Templates", CWItemData.CATEGORY),
+        new CWItemData("javaTemplates", "Java Templates", CWItemData.CATEGORY),
+        new CWItemData("ccppTemplates", "C/C++ Templates", CWItemData.CATEGORY),
+        new CWItemData("htmlTemplates", "html Templates", CWItemData.CATEGORY)
     };
-    public static HashMap<String, ItemData[]> typeItems = new HashMap<>() 
+    public static HashMap<String, CWItemData[]> typeItems = new HashMap<>() 
     {
         {
-            put("sourceFiles", new ItemData[] {
-                new ItemData("javaFile", "Java Source File", ItemData.TYPE), 
-                new ItemData("pyFile", "Python Source File", ItemData.TYPE),
-                new ItemData("cFile", "C Source File", ItemData.TYPE),
-                new ItemData("cppFile", "C++ Source File", ItemData.TYPE),
-                new ItemData("htmlFile", "html Source File", ItemData.TYPE)
+            put("sourceFiles", new CWItemData[] {
+                new CWItemData("javaFile", "Java Source File", CWItemData.TYPE), 
+                new CWItemData("pyFile", "Python Source File", CWItemData.TYPE),
+                new CWItemData("cFile", "C Source File", CWItemData.TYPE),
+                new CWItemData("cppFile", "C++ Source File", CWItemData.TYPE),
+                new CWItemData("htmlFile", "html Source File", CWItemData.TYPE)
             });
-            put("javaTemplates", new ItemData[] {
-                new ItemData("javaFile", "Java Source File", ItemData.TYPE)
+            put("javaTemplates", new CWItemData[] {
+                new CWItemData("javaFile", "Java Source File", CWItemData.TYPE)
             });
-            put("pyTemplates", new ItemData[] {
-                new ItemData("pyFile", "Python Source File", ItemData.TYPE)
+            put("pyTemplates", new CWItemData[] {
+                new CWItemData("pyFile", "Python Source File", CWItemData.TYPE)
             });
-            put("ccppTemplates", new ItemData[] {
-                new ItemData("cFile", "C Source File", ItemData.TYPE),
-                new ItemData("cppFile", "C++ Source File", ItemData.TYPE)
+            put("ccppTemplates", new CWItemData[] {
+                new CWItemData("cFile", "C Source File", CWItemData.TYPE),
+                new CWItemData("cppFile", "C++ Source File", CWItemData.TYPE)
             });
-            put("htmlTemplates", new ItemData[] {
-                new ItemData("htmlFile", "html Source File", ItemData.TYPE)
+            put("htmlTemplates", new CWItemData[] {
+                new CWItemData("htmlFile", "html Source File", CWItemData.TYPE)
             });
         }
     };
@@ -109,9 +113,20 @@ public class CreatorWindow extends JFrame
     boolean hasInvalidFileName = false;
     Document namePropertyDocument = namePropertyTextField.getDocument();
     Document chooseDirPropertyDocument = chooseDirPropertyTextField.getDocument();
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Initialize creator window
+     * 
+     * @param
+     * @return
+     */
     public void initCreatorWindow()
     {
-        /* Set preferred size */
+        // Set preferred size
         categoryLabel.setPreferredSize(new Dimension(JavarConstants.categoryLabelWidth, JavarConstants.categoryLabelHeight));
         typeLabel.setPreferredSize(new Dimension(JavarConstants.typeLabelWidth, JavarConstants.typeLabelHeight));
         labelPanel.setPreferredSize(new Dimension(JavarConstants.labelPanelWidth, JavarConstants.labelPanelHeight));
@@ -141,8 +156,8 @@ public class CreatorWindow extends JFrame
         createPropertyButton.setPreferredSize(new Dimension(JavarConstants.createPropertyButtonWidth, JavarConstants.createPropertyButtonHeight));
         propertySeparatorLabel1.setPreferredSize(new Dimension(JavarConstants.propertySeparatorLabel1Width, JavarConstants.propertySeparatorLabel1Height));
         propertySeparatorLabel2.setPreferredSize(new Dimension(JavarConstants.propertySeparatorLabel2Width, JavarConstants.propertySeparatorLabel2Height));
-        /* Layout components */
-        // Property panel
+        // Layout components
+        	// Property panel
         propertyPanel.setLayout(new BoxLayout(propertyPanel, BoxLayout.Y_AXIS));
         var nameBox = Box.createHorizontalBox();
         var developerBox = Box.createHorizontalBox();
@@ -179,7 +194,7 @@ public class CreatorWindow extends JFrame
         propertyPanel.add(templateBox);
         propertyPanel.add(propertySeparatorLabel2);
         propertyPanel.add(buttonBox);
-        // Window
+        	// Window
         labelPanel.setLayout(new BorderLayout());
         labelPanel.add(categoryLabel, BorderLayout.WEST);
         labelPanel.add(typeLabel, BorderLayout.EAST);
@@ -198,46 +213,23 @@ public class CreatorWindow extends JFrame
         creatorRightPanel.add(propertyPanel, BorderLayout.SOUTH);
         this.add(creatorLeftPanel, BorderLayout.WEST);
         this.add(creatorRightPanel, BorderLayout.EAST);
-        /* Set border */
+        // Set border
         categoryLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         typeLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         propertyLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         categoryList.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         typeList.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         propertyPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-        /* Set button content */
-        if (JavarConstants.LANG.equals("EN"))
-        {
-            chooseDirPropertyButton.setText("Create In Directory:");
-            hasPrefixStatementCheckBox.setText("Generate Prefix Statement");
-            hasPrefixStatementCheckBox.setSelected(false);
-            hasTemplatePropertyCheckBox.setText("Use Template");
-            hasTemplatePropertyCheckBox.setSelected(false);
-            cancelPropertyButton.setText("Cancel");
-            createPropertyButton.setText("Create");
-        }
-        else if (JavarConstants.LANG.equals("CN"))
-        {
-            chooseDirPropertyButton.setText("选择创建目录:");
-            hasPrefixStatementCheckBox.setText("生成声明前缀");
-            hasPrefixStatementCheckBox.setSelected(false);
-            hasTemplatePropertyCheckBox.setText("使用模板");
-            hasTemplatePropertyCheckBox.setSelected(false);
-            cancelPropertyButton.setText("取消");
-            createPropertyButton.setText("创建");
-        }
-        else
-        {
-            chooseDirPropertyButton.setText("Create In Directory:");
-            hasPrefixStatementCheckBox.setText("Generate Prefix Statement");
-            hasPrefixStatementCheckBox.setSelected(false);
-            hasTemplatePropertyCheckBox.setText("Use Template");
-            hasTemplatePropertyCheckBox.setSelected(false);
-            cancelPropertyButton.setText("Cancel");
-            createPropertyButton.setText("Create");
-        }
+        // Set button content
+        chooseDirPropertyButton.setText(JavarTranslator.translate("Create In Directory:"));
+        hasPrefixStatementCheckBox.setText(JavarTranslator.translate("Generate Prefix Statement"));
+        hasPrefixStatementCheckBox.setSelected(false);
+        hasTemplatePropertyCheckBox.setText(JavarTranslator.translate("Use Template"));
+        hasTemplatePropertyCheckBox.setSelected(false);
+        cancelPropertyButton.setText(JavarTranslator.translate("Cancel"));
+        createPropertyButton.setText(JavarTranslator.translate("Create"));
         createPropertyButton.setEnabled(false);
-        /* Set label content */
+        // Set label content
         categoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
         categoryLabel.setVerticalAlignment(SwingConstants.CENTER);
         typeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -250,51 +242,21 @@ public class CreatorWindow extends JFrame
         descriptionRightLabel.setVerticalAlignment(SwingConstants.CENTER);
         namePropertyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         namePropertyLabel.setVerticalAlignment(SwingConstants.CENTER);
-        if (JavarConstants.LANG.equals("EN"))
-        {
-            categoryLabel.setText("Category");
-            typeLabel.setText("Type");
-            propertyLabel.setText("Property");
-            //descriptionRightLabel.setText("description:");
-            namePropertyLabel.setText("Name:");
-            developerPropertyLabel.setText("Developer:");
-            teamPropertyLabel.setText("Team:");
-            templatePropertyLabel.setText("Template:");
-        }
-        else if (JavarConstants.LANG.equals("CN"))
-        {
-            categoryLabel.setText("分类");
-            typeLabel.setText("类型");
-            propertyLabel.setText("属性");
-            //descriptionRightLabel.setText("description:");
-            namePropertyLabel.setText("文件名:");
-            developerPropertyLabel.setText("开发者:");
-            teamPropertyLabel.setText("团队:");
-            templatePropertyLabel.setText("模板:");
-        }
-        else
-        {
-            categoryLabel.setText("Category");
-            typeLabel.setText("Type");
-            propertyLabel.setText("Property");
-            //descriptionRightLabel.setText("description:");
-            namePropertyLabel.setText("Name:");
-            developerPropertyLabel.setText("Developer:");
-            teamPropertyLabel.setText("Team:");
-            templatePropertyLabel.setText("Template:");
-        }
-        /* Set listener */
+        categoryLabel.setText(JavarTranslator.translate("Category"));
+        typeLabel.setText(JavarTranslator.translate("Type"));
+        propertyLabel.setText(JavarTranslator.translate("Property"));
+        //descriptionRightLabel.setText(JavarTranslator.translate("description:"));
+        namePropertyLabel.setText(JavarTranslator.translate("Name:"));
+        developerPropertyLabel.setText(JavarTranslator.translate("Developer:"));
+        teamPropertyLabel.setText(JavarTranslator.translate("Team:"));
+        templatePropertyLabel.setText(JavarTranslator.translate("Template:"));
+        // Set listener
         createPropertyButton.addActionListener(e -> {
             String fileName = namePropertyTextField.getText();
             if (fileName.indexOf(".") == 0)
             {
                 hasInvalidFileName = true;
-                if (JavarConstants.LANG.equals("EN"))
-                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
-                else if (JavarConstants.LANG.equals("CN"))
-                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage_cn);
-                else
-                    namePropertyLabel.setText(JavarConstants.invalidNamePropertyMessage);
+                namePropertyLabel.setText(JavarTranslator.translate(JavarConstants.invalidNamePropertyMessage));
                 return;
             }
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
@@ -303,230 +265,33 @@ public class CreatorWindow extends JFrame
                 fileType = fileSuffix;
             String fileDeveloper = developerPropertyTextField.getText();
             String fileTeam = teamPropertyTextField.getText();
-            String filePath = chooseDirPropertyTextField.getText();
+            String dirPath = chooseDirPropertyTextField.getText();
+            String filePath = dirPath + JavarConstants.pathDelimiter + fileName;
             boolean hasTemplate = hasTemplatePropertyCheckBox.isSelected();
             boolean hasPrefix = hasPrefixStatementCheckBox.isSelected();
-            File file = new File(filePath + "/" + fileName);
-            try
-            {
-                /* Create file */
-                if (file.exists()) 
-                {
-					int result;
-					if (JavarConstants.LANG.equals("EN"))
-						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
-							JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-					else if (JavarConstants.LANG.equals("CN"))
-						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage_cn,
-							JavarConstants.creatorWindowFileExistsTitle_cn, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-					else
-						result = JOptionPane.showConfirmDialog(CreatorWindow.this, JavarConstants.creatorWindowFileExistsMessage,
-							JavarConstants.creatorWindowFileExistsTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (result == JOptionPane.OK_OPTION)
-                    {
-                        file.delete();
-                        file.createNewFile();
-                        /* Get file attributes */
-                        Path path = Paths.get(file.getPath());
-                        BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
-                        BasicFileAttributes basicAttributes = basicView.readAttributes();
-                        String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
-                        String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
-                        double byteSize = (double) basicAttributes.size();
-                        double kByteSize = (int)(byteSize * 10 / 1024) / 10;
-                        double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
-                        String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
-                        var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
-                        /* Set tabbed pane */
-                        ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
-                        if (icon == null)
-                            icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
-                        icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
-                        // JScrollPane + JPanel ==> horizontal scrollable
-                        var tmpPanel = new JPanel();
-                        tmpPanel.setLayout(new BorderLayout());
-                        /* Varies for languages */
-                        if (fileSuffix.equals("java"))
-                            tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
-                        else if (fileSuffix.equals("py"))
-                            tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
-                        else if (fileSuffix.equals("c"))
-                            tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
-                        else if (fileSuffix.equals("cpp"))
-                            tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
-                        else if (fileSuffix.equals("html"))
-                            tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
-                        else
-                            tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
-                        var tmpScroll = new JScrollPane(tmpPanel);
-                        tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
-                        Javar.codeEditor.addTab(fileName, icon, tmpScroll);
-                        try
-                        {
-                            /* Set file list */
-                            FileList.fileItems.add(data);
-                            Javar.fileList.setListData(FileList.fileItems);
-                        }
-                        catch (Exception ignore) {}
-                        /* Set selected tab */
-                        Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
-                        /* Set info box */
-                        if (JavarConstants.LANG.equals("EN"))
-                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                        else if (JavarConstants.LANG.equals("CN"))
-                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                        else
-                            Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                        this.dispose();
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (!file.createNewFile())
-                {
-                    /* Set info box */
-                    if (JavarConstants.LANG.equals("EN"))
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
-                            JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if (JavarConstants.LANG.equals("CN"))
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage_cn,
-                            JavarConstants.creatorWindowFileUnknownErrorTitle_cn, JOptionPane.ERROR_MESSAGE);
-                    }
-                    else
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage,
-                            JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                else if (!file.canWrite() || !file.canRead())
-                {
-                    /* Set info box */
-                    if (JavarConstants.LANG.equals("EN"))
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
-                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if (JavarConstants.LANG.equals("CN"))
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
-                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    }
-                    else
-                    {
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                        JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileErrorMessage,
-                            JavarConstants.creatorWindowFileErrorTitle, JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                else
-                {
-                    /* Get file attributes */
-                    Path path = Paths.get(file.getPath());
-                    BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
-                    BasicFileAttributes basicAttributes = basicView.readAttributes();
-                    String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
-                    String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
-                    double byteSize = (double) basicAttributes.size();
-                    double kByteSize = (int)(byteSize * 10 / 1024) / 10;
-                    double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
-                    String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
-                    var data = FileList.createItemData(fileName, fileType, file.getPath(), fileSize, createdDate, lastModifiedDate);
-                    /* Set tabbed pane */
-                    ImageIcon icon = new ImageIcon("images/icons/" + fileSuffix + "FileTemplateIcon.png");
-                    if (icon == null)
-                        icon = new ImageIcon("images/icons/defaultFileTemplateIcon.png");
-                    icon.setImage(JavarUtils.resizeImageToWH(icon.getImage(), JavarConstants.tabIconWidth, JavarConstants.tabIconHeight, Image.SCALE_SMOOTH));
-                    var tmpPanel = new JPanel();
-                    tmpPanel.setLayout(new BorderLayout());
-                    /* Varies for languages */
-                    if (fileSuffix.equals("java"))
-                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, true));
-                    else if (fileSuffix.equals("py"))
-                        tmpPanel.add(new CodePane(JavarConstants.PythonSyntaxFile, JavarConstants.Python_TokensSplitSymbol, true));
-                    else if (fileSuffix.equals("c"))
-                        tmpPanel.add(new CodePane(JavarConstants.CSyntaxFile, JavarConstants.C_TokensSplitSymbol, true));
-                    else if (fileSuffix.equals("cpp"))
-                        tmpPanel.add(new CodePane(JavarConstants.CppSyntaxFile, JavarConstants.Cpp_TokensSplitSymbol, true));
-                    else if (fileSuffix.equals("html"))
-                        tmpPanel.add(new CodePane(JavarConstants.HtmlSyntaxFile, JavarConstants.Html_TokensSplitSymbol, true));
-                    else
-                        tmpPanel.add(new CodePane(JavarConstants.JavaSyntaxFile, JavarConstants.Java_TokensSplitSymbol, false));
-                    var tmpScroll = new JScrollPane(tmpPanel);
-                    tmpScroll.getVerticalScrollBar().setUnitIncrement(JavarConstants.scrollUnitIncrement);
-                    Javar.codeEditor.addTab(fileName, icon, tmpScroll);
-                    try 
-                    {
-                        /* Set file list */
-                        FileList.fileItems.add(data);
-                        Javar.fileList.setListData(FileList.fileItems);
-                    }
-                    catch (Exception ignore) {}
-                    Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
-                    /* Set info box */
-                    if (JavarConstants.LANG.equals("EN"))
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                    else if (JavarConstants.LANG.equals("CN"))
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent_cn + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                    else
-                        Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerSuccessContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
-                    this.dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                /* Set info box */
-                if (JavarConstants.LANG.equals("EN"))
-                {
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
-                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                }
-                else if (JavarConstants.LANG.equals("CN"))
-                {
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
-                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                }
-                else 
-                {
-                    Javar.upperBar.infoBox.setText(JavarConstants.newItemListenerErrorContent + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
-                    JOptionPane.showMessageDialog(CreatorWindow.this, JavarConstants.creatorWindowFileUnknownErrorMessage+ex.getMessage(),
-                        JavarConstants.creatorWindowFileUnknownErrorTitle, JOptionPane.ERROR_MESSAGE);
-                }
-                //ex.printStackTrace();
-            }
+            JavarDispatcher.createNewFile(filePath, "");
         });
         cancelPropertyButton.addActionListener(e -> {
             this.dispose();
         });
         categoryList.addListSelectionListener(e -> {
-            var data = (ItemData) categoryList.getSelectedValue();
+            var data = (CWItemData) categoryList.getSelectedValue();
             if (data == null)
                 return;
             // Update type list items
             typeList.setListData(typeItems.get(data.getType()));
             // Set description
-            ImageIcon icon = new ImageIcon("images/icons/" + data.getType() + "TemplateIcon.png");
+            ImageIcon icon = new ImageIcon("../images/icons/" + data.getType() + "TemplateIcon.png");
             icon.setImage(JavarUtils.resizeImageToFitWidthWithPadding(descriptionLeftLabel, icon.getImage(), Image.SCALE_SMOOTH, JavarConstants.creatorDescriptionIconPadding));
             descriptionLeftLabel.setIcon(icon);
             descriptionRightLabel.setText(data.toString());
         });
         typeList.addListSelectionListener(e -> {
-            var data = (ItemData) typeList.getSelectedValue();
+            var data = (CWItemData) typeList.getSelectedValue();
             if (data == null)
                 return;
             // Set description
-            ImageIcon icon = new ImageIcon("images/icons/" + data.getType() + "TemplateIcon.png");
+            ImageIcon icon = new ImageIcon("../images/icons/" + data.getType() + "TemplateIcon.png");
             icon.setImage(JavarUtils.resizeImageToFitWidthWithPadding(descriptionLeftLabel, icon.getImage(), Image.SCALE_SMOOTH, JavarConstants.creatorDescriptionIconPadding));
             descriptionLeftLabel.setIcon(icon);
             descriptionRightLabel.setText(data.toString());
@@ -539,12 +304,7 @@ public class CreatorWindow extends JFrame
             {
                 if (hasInvalidFileName)
                 {
-                    if (JavarConstants.LANG.equals("EN"))
-                        namePropertyLabel.setText("Name:");
-                    else if (JavarConstants.LANG.equals("CN"))
-                        namePropertyLabel.setText("文件名:");
-                    else
-                        namePropertyLabel.setText("Name:");
+                    namePropertyLabel.setText(JavarTranslator.translate("Name:"));
                     hasInvalidFileName = false;
                 }
                 namePropertyTextField.setCaretPosition(0);
@@ -552,12 +312,7 @@ public class CreatorWindow extends JFrame
         });
         chooseDirPropertyButton.addActionListener(e -> {
             int result;
-            if (JavarConstants.LANG.equals("EN"))
-                result = chooser.showDialog(CreatorWindow.this, "Choose Directory");
-            else if (JavarConstants.LANG.equals("CN"))
-                result = chooser.showDialog(CreatorWindow.this, "选择目录");
-            else
-                result = chooser.showDialog(CreatorWindow.this, "Choose Directory");
+            result = chooser.showDialog(CreatorWindow.this, JavarTranslator.translate("Choose Directory"));
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String path = chooser.getSelectedFile().getPath();
@@ -638,13 +393,13 @@ public class CreatorWindow extends JFrame
             else
                 templatePropertyComboBox.setEnabled(false);
         });
-        /* List adjust */
+        // List adjust
         categoryList.setListData(categoryItems);
         categoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         typeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        categoryList.setCellRenderer(new ItemCellRenderer(JavarConstants.categoryItemWidth, JavarConstants.categoryItemHeight));
-        typeList.setCellRenderer(new ItemCellRenderer(JavarConstants.typeItemWidth, JavarConstants.typeItemHeight));
-        /* Other adjust */
+        categoryList.setCellRenderer(new CWItemCellRenderer(JavarConstants.categoryItemWidth, JavarConstants.categoryItemHeight));
+        typeList.setCellRenderer(new CWItemCellRenderer(JavarConstants.typeItemWidth, JavarConstants.typeItemHeight));
+        // Other adjust
         templatePropertyComboBox.setEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         this.pack();
@@ -654,19 +409,33 @@ public class CreatorWindow extends JFrame
     }
 }
 
-class ItemData
+class CWItemData
 {
+	//////////////
+	// Property //
+	//////////////
+	
     int list;
     public static int CATEGORY = 1;
     public static int TYPE = 2;
     String type;
     String name;
-    public ItemData(String type, String name, int list)
+    
+    /////////////////
+    // Constructor //
+    /////////////////
+    
+    public CWItemData(String type, String name, int list)
     {
         this.type = type;
         this.name = name;
         this.list = list;
     }
+    
+    ////////////
+    // getter //
+    ////////////
+    
     public String getType()
     {
         return type;
@@ -679,62 +448,81 @@ class ItemData
     {
         return list;
     }
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Override from Object
+     * 
+     * @param
+     * @return
+     */
     public String toString()
     {
-        if (JavarConstants.LANG.equals("EN"))
-        {
-            if (list == CATEGORY)
-                return JavarConstants.creatorCategoryDescription1 + name
-                    + JavarConstants.creatorCategoryDescription2;
-            else
-                return JavarConstants.creatorDescription1 + name 
-                    + JavarConstants.creatorDescription2 + name 
-                    + JavarConstants.creatorDescription3;
-        }
-        else if (JavarConstants.LANG.equals("CN"))
-        {
-            if (list == CATEGORY)
-                return JavarConstants.creatorCategoryDescription1_cn + name
-                    + JavarConstants.creatorCategoryDescription2_cn;
-            else
-                return JavarConstants.creatorDescription1_cn + name 
-                    + JavarConstants.creatorDescription2_cn + name 
-                    + JavarConstants.creatorDescription3_cn;
-        }
-        else
-        {
-            if (list == CATEGORY)
-                return JavarConstants.creatorCategoryDescription1 + name
-                    + JavarConstants.creatorCategoryDescription2;
-            else
-                return JavarConstants.creatorDescription1 + name 
-                    + JavarConstants.creatorDescription2 + name 
-                    + JavarConstants.creatorDescription3;
+		if (list == CATEGORY)
+		{
+	        return JavarTranslator.translate(JavarConstants.creatorCategoryDescription1) + name
+	            + JavarTranslator.translate(JavarConstants.creatorCategoryDescription2);
+		}
+	    else
+	    {
+	        return JavarTranslator.translate(JavarConstants.creatorDescription1) + name 
+	            + JavarTranslator.translate(JavarConstants.creatorDescription2) + name 
+	            + JavarTranslator.translate(JavarConstants.creatorDescription3);
         }
     }
 }
 
-class ItemCellRenderer extends JPanel implements ListCellRenderer
+class CWItemCellRenderer extends JPanel implements ListCellRenderer
 {
+	//////////////
+	// Property //
+	//////////////
+	
     int W, H;
     ImageIcon icon;
     String name;
     Color background;
     Color foreground;
-    public ItemCellRenderer(int W, int H)
+    
+    /////////////////
+    // Constructor //
+    /////////////////
+    
+    public CWItemCellRenderer(int W, int H)
     {
         this.W = W;
         this.H = H;
     }
+    
+    ////////////
+    // Method //
+    ////////////
+    
+    /**
+     * Implementation of ListCellRenderer
+     * 
+     * @param
+     * @return
+     */
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
-        var data = (ItemData) value;
-        icon = new ImageIcon("images/icons/" + data.getType() + "TemplateIcon.png");
+        var data = (CWItemData) value;
+        icon = new ImageIcon("../images/icons/" + data.getType() + "TemplateIcon.png");
         name = data.getName();
         background = isSelected ? list.getSelectionBackground() : list.getBackground();
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
         return this;
     }
+    
+    /**
+     * Override from JPanel
+     * 
+     * @param
+     * @return
+     */
     public void paintComponent(Graphics g)
     {
         icon.setImage(JavarUtils.resizeImageToFitHeightWithPadding(this, icon.getImage(), Image.SCALE_SMOOTH, JavarConstants.creatorListIconPadding));
@@ -744,6 +532,13 @@ class ItemCellRenderer extends JPanel implements ListCellRenderer
         g.drawImage(icon.getImage(), JavarConstants.creatorListIconOffset, JavarConstants.creatorListIconPadding, null);
         g.drawString(name, JavarConstants.creatorListIconOffset*2+icon.getIconWidth(), (int)(g.getFontMetrics().getAscent()/2+getHeight()/2));
     }
+    
+    /**
+     * Override from JPanel
+     * 
+     * @param
+     * @return
+     */
     public Dimension getPreferredSize()
     {
         return new Dimension(W, H);

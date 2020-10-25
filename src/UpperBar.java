@@ -1,21 +1,21 @@
-package javar.upperbar;
+package com.yiyaowen.javar;
 
-import javar.utils.JavarUtils;
-import javar.constants.JavarConstants;
-import javar.tabbedpane.TabbedPane;
-import javar.Javar;
-import javar.menuitemprovider.MenuItemProvider;
-import javar.buildandrun.BuildAndRun;
+import com.yiyaowen.javar.JavarUtils;
+import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.TabbedPane;
+import com.yiyaowen.javar.Javar;
+import com.yiyaowen.javar.MenuItemProvider;
+import com.yiyaowen.javar.BuildAndRun;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
 import java.io.*;
 import java.nio.*;
-import java.nio.charset.*;
 import java.nio.channels.*;
+import java.nio.charset.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
 
 @SuppressWarnings(value = "unchecked")
 public class UpperBar extends JPanel
@@ -29,8 +29,8 @@ public class UpperBar extends JPanel
     JLabel separator4 = new JLabel();
     public static JTextField searchBox = new JTextField();
     JLabel searchLabel = new JLabel();
-    ImageIcon runIcon = new ImageIcon("images/icons/run.png");
-    ImageIcon searchIcon = new ImageIcon("images/icons/search.png");
+    ImageIcon runIcon = new ImageIcon("../images/icons/run.png");
+    ImageIcon searchIcon = new ImageIcon("../images/icons/search.png");
     public UpperBar()
     {
         initUpperBar();
@@ -113,15 +113,15 @@ public class UpperBar extends JPanel
             boolean hasRun = false;
             // Decide compiler
             if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
-                BuildAndRun.Java(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+                BuildAndRun.Java(filePath);
             else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorPython))
-                BuildAndRun.Python(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+                BuildAndRun.Python(filePath);
             else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorC))
-                BuildAndRun.C(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+                BuildAndRun.C(filePath);
             else if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorCpp))
-                BuildAndRun.Cpp(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+                BuildAndRun.Cpp(filePath);
             else
-                BuildAndRun.Html(filePath, dirPath, fileName, filePrefix, hasBuild, hasRun);
+                BuildAndRun.Html(filePath);
         });
     }
 }
@@ -134,7 +134,7 @@ class CompilerSelectorCellRenderer extends JPanel implements ListCellRenderer
     Color foreground;
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
-        compilerIcon = new ImageIcon("images/icons/" + value + "CompilerIcon.png");
+        compilerIcon = new ImageIcon("../images/icons/" + value + "CompilerIcon.png");
         compilerName = value.toString();
         background = isSelected ? list.getSelectionBackground() : list.getBackground();
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();

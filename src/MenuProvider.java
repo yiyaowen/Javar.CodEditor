@@ -1,6 +1,7 @@
 package com.yiyaowen.javar;
 
 import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarTranslator;
 import com.yiyaowen.javar.MenuItemProvider;
 
 import java.awt.*;
@@ -34,14 +35,11 @@ public class MenuProvider
             fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.removeItemPopupType));
             fileListPopupMenu.add(MenuItemProvider.createMenuItem(JavarConstants.deleteItemPopupType));
             return fileListPopupMenu;
-            break;
 
         default:
             return new JPopupMenu();
-            break;
         }
     }
-    
     /**
      * Create a JMenu component of the specific type
      *
@@ -54,12 +52,7 @@ public class MenuProvider
         {
         case JavarConstants.newMenuType:
             JMenu newMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                newMenu = new JMenu("New");
-            else if (JavarConstants.LANG.equals("CN"))
-                newMenu = new JMenu("新建");
-            else
-                newMenu = new JMenu("New");
+            newMenu = new JMenu(JavarTranslator.translate("New"));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.anyItemType));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.javaItemType));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cItemType));
@@ -67,16 +60,10 @@ public class MenuProvider
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.pyItemType));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.htmlItemType));
             return newMenu;
-            break;
 
         case JavarConstants.fileMenuType:
             JMenu fileMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                fileMenu = new JMenu("File");
-            else if (JavarConstants.LANG.equals("CN"))
-                fileMenu = new JMenu("文件");
-            else
-                fileMenu = new JMenu("File");
+            fileMenu = new JMenu(JavarTranslator.translate("File"));
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.newItemType));
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.openItemType));
             fileMenu.addSeparator();
@@ -87,14 +74,10 @@ public class MenuProvider
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.removeItemType));
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.deleteItemType));
             return fileMenu;
+
         case JavarConstants.editMenuType:
             JMenu editMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                editMenu = new JMenu("Edit");
-            else if (JavarConstants.LANG.equals("CN"))
-                editMenu = new JMenu("编辑");
-            else
-                editMenu = new JMenu("Edit");
+            editMenu = new JMenu(JavarTranslator.translate("Edit"));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.copyItemType));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.pasteItemType));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cutItemType));
@@ -102,58 +85,39 @@ public class MenuProvider
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.commentItemType));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.replaceItemType));
             return editMenu;
+
         case JavarConstants.buildMenuType:
             JMenu buildMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                buildMenu = new JMenu("Build");
-            else if (JavarConstants.LANG.equals("CN"))
-                buildMenu = new JMenu("编译");
-            else
-                buildMenu = new JMenu("Build");
+            buildMenu = new JMenu(JavarTranslator.translate("Build"));
             buildMenu.add(MenuItemProvider.createMenuItem(JavarConstants.buildItemType));
             return buildMenu;
+
         case JavarConstants.runMenuType:
             JMenu runMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                runMenu = new JMenu("Run");
-            else if (JavarConstants.LANG.equals("CN"))
-                runMenu = new JMenu("运行");
-            else
-                runMenu = new JMenu("Run");
+            runMenu = new JMenu(JavarTranslator.translate("Run"));
             runMenu.add(MenuItemProvider.createMenuItem(JavarConstants.runItemType));
             return runMenu;
+
         case JavarConstants.toolsMenuType:
             JMenu toolsMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                toolsMenu = new JMenu("Tools");
-            else if (JavarConstants.LANG.equals("CN"))
-                toolsMenu = new JMenu("工具");
-            else
-                toolsMenu = new JMenu("Tools");
+            toolsMenu = new JMenu(JavarTranslator.translate("Tools"));
             toolsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.codeAnalysisItemType));
             return toolsMenu;
+
         case JavarConstants.optionsMenuType:
             JMenu optionsMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                optionsMenu = new JMenu("Options");
-            else if (JavarConstants.LANG.equals("CN"))
-                optionsMenu = new JMenu("首选项");
-            else
-                optionsMenu = new JMenu("Options");
+            optionsMenu = new JMenu(JavarTranslator.translate("Options"));
             optionsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.generalItemType));
             optionsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.highlightConfigurationItemType));
             return optionsMenu;
+
         case JavarConstants.aboutMenuType:
             JMenu aboutMenu;
-            if (JavarConstants.LANG.equals("EN"))
-                aboutMenu = new JMenu("About");
-            else if (JavarConstants.LANG.equals("CN"))
-                aboutMenu = new JMenu("关于");
-            else
-                aboutMenu = new JMenu("About");
+            aboutMenu = new JMenu(JavarTranslator.translate("About"));
             aboutMenu.add(MenuItemProvider.createMenuItem(JavarConstants.licenseItemType));
             aboutMenu.add(MenuItemProvider.createMenuItem(JavarConstants.readmeItemType));
             return aboutMenu;
+
         default:
             return new JMenu();
         }

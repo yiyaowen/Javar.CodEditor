@@ -5,12 +5,15 @@ import com.yiyaowen.javar.JavarConstants;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
 import java.text.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+@SuppressWarnings(value = "unchecked")
 public class JavarUtils
 {
     ////////////
@@ -33,11 +36,11 @@ public class JavarUtils
         try (
             InputStream is = new FileInputStream(new File("../configs/properties/Javar.properties")))
         {
-            props.load(is);
-            JavarConstants.LANG = props.getProperty("LANG");
-            JavarConstants.defaultFontSize = Integer.parseInt(props.getProperty("defaultFontSize"));
-            JavarConstants.defaultFontFamily = props.getProperty("defaultFontFamily");
-            JavarConstants.defaultLAF = props.getProperty("defaultLAF");
+            globalProps.load(is);
+            JavarConstants.LANG = globalProps.getProperty("LANG");
+            JavarConstants.defaultFontSize = Integer.parseInt(globalProps.getProperty("defaultFontSize"));
+            JavarConstants.defaultFontFamily = globalProps.getProperty("defaultFontFamily");
+            JavarConstants.defaultLAF = globalProps.getProperty("defaultLAF");
         }
         catch (Exception ex)
         {
@@ -58,17 +61,73 @@ public class JavarUtils
             InputStream is = new FileInputStream(new File("../configs/properties/Javar.properties"));
             OutputStream os = new FileOutputStream(new File("../configs/properties/Javar.properties")))
         {
-            props.load(is);
-            props.setProperty("LANG", JavarConstants.LANG);
-            props.setProperty("defaultFontSize", String.valueOf(JavarConstants.defaultFontSize));
-            props.setProperty("defaultFontFamily", JavarConstants.defaultFontFamily);
-            props.setProperty("defaultLAF", JavarConstants.defaultLAF);
-            props.store(os, "Last update time "+LocalDateTime.now());
+            globalProps.load(is);
+            globalProps.setProperty("LANG", JavarConstants.LANG);
+            globalProps.setProperty("defaultFontSize", String.valueOf(JavarConstants.defaultFontSize));
+            globalProps.setProperty("defaultFontFamily", JavarConstants.defaultFontFamily);
+            globalProps.setProperty("defaultLAF", JavarConstants.defaultLAF);
+            globalProps.store(os, "Last update time "+LocalDateTime.now());
         }
         catch (Exception ex)
         {
             Javar.logger.log("f", ex.getMessage());
         }
+    }
+    
+    //////////////////
+    /* File handler */
+    //////////////////
+    
+    /**
+     * Unpack file path to properties map
+     * 
+     * @param filePath (File path to unpack)
+     * @return fileMap (Properties map, including file path, directory path, file name, file prefix and file suffix)
+     */
+    public static HashMap<String,String> unpackFilePath(String filePath)
+    {   
+        HashMap<String,String> map = new HashMap<>();
+        String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+        String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
+        String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
+        String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
+        map.put("filePath", filePath);
+        map.put("dirPath", dirPath);
+        map.put("fileName", fileName);
+        map.put("filePrefix", filePrefix);
+        map.put("fileSuffix", fileSuffix);
+        return map;
+    }
+    
+    /**
+     * Get specific file's attributes map
+     * 
+     * @param file (Target file)
+     * @return fileAttrMap (Attributes map, including 
+     */
+    public static HashMap<String,String> getFileAttributes(File file)
+    {
+        HashMap<String,String> map = new HashMap<>();
+        try
+        {
+            Path path = Paths.get(file.getPath());
+            BasicFileAttributeView basicView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+            BasicFileAttributes basicAttributes = basicView.readAttributes();
+            String createdDate = (new Date(basicAttributes.creationTime().toMillis())).toString();
+            String lastModifiedDate = (new Date(basicAttributes.lastModifiedTime().toMillis()).toString());
+            double byteSize = (double) basicAttributes.size();
+            double kByteSize = (int)(byteSize * 10 / 1024) / 10;
+            double mByteSize = (int)(kByteSize * 10 / 1024) / 10;
+            String fileSize = kByteSize >= 1 ? (mByteSize >= 1 ? mByteSize+"MB" : kByteSize+"KB") : byteSize+"B";
+            map.put("createdDate", createdDate);
+            map.put("lastModifiedDate", lastModifiedDate);
+            map.put("fileSize", fileSize);
+        }
+        catch (Exception ex)
+        {
+            //TODO
+        }
+        return map;
     }
 
     ///////////////////

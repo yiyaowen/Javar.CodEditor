@@ -39,9 +39,14 @@ public class Javar
     // Method //
     ////////////
     
+    /**
+     * Initialize main window
+     * 
+     * @param
+     * @return
+     */
     public void initMainWindow()
     {
-        /* Malloc */
         mainWindow = new JFrame();
         codeEditor = new TabbedPane(JavarConstants.CodePane);
         outputArea = new TabbedPane(JavarConstants.OutputArea);
@@ -53,10 +58,10 @@ public class Javar
         generalWindow = new GeneralWindow();
         // Set file list scrollable
         var fileListScrollable = new JScrollPane(fileList);
-        /* Start init */
+        // Start initalization
         codeEditor.setPreferredSize(new Dimension(JavarConstants.codeEditorWidth, JavarConstants.codeEditorHeight));
         outputArea.setPreferredSize(new Dimension(JavarConstants.outputAreaWidth, JavarConstants.outputAreaHeight));
-        fileListScrollable.setPreferredSize(new Dimension(JavarConstants.fileListScrollableWidth, JavarConstants.fileListScrollableHeight));
+        fileListScrollable.setPreferredSize(new Dimension(JavarConstants.fileListWidth, JavarConstants.fileListHeight));
         infoLabel.setPreferredSize(new Dimension(JavarConstants.infoLabelWidth, JavarConstants.infoLabelHeight));
         upperBar.setPreferredSize(new Dimension(JavarConstants.upperBarWidth, JavarConstants.upperBarHeight));
         var leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileListScrollable, infoLabel);
@@ -82,28 +87,31 @@ public class Javar
         gb.setConstraints(centerPanel, gbc);
         mainWindow.add(centerPanel);
         mainWindow.setJMenuBar(managerBar);
-        /* Final adjustment */
+        // Final adjustment
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
         mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 
                                (int)(JavarConstants.screenHeight/2-mainWindow.getHeight()/2));
-        /* Show main window */
+        // Show main window
         mainWindow.setVisible(true);
     }
 
-    /* Set LAF */
+    /**
+     * Update LAF when application starts
+     * 
+     * @param
+     * @return
+     */
     public void setLAF()
     {
         if (JavarConstants.defaultLAF.equals("NONE")) {
-            logger.log("i", "Default LAF (Look And Feel) equals \"NONE\"");
+            logger.log("d", "Default LAF (Look And Feel) equals NONE\n");
             return;
         }
         try
         {
-            for (var info : UIManager.getInstalledLookAndFeels())
-            {
-                if (JavarConstants.defaultLAF.equals(info.getName()))
-                {
+            for (var info : UIManager.getInstalledLookAndFeels()) {
+                if (JavarConstants.defaultLAF.equals(info.getName())) {            	
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -121,9 +129,10 @@ public class Javar
 
     public static void main(String[] args)
     {
+    	// Global initialization
         JavarConstants.initJavarConstants();
         MenuItemProvider.initMenuItemProvider();
-
+        // Start application
         Javar app = new Javar();
         app.setLAF();
         app.initMainWindow();
