@@ -22,9 +22,9 @@ import javax.swing.text.*;
 @SuppressWarnings(value = "unchecked")
 public class CreatorWindow extends JFrame
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     public static HashMap<String, String> suffixTypeMap = new HashMap<>() 
     {
@@ -411,9 +411,9 @@ public class CreatorWindow extends JFrame
 
 class CWItemData
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     int list;
     public static int CATEGORY = 1;
@@ -477,9 +477,9 @@ class CWItemData
 
 class CWItemCellRenderer extends JPanel implements ListCellRenderer
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     int W, H;
     ImageIcon icon;

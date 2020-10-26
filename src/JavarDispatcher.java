@@ -49,6 +49,7 @@ public class JavarDispatcher
             {
                 // Set info box
                 Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                // Show error message
                 JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorMessage),
                 		JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorTitle), JOptionPane.ERROR_MESSAGE);
                 return;
@@ -57,6 +58,7 @@ public class JavarDispatcher
             {
                 // Set info box
                 Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                // Show error message
                 JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileErrorMessage),
                 		JavarTranslator.translate(JavarConstants.creatorWindowFileErrorTitle), JOptionPane.ERROR_MESSAGE);
                 return;
@@ -113,8 +115,9 @@ public class JavarDispatcher
         {
             // Set info box
             Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+            // Show error message
             JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorMessage) + ex.getMessage(),
             		JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorTitle), JOptionPane.ERROR_MESSAGE);
         }
-	}
+    }
 }

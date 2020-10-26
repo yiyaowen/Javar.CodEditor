@@ -31,9 +31,9 @@ import javax.swing.filechooser.*;
 @SuppressWarnings(value = "unchecked")
 public class MenuItemProvider
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     // MenuItem listeners
     public static ActionListener newItemListener;
@@ -74,6 +74,9 @@ public class MenuItemProvider
     
     /**
      * Initialize menu item provider
+     *
+     * @param
+     * @return
      */
     public static void initMenuItemProvider()
     {
@@ -424,128 +427,157 @@ public class MenuItemProvider
             JMenuItem anyItem = new JMenuItem(JavarTranslator.translate("Any"));
             anyItem.addActionListener(anyItemListener);
             return anyItem;
+
         case JavarConstants.javaItemType:
             JMenuItem javaItem = new JMenuItem(JavarTranslator.translate("Java Source File"));
             javaItem.addActionListener(javaItemListener);
             return javaItem;
+
         case JavarConstants.cItemType:
             JMenuItem cItem = new JMenuItem(JavarTranslator.translate("C Source File"));
             cItem.addActionListener(cItemListener);
             return cItem;
+
         case JavarConstants.cppItemType:
             JMenuItem cppItem = new JMenuItem(JavarTranslator.translate("C++ Source File"));
             cppItem.addActionListener(cppItemListener);
             return cppItem;
+
         case JavarConstants.pyItemType:
             JMenuItem pyItem = new JMenuItem(JavarTranslator.translate("Python Source File"));
             pyItem.addActionListener(pyItemListener);
             return pyItem;
+
         case JavarConstants.htmlItemType:
             JMenuItem htmlItem = new JMenuItem(JavarTranslator.translate("html Source File"));
             htmlItem.addActionListener(htmlItemListener);
             return htmlItem;
+
         case JavarConstants.newItemType:
             JMenuItem newItem = new JMenuItem(JavarTranslator.translate("New"));
             newItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.newItemChar, JavarConstants.newItemModifier));
             newItem.addActionListener(newItemListener);
             return newItem;
+
         case JavarConstants.openItemType:
             JMenuItem openItem = new JMenuItem(JavarTranslator.translate("Open"));
             openItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.openItemChar, JavarConstants.openItemModifier));
             openItem.addActionListener(openItemListener);
             return openItem;
+
         case JavarConstants.saveItemType:
             JMenuItem saveItem = new JMenuItem(JavarTranslator.translate("Save"));
             saveItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveItemChar, JavarConstants.saveItemModifier));
             saveItem.addActionListener(saveItemListener);
             return saveItem;
+
         case JavarConstants.saveToItemType:
             JMenuItem saveToItem = new JMenuItem(JavarTranslator.translate("Save To..."));
             saveToItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.saveToItemChar, JavarConstants.saveToItemModifier));
             saveToItem.addActionListener(saveToItemListener);
             return saveToItem;
+
         case JavarConstants.renameItemType:
             JMenuItem renameItem = new JMenuItem(JavarTranslator.translate("Rename"));
             renameItem.addActionListener(renameItemListener);
             return renameItem;
+
         case JavarConstants.renameItemPopupType:
             JMenuItem renamePopupItem = new JMenuItem(JavarTranslator.translate("Rename"));
             renamePopupItem.addActionListener(renameItemPopupListener);
             return renamePopupItem;
+
         case JavarConstants.removeItemType:
             JMenuItem removeItem = new JMenuItem(JavarTranslator.translate("Remove"));
             removeItem.addActionListener(removeItemListener);
             removeItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.removeItemChar, JavarConstants.removeItemModifier));
             return removeItem;
+
         case JavarConstants.removeItemPopupType:
             JMenuItem removePopupItem = new JMenuItem(JavarTranslator.translate("Remove"));
             removePopupItem.addActionListener(removeItemPopupListener);
             return removePopupItem;
+
         case JavarConstants.deleteItemType:
             JMenuItem deleteItem = new JMenuItem(JavarTranslator.translate("Delete"));
             deleteItem.addActionListener(deleteItemListener);
             return deleteItem;
+
         case JavarConstants.deleteItemPopupType:
             JMenuItem deletePopupItem = new JMenuItem(JavarTranslator.translate("Delete"));
             deletePopupItem.addActionListener(deleteItemPopupListener);
             return deletePopupItem;
+
         case JavarConstants.copyItemType:
             JMenuItem copyItem = new JMenuItem(JavarTranslator.translate("Copy"));
             copyItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.copyItemChar, JavarConstants.copyItemModifier));
             copyItem.addActionListener(copyItemListener);
             return copyItem;
+
         case JavarConstants.pasteItemType:
             JMenuItem pasteItem = new JMenuItem(JavarTranslator.translate("Paste"));
             pasteItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.pasteItemChar, JavarConstants.pasteItemModifier));
             pasteItem.addActionListener(pasteItemListener);
             return pasteItem;
+
         case JavarConstants.cutItemType:
             JMenuItem cutItem = new JMenuItem(JavarTranslator.translate("Cut"));
             cutItem.addActionListener(cutItemListener);
             return cutItem;
+
         case JavarConstants.commentItemType:
             JMenuItem commentItem = new JMenuItem(JavarTranslator.translate("Comment/Uncomment"));
             commentItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.commentItemChar, JavarConstants.commentItemModifier));
             commentItem.addActionListener(commentItemListener);
             return commentItem;
+
         case JavarConstants.replaceItemType:
             JMenuItem replaceItem = new JMenuItem(JavarTranslator.translate("Replace"));
             replaceItem.addActionListener(replaceItemListener);
             return replaceItem;
+
         case JavarConstants.buildItemType:
             JMenuItem buildItem = new JMenuItem(JavarTranslator.translate("Build"));
             buildItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.buildItemChar, JavarConstants.buildItemModifier));
             buildItem.addActionListener(buildItemListener);
             return buildItem;
+
         case JavarConstants.runItemType:
             JMenuItem runItem = new JMenuItem(JavarTranslator.translate("Run"));
             runItem.setAccelerator(KeyStroke.getKeyStroke(JavarConstants.runItemChar, JavarConstants.runItemModifier));
             runItem.addActionListener(runItemListener);
             return runItem;
+
         case JavarConstants.codeAnalysisItemType:
             JMenuItem codeAnalysisItem = new JMenuItem(JavarTranslator.translate("Code Analysis"));
             codeAnalysisItem.addActionListener(codeAnalysisItemListener);
             return codeAnalysisItem;
+
         case JavarConstants.codeAnalysisItemPopupType:
             JMenuItem codeAnalysisPopupItem = new JMenuItem(JavarTranslator.translate("Code Analysis"));
             codeAnalysisPopupItem.addActionListener(codeAnalysisItemPopupListener);
             return codeAnalysisPopupItem;
+
         case JavarConstants.generalItemType:
             JMenuItem generalItem = new JMenuItem(JavarTranslator.translate("General"));
             generalItem.addActionListener(generalItemListener);
             return generalItem;
+
         case JavarConstants.highlightConfigurationItemType:
             JMenuItem highlightConfigurationItem = new JMenuItem(JavarTranslator.translate("Highlight Configuration"));
             highlightConfigurationItem.addActionListener(highlightConfigurationItemListener);
             return highlightConfigurationItem;
+
         case JavarConstants.licenseItemType:
             JMenuItem licenseItem = new JMenuItem(JavarTranslator.translate("License"));
             licenseItem.addActionListener(licenseItemListener);
             return licenseItem;
+
         case JavarConstants.readmeItemType:
             JMenuItem readmeItem = new JMenuItem(JavarTranslator.translate("README"));
             readmeItem.addActionListener(readmeItemListener);
             return readmeItem;
+
         default:
             return new JMenuItem();
         }

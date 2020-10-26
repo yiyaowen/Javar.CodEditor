@@ -15,10 +15,18 @@ import javax.swing.event.*;
 
 public class TabbedPane extends JTabbedPane
 {
-    // All useful components
+    //////////////
+    // Property //
+    //////////////
+
     public static JTextArea outputTextArea = new JTextArea();
     public static JTextArea debugTextArea = new JTextArea();
     public static JLabel previewLabel = new JLabel();
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
     public TabbedPane(int type)
     {
         super(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
@@ -32,6 +40,17 @@ public class TabbedPane extends JTabbedPane
                 break;
         }
     }
+
+    ////////////
+    // Method //
+    ////////////
+
+    /**
+     * Initialize tabbed output area
+     *
+     * @param
+     * @return
+     */
     public void initTabbedOutputArea()
     {
         outputTextArea.setEditable(false);
@@ -46,6 +65,13 @@ public class TabbedPane extends JTabbedPane
         this.addTab(JavarTranslator.translate("Debug"), new JScrollPane(debugTextArea));
         this.addTab(JavarTranslator.translate("Preview"), new JScrollPane(previewLabel));
     }
+
+    /**
+     * Initialize tabbed code pane
+     *
+     * @param
+     * @return
+     */
     public void initTabbedCodePane()
     {
         JLabel navigatorLabel = new JLabel();

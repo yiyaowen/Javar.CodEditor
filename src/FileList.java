@@ -15,9 +15,9 @@ import javax.swing.event.*;
 @SuppressWarnings(value = "unchecked")
 public class FileList extends JList
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     public static Vector<FLItemData> fileItems = new Vector<>();
     
@@ -127,9 +127,9 @@ public class FileList extends JList
 
 class FLItemData
 {   
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     String fileType;
     String fileName;
@@ -208,9 +208,9 @@ class FLItemData
 
 class FLItemCellRenderer extends JPanel implements ListCellRenderer
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     int W, H;
     ImageIcon icon;

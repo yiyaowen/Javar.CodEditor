@@ -12,9 +12,9 @@ import javax.swing.text.*;
 
 public class CodePane extends JTextPane
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     public static int FONT_SIZE = JavarConstants.defaultFontSize;
     public static String FONT_FAMILY = JavarConstants.defaultFontFamily;
@@ -239,9 +239,9 @@ public class CodePane extends JTextPane
 
 class SyntaxFormatter
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     private Map<SimpleAttributeSet, ArrayList<String>> attMap = new HashMap<>();
     SimpleAttributeSet normalAttr = new SimpleAttributeSet();
@@ -258,7 +258,7 @@ class SyntaxFormatter
         Scanner scanner = null;
         try
         {
-            scanner = new Scanner(new File(syntaxFile));
+            scanner = new Scanner(new File("../configs/stx/" + syntaxFile));
         }
         catch (FileNotFoundException ex)
         {

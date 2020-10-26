@@ -21,9 +21,9 @@ public class JavarConstants
     {
         JavarUtils.loadGlobalProperties();
         // Lang
-        if (LANG == "EN")
+        if (LANG == "us_EN")
             LOCALE = Locale.US;
-        else if (LANG == "CN")
+        else if (LANG == "zh_CN")
             LOCALE = Locale.CHINA;
         else
             LOCALE = Locale.US;
@@ -48,12 +48,12 @@ public class JavarConstants
         runItemModifier = NATIVE_MASK;
         if (NATIVE_MASK == InputEvent.META_DOWN_MASK)
         {
-			pathDelimiter = "/";
+            pathDelimiter = "/";
             navigatorLabelContent = navigatorLabelContentMacOS;
         }
         else
         {
-			pathDelimiter = "\\";
+            pathDelimiter = "\\";
             navigatorLabelContent = navigatorLabelContentWindows;
         }
     }
@@ -64,11 +64,11 @@ public class JavarConstants
     
     public static String pathDelimiter = "/";
 
-    public static String LANG = "EN"; 
+    public static String LANG = "us_EN";
     public static Locale LOCALE = Locale.US;
     
     public static int defaultFontSize = 18;
-    public static String defaultFontFamily = "Monaco";
+    public static String defaultFontFamily = "Arial";
     
     public static ArrayList<String> LAFs = new ArrayList<>();
     public static String defaultLAF = "NONE";
@@ -154,11 +154,11 @@ public class JavarConstants
     public static final String deleteItemListenerTitle = "Delete The File";
     public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
     public static final String deleteItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Delete Failed</font><font> - ";
-    public static final String buildMessage = "===> Build Successful <===\n";
-    public static final String buildErrorMessage = "===> Build Error(s) <===\n";
-    public static final String runStartMessage = "===> Run Start <===\n";
-    public static final String runOverMessage = "===> Run Over <===\n";
-    public static final String runErrorMessage = "===> Run Error(s) <===\n";
+    public static final String buildMessage = "===> Build Successful <===";
+    public static final String buildErrorMessage = "===> Build Error(s) <===";
+    public static final String runStartMessage = "===> Run Start <===";
+    public static final String runOverMessage = "===> Run Over <===";
+    public static final String runErrorMessage = "===> Run Error(s) <===";
     public static final String infoLabelContent1 = 
     "<html>" +
         "<body>" +

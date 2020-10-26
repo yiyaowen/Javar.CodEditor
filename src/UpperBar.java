@@ -20,6 +20,10 @@ import javax.swing.event.*;
 @SuppressWarnings(value = "unchecked")
 public class UpperBar extends JPanel
 {
+    //////////////
+    // Property //
+    //////////////
+
     JLabel separator1 = new JLabel();
     public static JButton runBtn = new JButton();
     JLabel separator2 = new JLabel();
@@ -31,10 +35,26 @@ public class UpperBar extends JPanel
     JLabel searchLabel = new JLabel();
     ImageIcon runIcon = new ImageIcon("../images/icons/run.png");
     ImageIcon searchIcon = new ImageIcon("../images/icons/search.png");
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
     public UpperBar()
     {
         initUpperBar();
     }
+
+    ////////////
+    // Method //
+    ////////////
+
+    /**
+     * Initialize upper bar
+     *
+     * @param
+     * @return
+     */
     public void initUpperBar()
     {
         this.setPreferredSize(new Dimension(JavarConstants.upperBarWidth, JavarConstants.upperBarHeight));
@@ -68,7 +88,7 @@ public class UpperBar extends JPanel
         separator4.setPreferredSize(new Dimension(JavarConstants.separator4Width, JavarConstants.separator4Height));
         searchBox.setPreferredSize(new Dimension(JavarConstants.searchBoxWidth, JavarConstants.searchBoxHeight));
         searchLabel.setPreferredSize(new Dimension(JavarConstants.searchLabelWidth, JavarConstants.searchLabelHeight));
-        /* Alignment */
+        // Alignment
         infoBox.setHorizontalAlignment(SwingConstants.CENTER);
         infoBox.setVerticalAlignment(SwingConstants.CENTER);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -81,36 +101,31 @@ public class UpperBar extends JPanel
         this.add(separator4);
         this.add(searchBox);
         this.add(searchLabel);
-        /* Set component renderer */
-        // runBtn
+        // Set component renderer
+            // runBtn
         runIcon.setImage(JavarUtils.resizeImageToWH(runIcon.getImage(), JavarConstants.runBtnWidth, JavarConstants.runBtnHeight, Image.SCALE_SMOOTH));
         runBtn.setIcon(runIcon);
-        // compilerSelector
+            // compilerSelector
         compilerSelector.setRenderer(new CompilerSelectorCellRenderer());
         compilerSelector.addItem(JavarConstants.compilerSelectorJava);
         compilerSelector.addItem(JavarConstants.compilerSelectorPython);
         compilerSelector.addItem(JavarConstants.compilerSelectorC);
         compilerSelector.addItem(JavarConstants.compilerSelectorCpp);
         compilerSelector.addItem(JavarConstants.compilerSelectorHtml);
-        // infoBox
+            // infoBox
         infoBox.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        // searchLabel
+            // searchLabel
         searchIcon.setImage(JavarUtils.resizeImageToWH(searchIcon.getImage(), JavarConstants.searchLabelWidth, JavarConstants.searchLabelHeight, Image.SCALE_SMOOTH));
         searchLabel.setIcon(searchIcon);
-        /* Set listener */
+        // Set listener
         runBtn.addActionListener(e -> {
             if (Javar.fileList.getSelectedIndex() < 0)
                 return;
             var source = ((Component)e.getSource()).getParent();
             // Fire save event
             MenuItemProvider.saveItemListener.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, ""));
-            /* Build and Run information */
+            // Build and Run information
             String filePath = Javar.fileList.getSelectedItemDataFilePath();
-            String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
-            String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
-            String filePrefix = fileName.substring(0, fileName.lastIndexOf("."));
-            boolean hasBuild = false;
-            boolean hasRun = false;
             // Decide compiler
             if (compilerSelector.getSelectedItem().equals(JavarConstants.compilerSelectorJava))
                 BuildAndRun.Java(filePath);
@@ -128,10 +143,25 @@ public class UpperBar extends JPanel
 
 class CompilerSelectorCellRenderer extends JPanel implements ListCellRenderer
 {
+    //////////////
+    // Property //
+    //////////////
+
     ImageIcon compilerIcon;
     String compilerName;
     Color background;
     Color foreground;
+
+    ////////////
+    // Method //
+    ////////////
+
+    /**
+     * Implementation of ListCellRenderer
+     *
+     * @param
+     * @return
+     */
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
         compilerIcon = new ImageIcon("../images/icons/" + value + "CompilerIcon.png");
@@ -140,6 +170,13 @@ class CompilerSelectorCellRenderer extends JPanel implements ListCellRenderer
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
         return this;
     }
+
+    /**
+     * Override from JPanel
+     *
+     * @param
+     * @return
+     */
     public void paintComponent(Graphics g)
     {
         compilerIcon.setImage(JavarUtils.resizeImageToFitHeight(this, compilerIcon.getImage(), Image.SCALE_SMOOTH));
@@ -149,6 +186,13 @@ class CompilerSelectorCellRenderer extends JPanel implements ListCellRenderer
         g.drawImage(compilerIcon.getImage(), JavarConstants.compilerSelectorIconPadding, 0, null);
         g.drawString(compilerName, compilerIcon.getIconWidth()+JavarConstants.compilerSelectorIconPadding*2, (int)(getHeight()/2+g.getFontMetrics().getAscent()/2));
     }
+
+    /**
+     * Override from JPanel
+     *
+     * @param
+     * @return
+     */
     public Dimension getPreferredSize()
     {
         return new Dimension(JavarConstants.compilerSelectorWidth, JavarConstants.compilerSelectorHeight);

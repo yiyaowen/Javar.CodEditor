@@ -15,9 +15,9 @@ import javax.swing.event.*;
 @SuppressWarnings(value = "unchecked")
 public class GeneralWindow extends JFrame
 {
-	//////////////
-	// Property //
-	//////////////
+    //////////////
+    // Property //
+    //////////////
 	
     JLabel iconLabel = new JLabel();
     JLabel themeLabel = new JLabel();
@@ -109,7 +109,7 @@ public class GeneralWindow extends JFrame
         languageLabel.setText("Language");
         languageBtn1.setText("简体中文");
         languageBtn2.setText("English");
-        if (JavarConstants.LANG.equals("CN"))
+        if (JavarConstants.LANG.equals("zh_CN"))
             languageBtn1.setSelected(true);
         else
             languageBtn2.setSelected(true);
@@ -179,12 +179,13 @@ public class GeneralWindow extends JFrame
             // Update language
             if (languageBtn2.isSelected())
             {
-                JavarConstants.LANG = "EN";
+                JavarConstants.LANG = "zh_CN";
             }
             else
             {
-                JavarConstants.LANG = "EN";
+                JavarConstants.LANG = "us_EN";
             }
+            // Save global properties
             JavarUtils.saveGlobalProperties();
         });
         cancelBtn.addActionListener(e -> {

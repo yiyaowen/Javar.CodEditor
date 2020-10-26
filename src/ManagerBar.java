@@ -10,9 +10,9 @@ import javax.swing.event.*;
 
 public class ManagerBar extends JMenuBar
 {
-	/////////////////
-	// Constructor //
-	/////////////////
+    /////////////////
+    // Constructor //
+    /////////////////
 	
     public ManagerBar()
     {

@@ -125,7 +125,9 @@ public class JavarUtils
         }
         catch (Exception ex)
         {
-            //TODO
+            map.put("createdDate", "Null");
+            map.put("lastModifiedDate", "Null");
+            map.put("fileSize", "Null");
         }
         return map;
     }
