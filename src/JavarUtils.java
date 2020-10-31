@@ -66,7 +66,7 @@ public class JavarUtils
             globalProps.setProperty("defaultFontSize", String.valueOf(JavarConstants.defaultFontSize));
             globalProps.setProperty("defaultFontFamily", JavarConstants.defaultFontFamily);
             globalProps.setProperty("defaultLAF", JavarConstants.defaultLAF);
-            globalProps.store(os, "Last update time "+LocalDateTime.now());
+            globalProps.store(os, "Last update time");
         }
         catch (Exception ex)
         {

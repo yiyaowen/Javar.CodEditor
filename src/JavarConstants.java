@@ -350,6 +350,11 @@ public class JavarConstants
     public static final int quoteColorG = 51;
     public static final int quoteColorB = 0;
     public static final int quoteColorHex = 0x993300;
+    // Comment color
+    public static final int commentColorR = 106;
+    public static final int commentColorG = 90;
+    public static final int commentColorB = 205;
+    public static final int commentColorHex = 0x6A5ACD;
     // Linebar color
     public static final int linebarColorR = 230;
     public static final int linebarColorG = 230;

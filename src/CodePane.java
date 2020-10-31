@@ -18,15 +18,21 @@ public class CodePane extends JTextPane
 	
     public static int FONT_SIZE = JavarConstants.defaultFontSize;
     public static String FONT_FAMILY = JavarConstants.defaultFontFamily;
+    
     protected StyledDocument doc;
     protected SyntaxFormatter formatter;
+
     private SimpleAttributeSet normalAttr;
-    private SimpleAttributeSet quotAttr;
+    private SimpleAttributeSet quoteAttr;
+    private SimpleAttributeSet commentAttr;
+
     private String fontFamily;
-    private Font font = new Font(fontFamily, Font.PLAIN, FONT_SIZE);
+    private Font font;
+
     private String syntaxFile;
     private String splitSymbol;
     private boolean hasSyntax;
+
     private int lastLine = 1;
     
     /////////////////
@@ -39,16 +45,15 @@ public class CodePane extends JTextPane
         this.syntaxFile = syntaxFile;
         this.splitSymbol = splitSymbol;
         this.hasSyntax = hasSyntax;
+        // Initialize syntax formatter
         formatter = new SyntaxFormatter(syntaxFile);
         normalAttr = formatter.getNormalAttributeSet();
+        quoteAttr = formatter.getQuoteAttributeSet();
+        commentAttr = formatter.getCommentAttributeSet();
+        // Set font
         fontFamily = StyleConstants.getFontFamily(normalAttr);
         font = new Font(fontFamily, Font.PLAIN, FONT_SIZE);
-        quotAttr = new SimpleAttributeSet();
-        // Set basic attribute
-        StyleConstants.setForeground(quotAttr, new Color(JavarConstants.quoteColorHex)); 
-        StyleConstants.setFontSize(quotAttr, FONT_SIZE);
-        StyleConstants.setFontFamily(quotAttr, FONT_FAMILY);
-        // Set basic configuration
+        // Set basic configurations
         this.doc = super.getStyledDocument();
         this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
         this.setCharacterAttributes(normalAttr, false);
@@ -69,118 +74,45 @@ public class CodePane extends JTextPane
     /**
      * Update highlight
      * 
-     * @param tail (Equals "" when use normal update)
+     * @param tail (Equals "" when update manually. What is it? Look at the WARNING below.)
      * @return
      */
     public void syntaxParse(String tail)
     {
         try
         {
-            // Initialization
+            // Initialize character attributes
             doc.setCharacterAttributes(0, doc.getLength(), normalAttr, false);
             // WARNING : Not perfect support
+            /*
+             * The syntax parsing is processed in the listener of key-typed, but the document
+             * of JTextPane does not update immediately, which means that the document does
+             * not include the key typed just now. 
+             *
+             * I guess it it because that JTextPane will update its document immediately after 
+             * its key-typed listener processed. However I do not find any useful or reliable 
+             * information about this problem.
+             *
+             * My solution is to pass an extral parameter to update the document manually. That
+             * is 'tail'. So 'tail' is actually the string of the key-char just typed.
+             *
+             * If you know the reason or have more elegant solutions, please let me know.
+             * Email: wenyiyao19@mails.ucas.ac.cn
+             * 
+             * Thanks very much.
+             */
             int cursorPos = this.getCaretPosition();
             String content = doc.getText(0, doc.getLength());
             if (!tail.equals("\t") && !tail.equals("\b"))
                 content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
             if (hasSyntax)
             {
-                // Varies for different languages
-                String[] tokens = content.split(splitSymbol);
-                ArrayList<Integer> startList = new ArrayList<>();
-                ArrayList<Integer> endList = new ArrayList<>();
-                int curStart = 0;
-                boolean singleQuot = false;
-                boolean doubleQuot = false;
-                for (var token : tokens)
-                {
-                    int tokenPos = content.indexOf(token, curStart);
-                    if (token.startsWith("\"") && token.endsWith("\""))
-                    {
-                        if (token.length() == 1)
-                        {
-                            if (!singleQuot)
-                            {
-                                if (startList.size() > endList.size())
-                                    endList.add(tokenPos+token.length());
-                                else
-                                    startList.add(tokenPos);
-                                doubleQuot = !doubleQuot;
-                            }
-                        }
-                        else
-                        {
-                            if (!singleQuot && !doubleQuot)
-                            {
-                                startList.add(tokenPos);
-                                endList.add(tokenPos+token.length());
-                            }
-                        }
-                    }
-                    else if (token.startsWith("'") && token.endsWith("'"))
-                    {
-                        if (token.length() == 1)
-                        {
-                            if (!doubleQuot) 
-                            {
-                                if (startList.size() > endList.size())
-                                    endList.add(tokenPos+token.length());
-                                else
-                                    startList.add(tokenPos);
-                                singleQuot = !singleQuot;
-                            }
-                        }
-                        else
-                        {
-                            if (!singleQuot && !doubleQuot)
-                            {
-                                startList.add(tokenPos);
-                                endList.add(tokenPos+token.length());
-                            }
-                        }
-                    }
-                    else if (token.startsWith("\"") ^ token.endsWith("\""))
-                    {
-                        if (!singleQuot)
-                        { 
-                            doubleQuot = !doubleQuot;
-                            if (startList.size() > endList.size())
-                                endList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
-                            else
-                                startList.add(token.startsWith("\"") ? tokenPos : tokenPos+token.length());
-                        }
-                    } 
-                    else if (token.startsWith("'") ^ token.endsWith("'"))
-                    {
-                        if (!doubleQuot) 
-                        {
-                            singleQuot = !singleQuot;
-                            if (startList.size() > endList.size())
-                                endList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
-                            else
-                                startList.add(token.startsWith("'") ? tokenPos : tokenPos+token.length());
-                        }
-                    }
-                    else
-                    {
-                        formatter.setHighLight(doc, token, tokenPos, token.length());
-                    }
-                    curStart = tokenPos + token.length();
-                }
-                while (startList.size() > endList.size())
-                    endList.add(doc.getLength());
-                if (startList.size() == endList.size())
-                {
-                    for (int i = 0; i < startList.size(); i++)
-                    {
-                        doc.setCharacterAttributes(startList.get(i), endList.get(i)-startList.get(i), quotAttr, false);
-                    }
-                }
+                // TODO - C/C++ interface
             }
         }
         catch (Exception ex)
         {
-        	Javar.logger.log("e", ex.getMessage());
+            Javar.logger.log("e", ex.getMessage());
         }
     }
     
@@ -193,30 +125,35 @@ public class CodePane extends JTextPane
     public void paint(Graphics g)
     {
         super.paint(g);
+        // Get document attributes
         Element root = doc.getDefaultRootElement();
-        int line = root.getElementIndex(doc.getLength());
-        g.setFont(font);
-        char[] lineChars = String.valueOf(line+1).toCharArray();
+        int line = root.getElementIndex(doc.getLength())+1;
+        char[] lineChars = String.valueOf(line).toCharArray();
         int charsWidth = g.getFontMetrics().charsWidth(lineChars, 0, lineChars.length);
         int charWidth = g.getFontMetrics().charWidth('0');
+        // Set graphics attributes
         g.setColor(new Color(JavarConstants.linebarColorHex));
-        g.fillRect(0, 0, charsWidth+charWidth, getSize().height);
+        g.fillRect(0, 0, charsWidth+charWidth+JavarConstants.codePanePaddingLeft, getSize().height);
         g.setColor(new Color(JavarConstants.linenumColorHex));
+        g.setFont(font);
+        // Set default caret
+        // TODO
         // Set text pane margin
         CodePane.this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft+charsWidth+charWidth, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
         // Set text pane content
         if ((line/10) != (lastLine/10))
         {
+            // Re-update document manually
             CodePane.this.setText(CodePane.this.getText());
             CodePane.this.syntaxParse("");
         }
         // Paint line number
-        for (int count = 0, j = 1; count <= line; count++, j++)
+        for (int count = 1; count <= line; count++)
         {
-            g.drawString(String.valueOf(j), 3, count*(g.getFontMetrics().getHeight())+g.getFontMetrics().getAscent()+3); 
+            g.drawString(String.valueOf(count), JavarConstants.codePanePaddingLeft, count*(g.getFontMetrics().getHeight())+JavarConstants.codePanePaddingTop); 
         }
         // Set last line
-        lastLine = line+1;
+        lastLine = line;
     }
     
     ////////////
@@ -243,8 +180,11 @@ class SyntaxFormatter
     // Property //
     //////////////
 	
-    private Map<SimpleAttributeSet, ArrayList<String>> attMap = new HashMap<>();
+    private Map<SimpleAttributeSet, ArrayList<String>> attrMap = new HashMap<>();
+    // Special attributes
     SimpleAttributeSet normalAttr = new SimpleAttributeSet();
+    SimpleAttributeSet quoteAttr = new SimpleAttributeSet();
+    SimpleAttributeSet commentAttr = new SimpleAttributeSet();
     
     /////////////////
     // Constructor //
@@ -252,13 +192,37 @@ class SyntaxFormatter
     
     public SyntaxFormatter(String syntaxFile)
     {
+        // Initialize special attributes
+            // Normal attr
         StyleConstants.setForeground(normalAttr, Color.BLACK);
         StyleConstants.setFontSize(normalAttr, CodePane.FONT_SIZE);
         StyleConstants.setFontFamily(normalAttr, CodePane.FONT_FAMILY);
+            // Quote attr
+        StyleConstants.setForeground(quoteAttr, new Color(JavarConstants.quoteColorHex)); 
+        StyleConstants.setFontSize(quoteAttr, CodePane.FONT_SIZE);
+        StyleConstants.setFontFamily(quoteAttr, CodePane.FONT_FAMILY);
+            // Comment attr
+        StyleConstants.setForeground(commentAttr, new Color(JavarConstants.commentColorHex));
+        StyleConstants.setFontSize(commentAttr, CodePane.FONT_SIZE);
+        StyleConstants.setFontFamily(commentAttr, CodePane.FONT_FAMILY);
+        // Parse syntax file
         Scanner scanner = null;
         try
         {
             scanner = new Scanner(new File("../configs/stx/" + syntaxFile));
+            /* 
+             * Syntax file format:
+             * &42AB33
+             * keyword1
+             * keyword2
+             * keyword3
+             * ...
+             * &59C3EF
+             * keyword1
+             * keyword2
+             * keyword3
+             * ...
+             */
         }
         catch (FileNotFoundException ex)
         {
@@ -273,11 +237,11 @@ class SyntaxFormatter
             {
                 if (keywords.size() > 0 && color > -1)
                 {
-                    var att = new SimpleAttributeSet();
-                    StyleConstants.setForeground(att, new Color(color));
-                    StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
-                    StyleConstants.setFontFamily(att, CodePane.FONT_FAMILY);
-                    attMap.put(att, keywords);
+                    var attr = new SimpleAttributeSet();
+                    StyleConstants.setForeground(attr, new Color(color));
+                    StyleConstants.setFontSize(attr, CodePane.FONT_SIZE);
+                    StyleConstants.setFontFamily(attr, CodePane.FONT_FAMILY);
+                    attrMap.put(attr, keywords);
                 }
                 keywords = new ArrayList<>();
                 color = Integer.parseInt(line.substring(1), 16);
@@ -293,11 +257,11 @@ class SyntaxFormatter
         // DO NOT FORGET LAST PUT
         if (keywords.size() > 0 && color > -1)
         {
-            var att = new SimpleAttributeSet();
-            StyleConstants.setForeground(att, new Color(color));
-            StyleConstants.setFontSize(att, CodePane.FONT_SIZE);
-            StyleConstants.setFontFamily(att, CodePane.FONT_FAMILY);
-            attMap.put(att, keywords);
+            var attr = new SimpleAttributeSet();
+            StyleConstants.setForeground(attr, new Color(color));
+            StyleConstants.setFontSize(attr, CodePane.FONT_SIZE);
+            StyleConstants.setFontFamily(attr, CodePane.FONT_FAMILY);
+            attrMap.put(attr, keywords);
         }
     }
     
@@ -308,6 +272,14 @@ class SyntaxFormatter
     public SimpleAttributeSet getNormalAttributeSet()
     {
         return normalAttr;
+    }
+    public SimpleAttributeSet getQuoteAttributeSet()
+    {
+        return quoteAttr;
+    }
+    public SimpleAttributeSet getCommentAttributeSet()
+    {
+        return commentAttr;
     }
     
     ////////////
@@ -329,14 +301,14 @@ class SyntaxFormatter
         if (token != null)
         {
             outer:
-            for (var att : attMap.keySet())
+            for (var attr : attrMap.keySet())
             {
-                ArrayList<String> keywords = attMap.get(att);
+                ArrayList<String> keywords = attrMap.get(attr);
                 for (var keyword : keywords)
                 {
                     if (keyword.equals(token))
                     {
-                        currentAttributeSet = att;
+                        currentAttributeSet = attr;
                         break outer;
                     }
                 }

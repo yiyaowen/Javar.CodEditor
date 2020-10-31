@@ -27,8 +27,8 @@ public class GeneralWindow extends JFrame
     JLabel fontSizeLabel = new JLabel();
     JComboBox fontSizeComboBox = new JComboBox();
     JLabel languageLabel = new JLabel();
-    JRadioButton languageBtn1 = new JRadioButton();
-    JRadioButton languageBtn2 = new JRadioButton();
+    JRadioButton languageBtn_zh_CN = new JRadioButton();
+    JRadioButton languageBtn_us_EN = new JRadioButton();
     JButton cancelBtn = new JButton();
     JButton OKBtn = new JButton();
     JPanel generalPanel = new JPanel();
@@ -64,10 +64,10 @@ public class GeneralWindow extends JFrame
         this.add(fontSizeComboBox);
         languageLabel.setBounds(JavarConstants.generalLanguageLabelPrefixPadding, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeLabelHeight+JavarConstants.generalFontFamilyLabelHeight+JavarConstants.generalFontSizeLabelHeight, JavarConstants.generalLanguageLabelWidth, JavarConstants.generalLanguageLabelHeight);
         this.add(languageLabel);
-        languageBtn1.setBounds(JavarConstants.generalLanguageLabelPrefixPadding+JavarConstants.generalLanguageLabelWidth, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight, JavarConstants.generalLanguageBtn1Width, JavarConstants.generalLanguageBtn1Height);
-        this.add(languageBtn1);
-        languageBtn2.setBounds(JavarConstants.generalLanguageLabelPrefixPadding+JavarConstants.generalLanguageLabelWidth+JavarConstants.generalLanguageBtn1Width, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight, JavarConstants.generalLanguageBtn1Width, JavarConstants.generalLanguageBtn1Height);
-        this.add(languageBtn2);
+        languageBtn_zh_CN.setBounds(JavarConstants.generalLanguageLabelPrefixPadding+JavarConstants.generalLanguageLabelWidth, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight, JavarConstants.generalLanguageBtn1Width, JavarConstants.generalLanguageBtn1Height);
+        this.add(languageBtn_zh_CN);
+        languageBtn_us_EN.setBounds(JavarConstants.generalLanguageLabelPrefixPadding+JavarConstants.generalLanguageLabelWidth+JavarConstants.generalLanguageBtn1Width, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight, JavarConstants.generalLanguageBtn1Width, JavarConstants.generalLanguageBtn1Height);
+        this.add(languageBtn_us_EN);
         cancelBtn.setBounds(0, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight+JavarConstants.generalLanguageBtn1Height, JavarConstants.generalCancelBtnWidth, JavarConstants.generalCancelBtnHeight);
         this.add(cancelBtn);
         OKBtn.setBounds(JavarConstants.generalCancelBtnWidth+JavarConstants.generalBtnPaddingWidth, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight+JavarConstants.generalLanguageBtn2Height, JavarConstants.generalOKBtnWidth, JavarConstants.generalOKBtnHeight);
@@ -107,12 +107,12 @@ public class GeneralWindow extends JFrame
         languageLabel.setHorizontalAlignment(SwingConstants.LEFT);
         languageLabel.setVerticalAlignment(SwingConstants.CENTER);
         languageLabel.setText("Language");
-        languageBtn1.setText("简体中文");
-        languageBtn2.setText("English");
+        languageBtn_zh_CN.setText("简体中文");
+        languageBtn_us_EN.setText("English");
         if (JavarConstants.LANG.equals("zh_CN"))
-            languageBtn1.setSelected(true);
+            languageBtn_zh_CN.setSelected(true);
         else
-            languageBtn2.setSelected(true);
+            languageBtn_us_EN.setSelected(true);
         // Button
         cancelBtn.setText(JavarTranslator.translate("Cancel"));
         OKBtn.setText(JavarTranslator.translate("OK"));
@@ -177,7 +177,7 @@ public class GeneralWindow extends JFrame
                 }
             }
             // Update language
-            if (languageBtn2.isSelected())
+            if (languageBtn_zh_CN.isSelected())
             {
                 JavarConstants.LANG = "zh_CN";
             }
@@ -191,11 +191,11 @@ public class GeneralWindow extends JFrame
         cancelBtn.addActionListener(e -> {
             this.dispose();
         });
-        languageBtn1.addActionListener(e -> {
-            languageBtn2.setSelected(!languageBtn2.isSelected());
+        languageBtn_zh_CN.addActionListener(e -> {
+            languageBtn_us_EN.setSelected(!languageBtn_us_EN.isSelected());
         });
-        languageBtn2.addActionListener(e -> {
-            languageBtn1.setSelected(!languageBtn1.isSelected());
+        languageBtn_us_EN.addActionListener(e -> {
+            languageBtn_zh_CN.setSelected(!languageBtn_zh_CN.isSelected());
         });
         // Final adjustment
         this.pack();
