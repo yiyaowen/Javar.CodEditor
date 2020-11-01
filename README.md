@@ -11,21 +11,18 @@ Javar has been built and tested with Java SE 11. Please download and install a s
 ### Windows
 
 ```
-> cd Javar.Project
-> copy Init.properties Javar.properties
-> mkdir javar
-> javac -encoding utf-8 -d . *.java
-> java javar.Javar
+// TO BE COMPLETED
 ```
 
-### MacOS
+### macOS
 
 ```
 $ cd Javar.Project
-$ cp Init.properties Javar.properties
-$ mkdir javar
-$ javac -d . *.java
-$ java javar.Javar
+$ cp .\configs\properties\Init.properties .\configs\properties\Javar.properties
+$ mkdir build && cd build && mkdir c_lib
+$ javac -d . ../src/*.java
+$ gcc -c ../src/c_src/parser.c && gcc -dynamiclib -shared -o ./c_lib/libparser.dylib parser.o && rm parser.o
+$ java com.yiyaowen.javar.Javar
 ```
 
 ## Compile/Run/Render Requirement
@@ -34,14 +31,14 @@ To compile, run or render these source files using Javar, you should make sure t
 
 ### C/C++
 
-For Windows and MacOS, they are the same most of time.
+For Windows and macOS, they are the same most of time.
 
 ```
 # Windows
 gcc -std=c11 -o example example.c
 g++ -std=c++11 -o example example.cpp
 
-# MacOS
+# macOS
 gcc -std=c11 -o example example.c
 g++ -std=c++11 -o example example.cpp
 ```
@@ -54,7 +51,7 @@ g++ -std=c++11 -o example example.cpp
 # Windows
 javac -encoding utf-8 -d . example.java
 
-# MacOS
+# macOS
 javac [-encoding utf-8] -d . example.java
 ```
 

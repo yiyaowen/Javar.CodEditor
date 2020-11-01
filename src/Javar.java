@@ -19,6 +19,8 @@ import javax.swing.event.*;
 
 public class Javar
 {
+    static { System.setProperty("java.library.path", System.getProperty("user.dir") + "/c_lib"); }
+
     ////////////////
     // Properties //
     ////////////////

@@ -1,5 +1,7 @@
 package com.yiyaowen.javar;
 
+import com.yiyaowen.javar.c_SyntaxParser;
+import com.yiyaowen.javar.c_SyntaxParseInfo;
 import com.yiyaowen.javar.JavarConstants;
 
 import java.awt.*;
@@ -31,9 +33,12 @@ public class CodePane extends JTextPane
 
     private String syntaxFile;
     private String splitSymbol;
+    private char[] splitSymbols;
     private boolean hasSyntax;
 
     private int lastLine = 1;
+
+    private c_SyntaxParseInfo info;
     
     /////////////////
     // Constructor //
@@ -44,6 +49,7 @@ public class CodePane extends JTextPane
         // Set syntax file and split symbol
         this.syntaxFile = syntaxFile;
         this.splitSymbol = splitSymbol;
+        this.splitSymbols = splitSymbol.toCharArray();
         this.hasSyntax = hasSyntax;
         // Initialize syntax formatter
         formatter = new SyntaxFormatter(syntaxFile);
@@ -65,6 +71,8 @@ public class CodePane extends JTextPane
                 syntaxParse(String.valueOf(ke.getKeyChar()));
             }
         });
+        // Initialize syntax parser information
+        info = new c_SyntaxParseInfo(formatter.getKwTotalCount());
     }
     
     ////////////
@@ -107,7 +115,26 @@ public class CodePane extends JTextPane
                 content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
             if (hasSyntax)
             {
-                // TODO - C/C++ interface
+                // C/C++ interface
+                c_SyntaxParser.fillSyntaxParseInfo(info, content, formatter.getKeywords(), formatter.getKwTotalCount(), splitSymbols, splitSymbols.length);
+                // Color keywords
+                for (int i = 0; i < formatter.getKwTotalCount(); ++i)
+                {
+                    for (int j = 0; j < info.aKeywordInfo[i].count; ++j)
+                    {
+                        formatter.setHighLight(doc, formatter.getKeywords()[i], info.aKeywordInfo[i].start[j], info.aKeywordInfo[i].end[j]);
+                    }
+                }
+                // Color quote
+                for (int i = 0; i < info.quoteInfo.count; ++i)
+                {
+                    doc.setCharacterAttributes(info.quoteInfo.start[i], info.quoteInfo.end[i]-info.quoteInfo.start[i]+1, quoteAttr, false);
+                }
+                // Color comment
+                for (int i = 0; i < info.commentInfo.count; ++i)
+                {
+                    doc.setCharacterAttributes(info.commentInfo.start[i], info.commentInfo.end[i]-info.commentInfo.start[i]+1, commentAttr, false);
+                }
             }
         }
         catch (Exception ex)
@@ -180,6 +207,8 @@ class SyntaxFormatter
     // Property //
     //////////////
 	
+    private int kwTotalCount = 0;
+    private ArrayList<String> kwTotal = new ArrayList<>();
     private Map<SimpleAttributeSet, ArrayList<String>> attrMap = new HashMap<>();
     // Special attributes
     SimpleAttributeSet normalAttr = new SimpleAttributeSet();
@@ -241,6 +270,9 @@ class SyntaxFormatter
                     StyleConstants.setForeground(attr, new Color(color));
                     StyleConstants.setFontSize(attr, CodePane.FONT_SIZE);
                     StyleConstants.setFontFamily(attr, CodePane.FONT_FAMILY);
+                    // Update keywords and attributes information
+                    kwTotalCount += keywords.size();
+                    kwTotal.addAll(keywords);
                     attrMap.put(attr, keywords);
                 }
                 keywords = new ArrayList<>();
@@ -268,6 +300,17 @@ class SyntaxFormatter
     ////////////
     // getter //
     ////////////
+
+    public int getKwTotalCount()
+    {
+        return kwTotalCount;
+    }
+    public String[] getKeywords()
+    {
+        String[] keywords = new String[kwTotal.size()];
+        kwTotal.toArray(keywords);
+        return keywords;
+    }
     
     public SimpleAttributeSet getNormalAttributeSet()
     {
@@ -295,7 +338,7 @@ class SyntaxFormatter
      * @param length (Key word length)
      * @return
      */
-    public void setHighLight(StyledDocument doc, String token, int start, int length)
+    public void setHighLight(StyledDocument doc, String token, int start, int end)
     {
         SimpleAttributeSet currentAttributeSet = null;
         if (token != null)
@@ -320,11 +363,11 @@ class SyntaxFormatter
         }
         if (currentAttributeSet != null)
         {
-            doc.setCharacterAttributes(start, length, currentAttributeSet, false);
+            doc.setCharacterAttributes(start, end-start+1, currentAttributeSet, false);
         }
         else
         {
-            doc.setCharacterAttributes(start, length, normalAttr, false);
+            doc.setCharacterAttributes(start, end-start+1, normalAttr, false);
         }
     }
 }

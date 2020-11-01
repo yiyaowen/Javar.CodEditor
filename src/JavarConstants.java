@@ -46,15 +46,33 @@ public class JavarConstants
         commentItemModifier = NATIVE_MASK;
         buildItemModifier = NATIVE_MASK;
         runItemModifier = NATIVE_MASK;
+        // Try get Javar version from git
+        String versionMessage = "NONE-VERSION";
+        try
+        {
+            Process versionProcess = Runtime.getRuntime().exec("git describe --always", null, new File(".."));
+            if (versionProcess.waitFor() == 0)
+            {
+                char cbuf[] = new char[10];
+                var versionReader = new InputStreamReader(versionProcess.getInputStream(), "UTF-8");      
+                versionReader.read(cbuf, 0, 10);
+                versionMessage = new String(cbuf);
+            }
+        }
+        catch (Exception ex)
+        {
+            Javar.logger.log("d", ex.getMessage());
+        }
+        // Set navigator label content
         if (NATIVE_MASK == InputEvent.META_DOWN_MASK)
         {
             pathDelimiter = "/";
-            navigatorLabelContent = navigatorLabelContentMacOS;
+            navigatorLabelContent = navigatorLabelContentMacOS + versionMessage + navigatorLabelContentEnding;
         }
         else
         {
             pathDelimiter = "\\";
-            navigatorLabelContent = navigatorLabelContentWindows;
+            navigatorLabelContent = navigatorLabelContentWindows + versionMessage + navigatorLabelContentEnding;
         }
     }
 
@@ -183,39 +201,39 @@ public class JavarConstants
     "</html>";
     public static String navigatorLabelContent; // To be changed
     public static final String navigatorLabelContentMacOS =
-		"<html>" +
-	            "<body>" +
-	                "<h1>Javar - A Lightweight Powerful Coder</h1>" +
-	                "<hr />" +
-	                "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
-	                "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
-	                "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
-	                "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
-	                "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
-	                "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
-	                "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
-	                "<hr />" +
-	                "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
-	                "<p>Version: 2.0.0</p>" +
-	            "</body>" +
-	        "</html>";
+    "<html>" +
+        "<body>" +
+            "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+            "<hr />" +
+            "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
+            "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
+            "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
+            "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
+            "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
+            "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
+            "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
+            "<hr />" +
+            "<p>Download: https://github.com/yiyaowen/Javar.Project</p>" +
+            "<p>Version: ";
     public static final String navigatorLabelContentWindows =
-		"<html>" +
-	            "<body>" +
-	                "<h1>Javar - A Lightweight Powerful Coder</h1>" +
-	                "<hr />" +
-	                "<h3><strong>Ctrl+N</strong> - Create New File or Project</h3>" +
-	                "<h3><strong>Ctrl+O</strong> - Open File or Project</h3>" +
-	                "<h3><strong>Ctrl+S</strong> - Save Current File</h3>" +
-	                "<h3><strong>⇧+Ctrl+S</strong> - Save File To...</h3>" +
-	                "<h3><strong>Ctrl+W</strong> - Remove Current File</h3>" +
-	                "<h3><strong>Ctrl+B</strong> - Build/Compile Coder</h3>" +
-	                "<h3><strong>Ctrl+R</strong> - Run/Render Coder</h3>" +
-	                "<hr />" +
-	                "<p>About: https://github.com/yiyaowen/Javar.Project</p>" +
-	                "<p>Version: 2.0.0</p>" +
-	            "</body>" +
-	        "</html>";
+    "<html>" +
+        "<body>" +
+            "<h1>Javar - A Lightweight Powerful Coder</h1>" +
+            "<hr />" +
+            "<h3><strong>Ctrl+N</strong> - Create New File or Project</h3>" +
+            "<h3><strong>Ctrl+O</strong> - Open File or Project</h3>" +
+            "<h3><strong>Ctrl+S</strong> - Save Current File</h3>" +
+            "<h3><strong>⇧+Ctrl+S</strong> - Save File To...</h3>" +
+            "<h3><strong>Ctrl+W</strong> - Remove Current File</h3>" +
+            "<h3><strong>Ctrl+B</strong> - Build/Compile Coder</h3>" +
+            "<h3><strong>Ctrl+R</strong> - Run/Render Coder</h3>" +
+            "<hr />" +
+            "<p>Download: https://github.com/yiyaowen/Javar.Project</p>" +
+            "<p>Version: ";
+    public static final String navigatorLabelContentEnding = 
+            "</p>" +
+        "</body>" +
+    "</html>";
     public static final String previewLabelContent = 
     "<html>" +
         "<body>" +
@@ -325,10 +343,10 @@ public class JavarConstants
     /* Programming language syntax split symbol */
     //////////////////////////////////////////////
     
-    public static final String Java_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
-    public static final String Python_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
-    public static final String C_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
-    public static final String Cpp_TokensSplitSymbol = "\\s+|\\.|;|,|\\(|\\)|\\{|\\}|\\[|\\]|\n|\t";
+    public static final String Java_TokensSplitSymbol = " ;\t\n";
+    public static final String Python_TokensSplitSymbol = " \t\n";
+    public static final String C_TokensSplitSymbol = " ;\t\n";
+    public static final String Cpp_TokensSplitSymbol = " ;\t\n";
     public static final String Html_TokensSplitSymbol = "";
     
     //////////////////////////////////////
@@ -397,8 +415,8 @@ public class JavarConstants
     public static final int tabIconHeight = 15;
     public static final int fileListIconPadding = 10;
     public static final int fileListIconOffset = 20;
-    public static final int codePanePaddingTop = 3;
-    public static final int codePanePaddingLeft = 3;
+    public static final int codePanePaddingTop = 0;
+    public static final int codePanePaddingLeft = 10;
     public static final int codePanePaddingBottom = 0;
     public static final int codePanePaddingRight = 0;
     // Master window size
