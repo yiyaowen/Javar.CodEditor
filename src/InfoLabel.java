@@ -86,11 +86,10 @@ public class InfoLabel extends JLabel
      */
     public void updateText()
     {
-        this.setText(JavarTranslator.translate(JavarConstants.infoLabelContent1) + currentFile +
-			JavarTranslator.translate(JavarConstants.infoLabelContent2) + fileType + 
-			JavarTranslator.translate(JavarConstants.infoLabelContent3) + fileSize + 
-			JavarTranslator.translate(JavarConstants.infoLabelContent4) + fileCreated +
-			JavarTranslator.translate(JavarConstants.infoLabelContent5) + fileLastModified + 
-			JavarTranslator.translate(JavarConstants.infoLabelContent6));
+        this.setText(String.format(
+                JavarTranslator.translate(JavarConstants.infoLabelPrefix, 
+                                          JavarConstants.infoLabelContent), 
+                currentFile, fileType, fileSize, fileCreated, fileLastModified
+        ));
     }
 }

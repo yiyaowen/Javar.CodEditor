@@ -221,13 +221,13 @@ public class CreatorWindow extends JFrame
         typeList.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         propertyPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         // Set button content
-        chooseDirPropertyButton.setText(JavarTranslator.translate("Create In Directory:"));
-        hasPrefixStatementCheckBox.setText(JavarTranslator.translate("Generate Prefix Statement"));
+        chooseDirPropertyButton.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Create In Directory:"));
+        hasPrefixStatementCheckBox.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Generate Prefix Statement"));
         hasPrefixStatementCheckBox.setSelected(false);
-        hasTemplatePropertyCheckBox.setText(JavarTranslator.translate("Use Template"));
+        hasTemplatePropertyCheckBox.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Use Template"));
         hasTemplatePropertyCheckBox.setSelected(false);
-        cancelPropertyButton.setText(JavarTranslator.translate("Cancel"));
-        createPropertyButton.setText(JavarTranslator.translate("Create"));
+        cancelPropertyButton.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Cancel"));
+        createPropertyButton.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Create"));
         createPropertyButton.setEnabled(false);
         // Set label content
         categoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -242,21 +242,22 @@ public class CreatorWindow extends JFrame
         descriptionRightLabel.setVerticalAlignment(SwingConstants.CENTER);
         namePropertyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         namePropertyLabel.setVerticalAlignment(SwingConstants.CENTER);
-        categoryLabel.setText(JavarTranslator.translate("Category"));
-        typeLabel.setText(JavarTranslator.translate("Type"));
-        propertyLabel.setText(JavarTranslator.translate("Property"));
+        categoryLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Category"));
+        typeLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Type"));
+        propertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Property"));
         //descriptionRightLabel.setText(JavarTranslator.translate("description:"));
-        namePropertyLabel.setText(JavarTranslator.translate("Name:"));
-        developerPropertyLabel.setText(JavarTranslator.translate("Developer:"));
-        teamPropertyLabel.setText(JavarTranslator.translate("Team:"));
-        templatePropertyLabel.setText(JavarTranslator.translate("Template:"));
+        namePropertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Name:"));
+        developerPropertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Developer:"));
+        teamPropertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Team:"));
+        templatePropertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Template:"));
         // Set listener
         createPropertyButton.addActionListener(e -> {
             String fileName = namePropertyTextField.getText();
             if (fileName.indexOf(".") == 0)
             {
                 hasInvalidFileName = true;
-                namePropertyLabel.setText(JavarTranslator.translate(JavarConstants.invalidNamePropertyMessage));
+                namePropertyLabel.setText(
+                    JavarTranslator.translate(JavarConstants.creatorWindowPrefix, JavarConstants.invalidNamePropertyMessage));
                 return;
             }
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
@@ -270,6 +271,8 @@ public class CreatorWindow extends JFrame
             boolean hasTemplate = hasTemplatePropertyCheckBox.isSelected();
             boolean hasPrefix = hasPrefixStatementCheckBox.isSelected();
             JavarDispatcher.createNewFile(filePath, "");
+            // Close window
+            this.dispose();
         });
         cancelPropertyButton.addActionListener(e -> {
             this.dispose();
@@ -304,7 +307,7 @@ public class CreatorWindow extends JFrame
             {
                 if (hasInvalidFileName)
                 {
-                    namePropertyLabel.setText(JavarTranslator.translate("Name:"));
+                    namePropertyLabel.setText(JavarTranslator.translate(JavarConstants.creatorWindowPrefix, "Name:"));
                     hasInvalidFileName = false;
                 }
                 namePropertyTextField.setCaretPosition(0);
@@ -312,7 +315,8 @@ public class CreatorWindow extends JFrame
         });
         chooseDirPropertyButton.addActionListener(e -> {
             int result;
-            result = chooser.showDialog(CreatorWindow.this, JavarTranslator.translate("Choose Directory"));
+            result = chooser.showDialog(CreatorWindow.this,
+                JavarTranslator.translate(JavarConstants.fileChooserPrefix, "Choose Directory"));
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String path = chooser.getSelectedFile().getPath();
@@ -463,14 +467,15 @@ class CWItemData
     {
 		if (list == CATEGORY)
 		{
-	        return JavarTranslator.translate(JavarConstants.creatorCategoryDescription1) + name
-	            + JavarTranslator.translate(JavarConstants.creatorCategoryDescription2);
+	        return String.format(
+                JavarTranslator.translate(JavarConstants.creatorDescPrefix, JavarConstants.creatorCategoryDescription),
+                name);
 		}
 	    else
 	    {
-	        return JavarTranslator.translate(JavarConstants.creatorDescription1) + name 
-	            + JavarTranslator.translate(JavarConstants.creatorDescription2) + name 
-	            + JavarTranslator.translate(JavarConstants.creatorDescription3);
+	        return String.format(
+                JavarTranslator.translate(JavarConstants.creatorDescPrefix, JavarConstants.creatorDescription),
+                name, name);
         }
     }
 }

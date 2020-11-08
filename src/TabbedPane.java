@@ -59,11 +59,11 @@ public class TabbedPane extends JTabbedPane
         outputTextArea.setFont(new Font(font1.getName(), font1.getStyle(), 14));
         Font font2 = debugTextArea.getFont();
         debugTextArea.setFont(new Font(font2.getName(), font2.getStyle(), 14));
-        previewLabel.setText(JavarTranslator.translate(JavarConstants.previewLabelContent));
+        previewLabel.setText(JavarTranslator.translate(JavarConstants.mainWindowPrefix, JavarConstants.previewLabelContent));
         previewLabel.setVerticalAlignment(SwingConstants.TOP);
-        this.addTab(JavarTranslator.translate("Output"), new JScrollPane(outputTextArea));
-        this.addTab(JavarTranslator.translate("Debug"), new JScrollPane(debugTextArea));
-        this.addTab(JavarTranslator.translate("Preview"), new JScrollPane(previewLabel));
+        this.addTab(JavarTranslator.translate(JavarConstants.mainWindowPrefix, "Output"), new JScrollPane(outputTextArea));
+        this.addTab(JavarTranslator.translate(JavarConstants.mainWindowPrefix, "Debug"), new JScrollPane(debugTextArea));
+        this.addTab(JavarTranslator.translate(JavarConstants.mainWindowPrefix, "Preview"), new JScrollPane(previewLabel));
     }
 
     /**
@@ -75,10 +75,10 @@ public class TabbedPane extends JTabbedPane
     public void initTabbedCodePane()
     {
         JLabel navigatorLabel = new JLabel();
-        navigatorLabel.setText(JavarTranslator.translate(JavarConstants.navigatorLabelContent));
+        navigatorLabel.setText(JavarTranslator.translate(JavarConstants.mainWindowPrefix, JavarConstants.navigatorLabelContent));
         navigatorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         navigatorLabel.setVerticalAlignment(SwingConstants.CENTER);
-        this.addTab(JavarTranslator.translate(JavarConstants.navigatorLabelName), navigatorLabel);
+        this.addTab(JavarTranslator.translate(JavarConstants.mainWindowPrefix, JavarConstants.navigatorLabelName), navigatorLabel);
         this.addChangeListener(e -> {
             var index = this.getSelectedIndex() - 1;
             if (index < 0)

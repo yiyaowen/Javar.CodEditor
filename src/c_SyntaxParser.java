@@ -11,9 +11,11 @@ public class c_SyntaxParser
      * @param file (The file to be parsed)
      * @param keywords (Keywords that should be highlighed)
      * @param kwTotalCount (Size of keywords)
+     * @param splitSymbols (Chars that used as split symbols)
+     * @param ssTotalCount (Size of splitSymbols)
      * @return
      */
-    public static native void fillSyntaxParseInfo(c_SyntaxParseInfo info, String file, String keywords[], int kwTotalCount, char splitSymbols[], int ssTotalCount);
+    public static native void fillSyntaxParseInfo(c_SyntaxParseInfo info, String file, String keywords[], int kwTotalCount, byte splitSymbols[], int ssTotalCount);
 
     static
     {

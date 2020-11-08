@@ -32,8 +32,10 @@ public class JavarDispatcher
             {
             	// File already exists
 				int result;
-				result = JOptionPane.showConfirmDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileExistsMessage), 
-						JavarTranslator.translate(JavarConstants.creatorWindowFileExistsTitle), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+				result = JOptionPane.showConfirmDialog(null,
+                    JavarTranslator.translate(JavarConstants.confirmDialogPrefix, JavarConstants.creatorWindowFileExistsMessage), 
+					JavarTranslator.translate(JavarConstants.confirmDialogPrefix, JavarConstants.creatorWindowFileExistsTitle),
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (result == JOptionPane.OK_OPTION)
                 {
                 	// Overwrite file
@@ -48,19 +50,27 @@ public class JavarDispatcher
             else if (!file.createNewFile())
             {
                 // Set info box
-                Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                Javar.upperBar.infoBox.setText(String.format(
+                    JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerErrorContent),
+                    file.getName(), JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]")));
                 // Show error message
-                JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorMessage),
-                		JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorTitle), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                    JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileUnknownErrorMessage),
+                	JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileUnknownErrorTitle),
+                    JOptionPane.ERROR_MESSAGE);
                 return;
             }
             else if (!file.canWrite() || !file.canRead())
             {
                 // Set info box
-                Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+                Javar.upperBar.infoBox.setText(String.format(
+                    JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerErrorContent),
+                    file.getName(), JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]")));
                 // Show error message
-                JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileErrorMessage),
-                		JavarTranslator.translate(JavarConstants.creatorWindowFileErrorTitle), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                    JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileErrorMessage),
+                	JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileErrorTitle),
+                    JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Get file properties and attributes
@@ -109,15 +119,22 @@ public class JavarDispatcher
             // Set selected tab
             Javar.codeEditor.setSelectedIndex(Javar.codeEditor.getTabCount() - 1);
             // Set info box
-            Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerSuccessContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]"));
+            Javar.upperBar.infoBox.setText(String.format(
+                JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerSuccessContent),
+                file.getName(), JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]")));
         }
         catch (Exception ex)
         {
             // Set info box
-            Javar.upperBar.infoBox.setText(JavarTranslator.translate(JavarConstants.newItemListenerErrorContent) + file.getName() + " " + JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + "</font></html>");
+            Javar.upperBar.infoBox.setText(String.format(
+                JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerErrorContent), 
+                file.getName(), JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]")));
             // Show error message
-            JOptionPane.showMessageDialog(null, JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorMessage) + ex.getMessage(),
-            		JavarTranslator.translate(JavarConstants.creatorWindowFileUnknownErrorTitle), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileUnknownErrorMessage)
+                    +"\n" + ex.getMessage(),
+            	JavarTranslator.translate(JavarConstants.messageDialogPrefix, JavarConstants.creatorWindowFileUnknownErrorTitle),
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }

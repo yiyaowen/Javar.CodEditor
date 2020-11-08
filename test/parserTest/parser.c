@@ -31,6 +31,12 @@ Keyword * keywords;
 int ssTotalCount;
 char * splitSymbols;
 
+/*
+ * WARNING : Conflict - C_char and Java_char
+ *
+ * TO BE COMPLETED
+ */
+
 JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseInfo (JNIEnv * env, jclass cls, jobject j_info, jstring j_file, jobjectArray j_keywords, jint j_kwTotalCount, jcharArray j_splitSymbols, jint j_ssTotalCount)
 {
     ////////////////////
@@ -44,8 +50,19 @@ JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseIn
         keywords[i].length = strlen(keywords[i].text);
     }
     const char * file = (*env)->GetStringUTFChars(env, j_file, 0);
-    ssTotalCount = (*env)->GetArrayLength(env, j_splitSymbols);
+    ssTotalCount = j_ssTotalCount;
     splitSymbols = (char *) (*env)->GetCharArrayElements(env, j_splitSymbols, NULL);
+
+    /* DEBUG */
+    for (int i = 0; i < ssTotalCount; ++i) {
+        printf("[%d]", i);
+        if (splitSymbols[i] == '\n') { printf("\\n"); }
+        else if (splitSymbols[i] == '\t') { printf("\\t"); }
+        else if (splitSymbols[i] == ' ') { printf("_"); }
+        else if (splitSymbols[i] == EOF) { printf("\n"); }
+        else { printf("%c", splitSymbols[i]); }
+    }
+    /* DEBUG */
     
     /////////////////
     // Timer start //
@@ -134,7 +151,7 @@ SyntaxParseInfo parseFile(const char * file, int size)
 #define IN_MUL_COMMENT      3
 
     int state = NORMAL;
-    long i, quote_s, quote_e, comment_s, comment_e;
+    int i, quote_s, quote_e, comment_s, comment_e;
 
     // Initialize info
     SyntaxParseInfo info;
@@ -146,6 +163,13 @@ SyntaxParseInfo parseFile(const char * file, int size)
     }
 
     for (i = 0; i < size; ++i) {
+        /* DEBUG */
+        /*if (file[i] == ' ') { printf("_"); }
+        else if (file[i] == '\t') { printf("\\t"); }
+        else if (file[i] == '\n') { printf("\\n"); }
+        else if (file[i] == EOF) { printf("\n"); }
+        else { printf("%c", file[i]); }*/
+        /* DEBUG */
         if (state != IN_QUOTE) {
             /* NOT IN_QUOTE */
             if (state == IN_MUL_COMMENT) {
@@ -163,7 +187,7 @@ SyntaxParseInfo parseFile(const char * file, int size)
                 /* NOT IN_MUL_COMMENT */
                 if (state == IN_LINE_COMMENT) {
                     /* IN_LINE_COMMENT */
-                    if (file[i] == '\n') {
+                    if (file[i] == '\n' || file[i] == EOF) {
                         comment_e = i;
                         info.commentInfo.start[info.commentInfo.count] = comment_s;
                         info.commentInfo.end[info.commentInfo.count] = comment_e;

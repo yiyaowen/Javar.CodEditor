@@ -67,12 +67,16 @@ public class JavarConstants
         if (NATIVE_MASK == InputEvent.META_DOWN_MASK)
         {
             pathDelimiter = "/";
-            navigatorLabelContent = navigatorLabelContentMacOS + versionMessage + navigatorLabelContentEnding;
+            navigatorLabelContent = String.format(navigatorLabelContent,
+                macOSMetaSymbol, macOSMetaSymbol, macOSMetaSymbol, macOSMetaSymbol,
+                macOSMetaSymbol, macOSMetaSymbol, macOSMetaSymbol, versionMessage);
         }
         else
         {
             pathDelimiter = "\\";
-            navigatorLabelContent = navigatorLabelContentWindows + versionMessage + navigatorLabelContentEnding;
+            navigatorLabelContent = String.format(navigatorLabelContent,
+                windowsMetaSymbol, windowsMetaSymbol, windowsMetaSymbol, windowsMetaSymbol,
+                windowsMetaSymbol, windowsMetaSymbol, windowsMetaSymbol, versionMessage);
         }
     }
 
@@ -95,6 +99,26 @@ public class JavarConstants
     /* String : names and contents */
     /////////////////////////////////
     
+    // Prefix
+        // Main window
+    public static final String mainWindowPrefix = "MainWindow";
+    public static final String buildPrefix = "MainWindow_Build";
+    public static final String runPrefix = "MainWindow_Run";
+    public static final String itemListenerPrefix = "MainWindow_ItemListener";
+    public static final String infoLabelPrefix = "MainWindow_InfoLabel";
+        // Creator window
+    public static final String creatorWindowPrefix = "CreatorWindow";
+    public static final String creatorDescPrefix = "CreatorWindow_CreatorDesc";
+        // General window
+    public static final String generalWindowPrefix = "GeneralWindow";
+        // Others
+    public static final String menuPrefix = "Others_Menu";
+    public static final String menuItemPrefix = "Others_MenuItem";
+    public static final String popupMenuItemPrefix = "Others_PopupMenuItem";
+    public static final String fileChooserPrefix = "Others_FileChooser";
+    public static final String messageDialogPrefix = "Others_MessageDialog";
+    public static final String confirmDialogPrefix = "Others_ConfirmDialog";
+    public static final String inputDialogPrefix = "Others_InputDialog";
     // Names
     	// Code editor
     public static final String navigatorLabelName = "Navigator";
@@ -112,50 +136,36 @@ public class JavarConstants
     public static final String creatorWindowFileExistsTitle = "File Already Exists";
     public static final String creatorWindowFileErrorMessage = "Unable to read or write the directory/file!\nPlease check the relevant permissions.\n";
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
-    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.\n";
+    public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
-    public static final String creatorCategoryDescription1 = 
+    public static final String creatorCategoryDescription = 
     "<html>" + 
         "<body>" + 
-            "<h1>";
-    public static final String creatorCategoryDescription2 = 
-            "</h1>" +
+            "<h1>%s</h1>" +
         "</body>" +
     "</html>";
-    public static final String fileDescription1 = 
-        "Create a(n) ";
-    public static final String fileDescription2 = 
-        ". Check 'Use Template' to enable the designed java template. " +
-        "Check 'Generate Prefix Statement' to generate some identifier information automatically. "+
-        "The identifier information comes from 'Name', 'Developer', 'Team' and local date (If accessible).";
-    public static final String creatorDescription1 = 
+    public static final String creatorDescription = 
     "<html>" +
         "<body>" +
-            "<p><strong>";
-    public static String creatorDescription2 = 
-            "</strong></p>" +
-            "<hr />" +
-            "<p>" + fileDescription1;
-    public static String creatorDescription3 = 
-            fileDescription2 + 
-            "</p>" +
+            "<p><strong>%s</strong></p><hr />" +
+            "<p>Create a(n) %s. Check 'Use Template' to enable the designed file template. " +
+            "Check 'Generate Prefix Statement' to generate some identifier information automatically. " +
+            "The identifier information comes from 'Name', 'Developer', 'Team' and local data.</p>" +
         "</body>" +
     "</html>";
     	// Main window contents
+            // Item listener content
     public static final String openItemListenerErrorMessage = "Unable to open the file!\nPlease check the integrity of the file and try again.\n";
     public static final String openItemListenerErrorTitle = "Unable To Open The File";
-    public static final String openItemListenerSuccessContent = "Open File - ";
-    public static final String openItemListenerErrorContent1 = "<html><font color='rgb(180,0,0)'>Open File</font><font> - ";
-    public static final String openItemListenerErrorContent2 = "</font><font color='rgb(180,0,0)'> Failed </font><font>";
-    public static final String newItemListenerSuccessContent = "Create File - ";
-    public static final String newItemListenerErrorContent = "<html><font color='rgb(180,0,0)'>Create File Failed</font><font> - ";
-    public static final String saveItemListenerSuccessMessage = "File Saved Successfully - ";
-    public static final String saveItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Save File Failed</font><font> - ";
-    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='rgb(180,0,0)'>Update File Info Failed</font><font> - ";
-    public static final String saveToItemListenerSuccessMessage1 = "File Saved To - ";
-    public static final String saveToItemListenerSuccessMessage2 = " - Successfully";
-    public static final String saveToItemListenerErrorMessage1 = "<html><font color='rgb(180,0,0)'>File Saved To</font><font> - ";
-    public static final String saveToItemListenerErrorMessage2 = "</font><font color='rgb(180,0,0)'> Failed </font><font>";
+    public static final String openItemListenerSuccessContent = "Open File - %s %s";
+    public static final String openItemListenerErrorContent = "<html><font color='rgb(180,0,0)'>Open File</font><font> - %s</font><font color='rgb(180,0,0)'> Failed </font><font>%s</font></html>";
+    public static final String newItemListenerSuccessContent = "Create File - %s %s";
+    public static final String newItemListenerErrorContent = "<html><font color='rgb(180,0,0)'>Create File Failed</font><font> - %s %s</font></html>";
+    public static final String saveItemListenerSuccessMessage = "File Saved Successfully - %s %s";
+    public static final String saveItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Save File Failed</font><font> - %s %s</font></html>";
+    public static final String saveFileUpdateInfoErrorMessage = "<html><font color='rgb(180,0,0)'>Update File Info Failed</font><font> - %s %s</font></html>";
+    public static final String saveToItemListenerSuccessMessage = "File Saved To - %s - Successfully %s";
+    public static final String saveToItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>File Saved To</font><font> - %s </font><font color='rgb(180,0,0)'> Failed </font><font>%s</font></html>";
     public static final String saveToFileChooserLabelContent = "File Name:";
     public static final String saveToFileChooserLabelTitle = "Input File Name";
     public static final String saveToFileChooserContent = "Save To";
@@ -170,70 +180,46 @@ public class JavarConstants
     public static final String renameItemListenerErrorTitle = "Unable To Rename";
     public static final String deleteItemListenerContent = "Do you delete the file completely?";
     public static final String deleteItemListenerTitle = "Delete The File";
-    public static final String deleteItemListenerSuccessMessage = "Delete Successfully - ";
-    public static final String deleteItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Delete Failed</font><font> - ";
+    public static final String deleteItemListenerSuccessMessage = "Delete Successfully - %s %s";
+    public static final String deleteItemListenerErrorMessage = "<html><font color='rgb(180,0,0)'>Delete Failed</font><font> - %s %s</font></html>";
+            // Build contents
     public static final String buildMessage = "===> Build Successful <===";
     public static final String buildErrorMessage = "===> Build Error(s) <===";
+            // Run contents
     public static final String runStartMessage = "===> Run Start <===";
     public static final String runOverMessage = "===> Run Over <===";
     public static final String runErrorMessage = "===> Run Error(s) <===";
-    public static final String infoLabelContent1 = 
+            // Info label content
+    public static final String infoLabelContent =
     "<html>" +
         "<body>" +
-            "<strong>";
-    public static final String infoLabelContent2 = 
-            "</strong> - <i>";
-    public static final String infoLabelContent3 = 
-            "</i>" +
-            "<hr />" +
-            "<strong>Size:</strong> <div>";
-    public static final String infoLabelContent4 = 
-            "</div>" +
-            "<br />" +
-            "<strong>Created:</strong> <div>";;
-    public static final String infoLabelContent5 = 
-            "</div>" +
-            "<br />" +
-            "<strong>Last Modified:</strong> <div>";
-    public static final String infoLabelContent6 = 
-            "</div>" +
+            "<strong>%s</strong> - <i>%s</i><hr />" +
+            "<strong>Size:</strong> <div>%s</div><br />" +
+            "<strong>Created:</strong> <div>%s</div><br />" +
+            "<strong>Last Modified:</strong> <div>%s</div>" +
         "</body>" +
     "</html>";
-    public static String navigatorLabelContent; // To be changed
-    public static final String navigatorLabelContentMacOS =
+            // Navigator label content
+    public static final String macOSMetaSymbol = "⌘";
+    public static final String windowsMetaSymbol = "Ctrl";
+    public static String navigatorLabelContent = // To be initialized
     "<html>" +
         "<body>" +
             "<h1>Javar - A Lightweight Powerful Coder</h1>" +
             "<hr />" +
-            "<h3><strong>⌘+N</strong> - Create New File or Project</h3>" +
-            "<h3><strong>⌘+O</strong> - Open File or Project</h3>" +
-            "<h3><strong>⌘+S</strong> - Save Current File</h3>" +
-            "<h3><strong>⇧+⌘+S</strong> - Save File To...</h3>" +
-            "<h3><strong>⌘+W</strong> - Remove Current File</h3>" +
-            "<h3><strong>⌘+B</strong> - Build/Compile Coder</h3>" +
-            "<h3><strong>⌘+R</strong> - Run/Render Coder</h3>" +
+            "<h3><strong>%s+N</strong> - Create New File or Project</h3>" +
+            "<h3><strong>%s+O</strong> - Open File or Project</h3>" +
+            "<h3><strong>%s+S</strong> - Save Current File</h3>" +
+            "<h3><strong>⇧+%s+S</strong> - Save File To...</h3>" +
+            "<h3><strong>%s+W</strong> - Remove Current File</h3>" +
+            "<h3><strong>%s+B</strong> - Build/Compile Coder</h3>" +
+            "<h3><strong>%s+R</strong> - Run/Render Coder</h3>" +
             "<hr />" +
             "<p>Download: https://github.com/yiyaowen/Javar.Project</p>" +
-            "<p>Version: ";
-    public static final String navigatorLabelContentWindows =
-    "<html>" +
-        "<body>" +
-            "<h1>Javar - A Lightweight Powerful Coder</h1>" +
-            "<hr />" +
-            "<h3><strong>Ctrl+N</strong> - Create New File or Project</h3>" +
-            "<h3><strong>Ctrl+O</strong> - Open File or Project</h3>" +
-            "<h3><strong>Ctrl+S</strong> - Save Current File</h3>" +
-            "<h3><strong>⇧+Ctrl+S</strong> - Save File To...</h3>" +
-            "<h3><strong>Ctrl+W</strong> - Remove Current File</h3>" +
-            "<h3><strong>Ctrl+B</strong> - Build/Compile Coder</h3>" +
-            "<h3><strong>Ctrl+R</strong> - Run/Render Coder</h3>" +
-            "<hr />" +
-            "<p>Download: https://github.com/yiyaowen/Javar.Project</p>" +
-            "<p>Version: ";
-    public static final String navigatorLabelContentEnding = 
-            "</p>" +
+            "<p>Version: %s</p>" +
         "</body>" +
     "</html>";
+            // Preview label content
     public static final String previewLabelContent = 
     "<html>" +
         "<body>" +
@@ -343,10 +329,10 @@ public class JavarConstants
     /* Programming language syntax split symbol */
     //////////////////////////////////////////////
     
-    public static final String Java_TokensSplitSymbol = " ;\t\n";
-    public static final String Python_TokensSplitSymbol = " \t\n";
-    public static final String C_TokensSplitSymbol = " ;\t\n";
-    public static final String Cpp_TokensSplitSymbol = " ;\t\n";
+    public static final String Java_TokensSplitSymbol = " ;\t\n<>()[]{}!%^&*-+=?:";
+    public static final String Python_TokensSplitSymbol = " \t\n()[]{}";
+    public static final String C_TokensSplitSymbol = " ;\t\n()[]{}!%^&*-+=?:";
+    public static final String Cpp_TokensSplitSymbol = " ;\t\n<>()[]{}!%^&*-+=?:";
     public static final String Html_TokensSplitSymbol = "";
     
     //////////////////////////////////////

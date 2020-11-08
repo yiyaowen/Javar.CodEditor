@@ -82,7 +82,7 @@ public class GeneralWindow extends JFrame
         	// Theme 
         themeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         themeLabel.setVerticalAlignment(SwingConstants.CENTER);
-        themeLabel.setText(JavarTranslator.translate("Theme"));
+        themeLabel.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Theme"));
         for (var LAF : JavarConstants.LAFs)
             themeComboBox.addItem(LAF);
         if (JavarConstants.defaultLAF.equals("NONE"))
@@ -92,14 +92,14 @@ public class GeneralWindow extends JFrame
         // Font family
         fontFamilyLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontFamilyLabel.setVerticalAlignment(SwingConstants.CENTER);
-        fontFamilyLabel.setText(JavarTranslator.translate("Font Family"));
+        fontFamilyLabel.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Font Family"));
         for (var family : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
             fontFamilyComboBox.addItem(family);
         fontFamilyComboBox.setSelectedItem(JavarConstants.defaultFontFamily);
         // Font size
         fontSizeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         fontSizeLabel.setVerticalAlignment(SwingConstants.CENTER);
-        fontSizeLabel.setText(JavarTranslator.translate("Font Size"));
+        fontSizeLabel.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Font Size"));
         for (int size = 12; size <= 26; size++)
             fontSizeComboBox.addItem(size); 
         fontSizeComboBox.setSelectedItem(JavarConstants.defaultFontSize);
@@ -114,8 +114,8 @@ public class GeneralWindow extends JFrame
         else
             languageBtn_us_EN.setSelected(true);
         // Button
-        cancelBtn.setText(JavarTranslator.translate("Cancel"));
-        OKBtn.setText(JavarTranslator.translate("OK"));
+        cancelBtn.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Cancel"));
+        OKBtn.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "OK"));
         // Set component border
         iconLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         // Set listener

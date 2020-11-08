@@ -92,8 +92,7 @@ public class Javar
         // Final adjustment
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
-        mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 
-                               (int)(JavarConstants.screenHeight/2-mainWindow.getHeight()/2));
+        mainWindow.setLocation((int)(JavarConstants.screenWidth/2-mainWindow.getWidth()/2), 0);
         // Show main window
         mainWindow.setVisible(true);
     }

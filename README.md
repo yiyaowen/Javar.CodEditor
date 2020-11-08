@@ -18,7 +18,7 @@ Javar has been built and tested with Java SE 11. Please download and install a s
 
 ```
 $ cd Javar.Project
-$ cp .\configs\properties\Init.properties .\configs\properties\Javar.properties
+$ cp ./configs/properties/Init.properties ./configs/properties/Javar.properties
 $ mkdir build && cd build && mkdir c_lib
 $ javac -d . ../src/*.java
 $ gcc -c ../src/c_src/parser.c && gcc -dynamiclib -shared -o ./c_lib/libparser.dylib parser.o && rm parser.o

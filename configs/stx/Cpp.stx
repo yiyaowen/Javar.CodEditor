@@ -1,4 +1,6 @@
 &3CB371
+bool
+class
 namespace
 void
 char
@@ -19,6 +21,7 @@ register
 extern
 const
 volatile
+static_cast
 &C71585
 #if
 #endif
@@ -27,6 +30,7 @@ volatile
 #ifdef
 #ifndef
 &D2691E
+new
 using
 return
 continue
@@ -41,6 +45,7 @@ for
 do
 while
 sizeof
+dynamic_cast
 &A52A2A
 nullptr
 NULL

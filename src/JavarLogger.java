@@ -184,9 +184,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            // Generally used for ex.getMessage(), which ends with '\n'
-            // Other normal messages should append '\n' before logged
-            fw.write(LocalDateTime.now()+JavarLogger_InfoPrefix+msg);
+            fw.write(LocalDateTime.now()+JavarLogger_InfoPrefix+msg+"\n");
             fw.close();
             return JavarLogger_OK;    
         }
@@ -211,7 +209,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_DebugPrefix+msg);
+            fw.write(LocalDateTime.now()+JavarLogger_DebugPrefix+msg+"\n");
             fw.close();
             return JavarLogger_OK;    
         }
@@ -236,7 +234,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_ErrorPrefix+msg);
+            fw.write(LocalDateTime.now()+JavarLogger_ErrorPrefix+msg+"\n");
             fw.close();
             return JavarLogger_OK;    
         }
@@ -261,7 +259,7 @@ public class JavarLogger
         try
         {
             FileWriter fw = new FileWriter(logFile, true);
-            fw.write(LocalDateTime.now()+JavarLogger_FatalPrefix+msg);
+            fw.write(LocalDateTime.now()+JavarLogger_FatalPrefix+msg+"\n");
             fw.close();
             return JavarLogger_OK;    
         }

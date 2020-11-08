@@ -30,7 +30,7 @@ Keyword * keywords;
 int ssTotalCount;
 char * splitSymbols;
 
-JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseInfo (JNIEnv * env, jclass cls, jobject j_info, jstring j_file, jobjectArray j_keywords, jint j_kwTotalCount, jcharArray j_splitSymbols, jint j_ssTotalCount)
+JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseInfo (JNIEnv * env, jclass cls, jobject j_info, jstring j_file, jobjectArray j_keywords, jint j_kwTotalCount, jbyteArray j_splitSymbols, jint j_ssTotalCount)
 {
     ////////////////////
     // Initialization //
@@ -44,7 +44,7 @@ JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseIn
     }
     const char * file = (*env)->GetStringUTFChars(env, j_file, 0);
     ssTotalCount = (*env)->GetArrayLength(env, j_splitSymbols);
-    splitSymbols = (char *) (*env)->GetCharArrayElements(env, j_splitSymbols, NULL);
+    splitSymbols = (char *) (*env)->GetByteArrayElements(env, j_splitSymbols, NULL);
     
     /////////////////
     // Start parse //
@@ -135,7 +135,7 @@ SyntaxParseInfo parseFile(const char * file, int size)
             /* NOT IN_QUOTE */
             if (state == IN_MUL_COMMENT) {
                 /* IN_MUL_COMMENT */
-                if (file[i] == '/' && file[i-1] == '*') {
+                if ((file[i] == '/' && file[i-1] == '*') || i+1 >= size) {
                     comment_e = i;
                     info.commentInfo.start[info.commentInfo.count] = comment_s;
                     info.commentInfo.end[info.commentInfo.count] = comment_e;
@@ -148,7 +148,7 @@ SyntaxParseInfo parseFile(const char * file, int size)
                 /* NOT IN_MUL_COMMENT */
                 if (state == IN_LINE_COMMENT) {
                     /* IN_LINE_COMMENT */
-                    if (file[i] == '\n') {
+                    if (file[i] == '\n' || i+1 >= size) {
                         comment_e = i;
                         info.commentInfo.start[info.commentInfo.count] = comment_s;
                         info.commentInfo.end[info.commentInfo.count] = comment_e;
@@ -186,12 +186,13 @@ SyntaxParseInfo parseFile(const char * file, int size)
                                 bool leftIsolated = false;
                                 bool rightIsolated = false;
                                 for (int k = 0; k < ssTotalCount; ++k) {
-                                    if (file[i-1] == splitSymbols[k]) {
+                                    if (i < 1 || file[i-1] == splitSymbols[k]) {
                                         leftIsolated = true;
                                     }
-                                    if (file[i+keywords[j].length] == splitSymbols[k]) {
+                                    if (i+keywords[j].length >= size || file[i+keywords[j].length] == splitSymbols[k]) {
                                         rightIsolated = true;
                                     }
+                                    if (leftIsolated && rightIsolated) break;
                                 }
                                 if (leftIsolated && rightIsolated) {
                                     info.aKeywordInfo[j].start[info.aKeywordInfo[j].count] = i;

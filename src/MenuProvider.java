@@ -52,7 +52,7 @@ public class MenuProvider
         {
         case JavarConstants.newMenuType:
             JMenu newMenu;
-            newMenu = new JMenu(JavarTranslator.translate("New"));
+            newMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "New"));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.anyItemType));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.javaItemType));
             newMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cItemType));
@@ -63,7 +63,7 @@ public class MenuProvider
 
         case JavarConstants.fileMenuType:
             JMenu fileMenu;
-            fileMenu = new JMenu(JavarTranslator.translate("File"));
+            fileMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "File"));
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.newItemType));
             fileMenu.add(MenuItemProvider.createMenuItem(JavarConstants.openItemType));
             fileMenu.addSeparator();
@@ -77,7 +77,7 @@ public class MenuProvider
 
         case JavarConstants.editMenuType:
             JMenu editMenu;
-            editMenu = new JMenu(JavarTranslator.translate("Edit"));
+            editMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "Edit"));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.copyItemType));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.pasteItemType));
             editMenu.add(MenuItemProvider.createMenuItem(JavarConstants.cutItemType));
@@ -88,32 +88,32 @@ public class MenuProvider
 
         case JavarConstants.buildMenuType:
             JMenu buildMenu;
-            buildMenu = new JMenu(JavarTranslator.translate("Build"));
+            buildMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "Build"));
             buildMenu.add(MenuItemProvider.createMenuItem(JavarConstants.buildItemType));
             return buildMenu;
 
         case JavarConstants.runMenuType:
             JMenu runMenu;
-            runMenu = new JMenu(JavarTranslator.translate("Run"));
+            runMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "Run"));
             runMenu.add(MenuItemProvider.createMenuItem(JavarConstants.runItemType));
             return runMenu;
 
         case JavarConstants.toolsMenuType:
             JMenu toolsMenu;
-            toolsMenu = new JMenu(JavarTranslator.translate("Tools"));
+            toolsMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "Tools"));
             toolsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.codeAnalysisItemType));
             return toolsMenu;
 
         case JavarConstants.optionsMenuType:
             JMenu optionsMenu;
-            optionsMenu = new JMenu(JavarTranslator.translate("Options"));
+            optionsMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "Options"));
             optionsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.generalItemType));
             optionsMenu.add(MenuItemProvider.createMenuItem(JavarConstants.highlightConfigurationItemType));
             return optionsMenu;
 
         case JavarConstants.aboutMenuType:
             JMenu aboutMenu;
-            aboutMenu = new JMenu(JavarTranslator.translate("About"));
+            aboutMenu = new JMenu(JavarTranslator.translate(JavarConstants.menuPrefix, "About"));
             aboutMenu.add(MenuItemProvider.createMenuItem(JavarConstants.licenseItemType));
             aboutMenu.add(MenuItemProvider.createMenuItem(JavarConstants.readmeItemType));
             return aboutMenu;

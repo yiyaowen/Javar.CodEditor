@@ -93,7 +93,7 @@ public class Build
                 {
                 	// Build successful
                     Javar.outputArea.setSelectedIndex(0);
-                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildMessage) + "\n");
+                    TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildPrefix, JavarConstants.buildMessage) + "\n");
                     while ((buff = buildBuffer.readLine()) != null)
                     {
                         TabbedPane.outputTextArea.append(buff + "\n");
@@ -103,7 +103,7 @@ public class Build
                 {
                 	// Build failed
                     Javar.outputArea.setSelectedIndex(1);
-                    TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildErrorMessage) + "\n");
+                    TabbedPane.debugTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + JavarTranslator.translate(JavarConstants.buildPrefix, JavarConstants.buildErrorMessage) + "\n");
                     while ((buff = buildErrorBuffer.readLine()) != null)
                     {
                         TabbedPane.debugTextArea.append(buff + "\n");

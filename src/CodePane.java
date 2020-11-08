@@ -3,6 +3,7 @@ package com.yiyaowen.javar;
 import com.yiyaowen.javar.c_SyntaxParser;
 import com.yiyaowen.javar.c_SyntaxParseInfo;
 import com.yiyaowen.javar.JavarConstants;
+import com.yiyaowen.javar.JavarUtils;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,7 +34,7 @@ public class CodePane extends JTextPane
 
     private String syntaxFile;
     private String splitSymbol;
-    private char[] splitSymbols;
+    private byte[] splitSymbols;
     private boolean hasSyntax;
 
     private int lastLine = 1;
@@ -49,7 +50,8 @@ public class CodePane extends JTextPane
         // Set syntax file and split symbol
         this.syntaxFile = syntaxFile;
         this.splitSymbol = splitSymbol;
-        this.splitSymbols = splitSymbol.toCharArray();
+        this.splitSymbols = new byte[splitSymbol.toCharArray().length];
+        JavarUtils.convertCharArrayToByteArray(splitSymbol.toCharArray(), this.splitSymbols, -1);
         this.hasSyntax = hasSyntax;
         // Initialize syntax formatter
         formatter = new SyntaxFormatter(syntaxFile);
@@ -111,12 +113,15 @@ public class CodePane extends JTextPane
              */
             int cursorPos = this.getCaretPosition();
             String content = doc.getText(0, doc.getLength());
-            if (!tail.equals("\t") && !tail.equals("\b"))
-                content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
+            // WARNING : Param tail is deprecated
+            //if (!(tail.equals("\t") || tail.equals("\b")))
+            //content = content.substring(0, cursorPos) + tail + content.substring(cursorPos, content.length());
             if (hasSyntax)
             {
-                // C/C++ interface
+                // Native interface
                 c_SyntaxParser.fillSyntaxParseInfo(info, content, formatter.getKeywords(), formatter.getKwTotalCount(), splitSymbols, splitSymbols.length);
+                /* DEBUG */
+                //JavarUtils.DEBUG_OutputSyntaxParseInfo(info, formatter.getKeywords(), formatter.getKwTotalCount());
                 // Color keywords
                 for (int i = 0; i < formatter.getKwTotalCount(); ++i)
                 {
@@ -293,6 +298,9 @@ class SyntaxFormatter
             StyleConstants.setForeground(attr, new Color(color));
             StyleConstants.setFontSize(attr, CodePane.FONT_SIZE);
             StyleConstants.setFontFamily(attr, CodePane.FONT_FAMILY);
+            // Update keywords and attributes information
+            kwTotalCount += keywords.size();
+            kwTotal.addAll(keywords);
             attrMap.put(attr, keywords);
         }
     }

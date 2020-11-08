@@ -29,6 +29,7 @@ public class JavarTranslator
         {
             Javar.logger.log("e", ex.getMessage());
         }
+        // Set as default translator
         translator = default_translator;
     }
 
@@ -55,21 +56,36 @@ public class JavarTranslator
     /**
      * Translate specific text to current language preference
      *
+     * @param prefix (A short description to differentiate text with the same content)
      * @param text (Text to be translated)
      * @return trans_text (Text translated)
      */
-    public static String translate(String text)
+    public static String translate(String prefix, String text)
     {
+        /* DEBUG */
+        System.out.println(prefix+"@"+text);
+        /* DEBUG */
         if (translator == default_translator) {
             return text;
         }
         else {
-            String trans_text = translator.getProperty(text);
+            String trans_text = translator.getProperty(prefix+"@"+text);
+            /*
+             * Translation file format:
+             * prefix1@text1
+             * prefix1@text2
+             * prefix1@text3
+             * ...
+             * prefix2@text1
+             * prefix2@text2
+             * prefix2@text3
+             * ...
+             */
             if (trans_text == null) {
                 return text;
             }
             else {
-                return translator.getProperty(text);
+                return trans_text;
             }
         }
     }

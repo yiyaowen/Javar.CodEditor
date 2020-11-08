@@ -1,10 +1,12 @@
 package com.yiyaowen.javar;
 
+import com.yiyaowen.javar.c_SyntaxParseInfo;
 import com.yiyaowen.javar.JavarConstants;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import static java.lang.Math.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.text.*;
@@ -71,6 +73,29 @@ public class JavarUtils
         catch (Exception ex)
         {
             Javar.logger.log("f", ex.getMessage());
+        }
+    }
+
+    /////////////////////
+    /* Type Conversion */
+    /////////////////////
+
+    /**
+     * Convert char array to byte array
+     *
+     * @param charArray (Char Array to be converted)
+     * @param byteArray (Target byte array)
+     * @param maxCount (Maximum count of elements converted)
+     * @return
+     */
+    public static void convertCharArrayToByteArray(char charArray[], byte byteArray[], int maxCount)
+    {
+        if (charArray == null) { return; }
+        if (byteArray == null) { byteArray = new byte[charArray.length]; }
+        maxCount = (maxCount <= 0) ? Integer.MAX_VALUE : maxCount;
+        for (int i = 0; i < min(charArray.length, min(byteArray.length, maxCount)); ++i)
+        {
+            byteArray[i] = (byte) charArray[i];
         }
     }
     
@@ -312,5 +337,39 @@ public class JavarUtils
             Javar.logger.log("d", ex.getMessage());
         }
         return img;
+    }
+
+    /////////////////
+    /* Debug utils */
+    /////////////////
+
+    /**
+     * Output syntax parse information
+     *
+     * @param info (Syntax parse information)
+     * @return
+     */
+    public static void DEBUG_OutputSyntaxParseInfo(c_SyntaxParseInfo info, String[] keywords, int kwTotalCount)
+    {
+        System.out.println("========= DEBUG_OutputSyntaxParseInfo =========");
+        System.out.println("Keywords:");
+        for (int i = 0; i < kwTotalCount; ++i)
+        {
+            System.out.println(keywords[i]);
+            for (int j = 0; j < info.aKeywordInfo[i].count; ++j)
+            {
+                System.out.println(info.aKeywordInfo[i].start[j] + ", " + info.aKeywordInfo[i].end[j]);
+            }
+        }
+        System.out.println("\nQuote:");
+        for (int i = 0; i < info.quoteInfo.count; ++i)
+        {
+            System.out.println(info.quoteInfo.start[i] + ", " + info.quoteInfo.end[i]);
+        }
+        System.out.println("\nComment:");
+        for (int i = 0; i < info.commentInfo.count; ++i)
+        {
+            System.out.println(info.commentInfo.start[i] + ", " + info.commentInfo.end[i]);
+        }
     }
 }
