@@ -1,6 +1,6 @@
 # Javar.Project
 
-![generalIcon](https://tva1.sinaimg.cn/large/007S8ZIlgy1ghu4wcmd2lj30go05kgmq.jpg)
+### WARNING: This version was deprecated and will not be updated any more.
 
 **Javar** is a lightweight and powerful coder for C/C++, Java, Python and HTML. 
 
@@ -74,10 +74,6 @@ python example.py
 A example.html should be rendered well with your browser.
 
 ## Other Information About Javar
-
-### App Icon
-
-![app](https://tva1.sinaimg.cn/large/007S8ZIlgy1ghu5i2a0buj30e80e8q6l.jpg)
 
 ### Supported Languages
 
