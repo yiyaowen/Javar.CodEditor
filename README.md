@@ -71,7 +71,7 @@ python example.py
 
 ### HTML
 
-A example.html should be rendered well with your browser.
+An example.html should be rendered well with your browser.
 
 ## Other Information About Javar
 
