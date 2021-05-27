@@ -1,6 +1,6 @@
 # Javar.Project
 
-### WARNING: This version was deprecated and will not be updated any more.
+### WARNING: This version was deprecated and will not be updated in the future.
 
 **Javar** is a lightweight and powerful coder for C/C++, Java, Python and HTML. 
 
