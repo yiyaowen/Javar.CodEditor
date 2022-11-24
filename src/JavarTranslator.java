@@ -39,7 +39,7 @@ public class JavarTranslator
 
     /**
      * Update translator according to specific language
-     * 
+     *
      * @param lang (Language of the target translator)
      * @return
      */
@@ -62,9 +62,6 @@ public class JavarTranslator
      */
     public static String translate(String prefix, String text)
     {
-        /* DEBUG */
-        System.out.println(prefix+"@"+text);
-        /* DEBUG */
         if (translator == default_translator) {
             return text;
         }

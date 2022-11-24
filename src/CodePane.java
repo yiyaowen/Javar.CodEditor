@@ -18,10 +18,10 @@ public class CodePane extends JTextPane
     //////////////
     // Property //
     //////////////
-	
+
     public static int FONT_SIZE = JavarConstants.defaultFontSize;
     public static String FONT_FAMILY = JavarConstants.defaultFontFamily;
-    
+
     protected StyledDocument doc;
     protected SyntaxFormatter formatter;
 
@@ -40,11 +40,11 @@ public class CodePane extends JTextPane
     private int lastLine = 1;
 
     private c_SyntaxParseInfo info;
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public CodePane(String syntaxFile, String splitSymbol, boolean hasSyntax)
     {
         // Set syntax file and split symbol
@@ -65,7 +65,7 @@ public class CodePane extends JTextPane
         this.doc = super.getStyledDocument();
         this.setMargin(new Insets(JavarConstants.codePanePaddingTop, JavarConstants.codePanePaddingLeft, JavarConstants.codePanePaddingBottom, JavarConstants.codePanePaddingRight));
         this.setCharacterAttributes(normalAttr, false);
-        this.addKeyListener(new KeyAdapter() 
+        this.addKeyListener(new KeyAdapter()
         {
             public void keyTyped(KeyEvent ke)
             {
@@ -76,14 +76,14 @@ public class CodePane extends JTextPane
         // Initialize syntax parser information
         info = new c_SyntaxParseInfo(formatter.getKwTotalCount());
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Update highlight
-     * 
+     *
      * @param tail (Equals "" when update manually. What is it? Look at the WARNING below.)
      * @return
      */
@@ -97,10 +97,10 @@ public class CodePane extends JTextPane
             /*
              * The syntax parsing is processed in the listener of key-typed, but the document
              * of JTextPane does not update immediately, which means that the document does
-             * not include the key typed just now. 
+             * not include the key typed just now.
              *
-             * I guess it it because that JTextPane will update its document immediately after 
-             * its key-typed listener processed. However I do not find any useful or reliable 
+             * I guess it it because that JTextPane will update its document immediately after
+             * its key-typed listener processed. However I do not find any useful or reliable
              * information about this problem.
              *
              * My solution is to pass an extral parameter to update the document manually. That
@@ -108,7 +108,7 @@ public class CodePane extends JTextPane
              *
              * If you know the reason or have more elegant solutions, please let me know.
              * Email: wenyiyao19@mails.ucas.ac.cn
-             * 
+             *
              * Thanks very much.
              */
             int cursorPos = this.getCaretPosition();
@@ -147,10 +147,10 @@ public class CodePane extends JTextPane
             Javar.logger.log("e", ex.getMessage());
         }
     }
-    
+
     /**
      * Override from JPanel
-     * 
+     *
      * @param
      * @return
      */
@@ -182,16 +182,16 @@ public class CodePane extends JTextPane
         // Paint line number
         for (int count = 1; count <= line; count++)
         {
-            g.drawString(String.valueOf(count), JavarConstants.codePanePaddingLeft, count*(g.getFontMetrics().getHeight())+JavarConstants.codePanePaddingTop); 
+            g.drawString(String.valueOf(count), JavarConstants.codePanePaddingLeft, count*(g.getFontMetrics().getHeight())+JavarConstants.codePanePaddingTop);
         }
         // Set last line
         lastLine = line;
     }
-    
+
     ////////////
     // getter //
     ////////////
-    
+
     public String getSyntaxFile()
     {
         return syntaxFile;
@@ -201,7 +201,7 @@ public class CodePane extends JTextPane
         return splitSymbol;
     }
     public boolean getHasSyntax()
-    {   
+    {
         return hasSyntax;
     }
 }
@@ -211,7 +211,7 @@ class SyntaxFormatter
     //////////////
     // Property //
     //////////////
-	
+
     private int kwTotalCount = 0;
     private ArrayList<String> kwTotal = new ArrayList<>();
     private Map<SimpleAttributeSet, ArrayList<String>> attrMap = new HashMap<>();
@@ -219,11 +219,11 @@ class SyntaxFormatter
     SimpleAttributeSet normalAttr = new SimpleAttributeSet();
     SimpleAttributeSet quoteAttr = new SimpleAttributeSet();
     SimpleAttributeSet commentAttr = new SimpleAttributeSet();
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public SyntaxFormatter(String syntaxFile)
     {
         // Initialize special attributes
@@ -232,7 +232,7 @@ class SyntaxFormatter
         StyleConstants.setFontSize(normalAttr, CodePane.FONT_SIZE);
         StyleConstants.setFontFamily(normalAttr, CodePane.FONT_FAMILY);
             // Quote attr
-        StyleConstants.setForeground(quoteAttr, new Color(JavarConstants.quoteColorHex)); 
+        StyleConstants.setForeground(quoteAttr, new Color(JavarConstants.quoteColorHex));
         StyleConstants.setFontSize(quoteAttr, CodePane.FONT_SIZE);
         StyleConstants.setFontFamily(quoteAttr, CodePane.FONT_FAMILY);
             // Comment attr
@@ -244,7 +244,7 @@ class SyntaxFormatter
         try
         {
             scanner = new Scanner(new File("../configs/stx/" + syntaxFile));
-            /* 
+            /*
              * Syntax file format:
              * &42AB33
              * keyword1
@@ -304,7 +304,7 @@ class SyntaxFormatter
             attrMap.put(attr, keywords);
         }
     }
-    
+
     ////////////
     // getter //
     ////////////
@@ -319,7 +319,7 @@ class SyntaxFormatter
         kwTotal.toArray(keywords);
         return keywords;
     }
-    
+
     public SimpleAttributeSet getNormalAttributeSet()
     {
         return normalAttr;
@@ -332,14 +332,14 @@ class SyntaxFormatter
     {
         return commentAttr;
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Set specific document's highlight
-     * 
+     *
      * @param doc (Target document)
      * @param token (Key word)
      * @param start (Start position)
@@ -366,7 +366,7 @@ class SyntaxFormatter
             }
         }
         else
-        {   
+        {
             return;
         }
         if (currentAttributeSet != null)

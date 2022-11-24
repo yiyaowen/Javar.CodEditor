@@ -41,8 +41,8 @@ public class c_SyntaxParser
             ex.printStackTrace();
             return;
         }
-        String keywords[] = new String[] 
-        { 
+        String keywords[] = new String[]
+        {
             "public", "static", "class", "new", "#include", "void", "int",
             "float", "double", "long", "bool", "using", "namespace"
         };
@@ -60,15 +60,15 @@ public class c_SyntaxParser
                 System.out.println(String.valueOf(info.aKeywordInfo[i].start[j]) +
                     ", " + String.valueOf(info.aKeywordInfo[i].end[j]));
             }
-        } 
+        }
         System.out.println("\nQuote:");
-        for (int i = 0; i < info.quoteInfo.count; ++i) 
+        for (int i = 0; i < info.quoteInfo.count; ++i)
         {
             System.out.println(String.valueOf(info.quoteInfo.start[i]) +
                 ", " + String.valueOf(info.quoteInfo.end[i]));
         }
         System.out.println("\nComment:");
-        for (int i = 0; i < info.commentInfo.count; ++i) 
+        for (int i = 0; i < info.commentInfo.count; ++i)
         {
             System.out.println(String.valueOf(info.commentInfo.start[i]) +
                 ", " + String.valueOf(info.commentInfo.end[i]));

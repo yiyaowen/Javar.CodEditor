@@ -25,8 +25,8 @@ public class CreatorWindow extends JFrame
     //////////////
     // Property //
     //////////////
-	
-    public static HashMap<String, String> suffixTypeMap = new HashMap<>() 
+
+    public static HashMap<String, String> suffixTypeMap = new HashMap<>()
     {
         {
             put("java", "Java Source File");
@@ -37,17 +37,17 @@ public class CreatorWindow extends JFrame
         }
     };
     public static CWItemData[] categoryItems = new CWItemData[] {
-        new CWItemData("sourceFiles", "Source Files", CWItemData.CATEGORY), 
+        new CWItemData("sourceFiles", "Source Files", CWItemData.CATEGORY),
         new CWItemData("pyTemplates", "Python Templates", CWItemData.CATEGORY),
         new CWItemData("javaTemplates", "Java Templates", CWItemData.CATEGORY),
         new CWItemData("ccppTemplates", "C/C++ Templates", CWItemData.CATEGORY),
         new CWItemData("htmlTemplates", "html Templates", CWItemData.CATEGORY)
     };
-    public static HashMap<String, CWItemData[]> typeItems = new HashMap<>() 
+    public static HashMap<String, CWItemData[]> typeItems = new HashMap<>()
     {
         {
             put("sourceFiles", new CWItemData[] {
-                new CWItemData("javaFile", "Java Source File", CWItemData.TYPE), 
+                new CWItemData("javaFile", "Java Source File", CWItemData.TYPE),
                 new CWItemData("pyFile", "Python Source File", CWItemData.TYPE),
                 new CWItemData("cFile", "C Source File", CWItemData.TYPE),
                 new CWItemData("cppFile", "C++ Source File", CWItemData.TYPE),
@@ -113,14 +113,14 @@ public class CreatorWindow extends JFrame
     boolean hasInvalidFileName = false;
     Document namePropertyDocument = namePropertyTextField.getDocument();
     Document chooseDirPropertyDocument = chooseDirPropertyTextField.getDocument();
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Initialize creator window
-     * 
+     *
      * @param
      * @return
      */
@@ -260,7 +260,7 @@ public class CreatorWindow extends JFrame
                     JavarTranslator.translate(JavarConstants.creatorWindowPrefix, JavarConstants.invalidNamePropertyMessage));
                 return;
             }
-            String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1); 
+            String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
             String fileType = suffixTypeMap.get(fileSuffix);
             if (fileType == null)
                 fileType = fileSuffix;
@@ -302,7 +302,7 @@ public class CreatorWindow extends JFrame
             namePropertyTextField.setText(fileSuffixMap.get(data.getType()));
         });
         namePropertyTextField.addFocusListener(new FocusAdapter() {
-            @Override 
+            @Override
             public void focusGained(FocusEvent e)
             {
                 if (hasInvalidFileName)
@@ -328,7 +328,7 @@ public class CreatorWindow extends JFrame
             public void changedUpdate(DocumentEvent e) {}
             @Override
             public void insertUpdate(DocumentEvent e)
-            { 
+            {
                 if (!namePropertyTextField.getText().equals(""))
                 {
                     hasNameProperty = true;
@@ -342,7 +342,7 @@ public class CreatorWindow extends JFrame
                 }
             }
             @Override
-            public void removeUpdate(DocumentEvent e) 
+            public void removeUpdate(DocumentEvent e)
             {
                 if (!namePropertyTextField.getText().equals(""))
                 {
@@ -361,7 +361,7 @@ public class CreatorWindow extends JFrame
             @Override
             public void changedUpdate(DocumentEvent e) {}
             @Override
-            public void insertUpdate(DocumentEvent e) 
+            public void insertUpdate(DocumentEvent e)
             {
                 if (!chooseDirPropertyTextField.getText().equals(""))
                 {
@@ -375,8 +375,8 @@ public class CreatorWindow extends JFrame
                     createPropertyButton.setEnabled(false);
                 }
             }
-            @Override 
-            public void removeUpdate(DocumentEvent e) 
+            @Override
+            public void removeUpdate(DocumentEvent e)
             {
                 if (!chooseDirPropertyTextField.getText().equals(""))
                 {
@@ -418,28 +418,28 @@ class CWItemData
     //////////////
     // Property //
     //////////////
-	
+
     int list;
     public static int CATEGORY = 1;
     public static int TYPE = 2;
     String type;
     String name;
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public CWItemData(String type, String name, int list)
     {
         this.type = type;
         this.name = name;
         this.list = list;
     }
-    
+
     ////////////
     // getter //
     ////////////
-    
+
     public String getType()
     {
         return type;
@@ -452,14 +452,14 @@ class CWItemData
     {
         return list;
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Override from Object
-     * 
+     *
      * @param
      * @return
      */
@@ -485,30 +485,30 @@ class CWItemCellRenderer extends JPanel implements ListCellRenderer
     //////////////
     // Property //
     //////////////
-	
+
     int W, H;
     ImageIcon icon;
     String name;
     Color background;
     Color foreground;
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public CWItemCellRenderer(int W, int H)
     {
         this.W = W;
         this.H = H;
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Implementation of ListCellRenderer
-     * 
+     *
      * @param
      * @return
      */
@@ -521,10 +521,10 @@ class CWItemCellRenderer extends JPanel implements ListCellRenderer
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
         return this;
     }
-    
+
     /**
      * Override from JPanel
-     * 
+     *
      * @param
      * @return
      */
@@ -537,10 +537,10 @@ class CWItemCellRenderer extends JPanel implements ListCellRenderer
         g.drawImage(icon.getImage(), JavarConstants.creatorListIconOffset, JavarConstants.creatorListIconPadding, null);
         g.drawString(name, JavarConstants.creatorListIconOffset*2+icon.getIconWidth(), (int)(g.getFontMetrics().getAscent()/2+getHeight()/2));
     }
-    
+
     /**
      * Override from JPanel
-     * 
+     *
      * @param
      * @return
      */

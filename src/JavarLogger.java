@@ -8,7 +8,7 @@ public class JavarLogger
     ///////////////
     // Constants //
     ///////////////
-   
+
     private static final int JavarLogger_OK = 0;
     private static final int JavarLogger_Failed = 1;
 
@@ -107,7 +107,7 @@ public class JavarLogger
             logInfo(msg, logFile);
         }
     }
-    
+
     /**
      * Get current log level's string description
      *
@@ -186,7 +186,7 @@ public class JavarLogger
             FileWriter fw = new FileWriter(logFile, true);
             fw.write(LocalDateTime.now()+JavarLogger_InfoPrefix+msg+"\n");
             fw.close();
-            return JavarLogger_OK;    
+            return JavarLogger_OK;
         }
         catch (Exception ex)
         {
@@ -211,7 +211,7 @@ public class JavarLogger
             FileWriter fw = new FileWriter(logFile, true);
             fw.write(LocalDateTime.now()+JavarLogger_DebugPrefix+msg+"\n");
             fw.close();
-            return JavarLogger_OK;    
+            return JavarLogger_OK;
         }
         catch (Exception ex)
         {
@@ -236,7 +236,7 @@ public class JavarLogger
             FileWriter fw = new FileWriter(logFile, true);
             fw.write(LocalDateTime.now()+JavarLogger_ErrorPrefix+msg+"\n");
             fw.close();
-            return JavarLogger_OK;    
+            return JavarLogger_OK;
         }
         catch (Exception ex)
         {
@@ -261,7 +261,7 @@ public class JavarLogger
             FileWriter fw = new FileWriter(logFile, true);
             fw.write(LocalDateTime.now()+JavarLogger_FatalPrefix+msg+"\n");
             fw.close();
-            return JavarLogger_OK;    
+            return JavarLogger_OK;
         }
         catch (Exception ex)
         {

@@ -13,16 +13,16 @@ public class ManagerBar extends JMenuBar
     /////////////////
     // Constructor //
     /////////////////
-	
+
     public ManagerBar()
     {
         initManagerBar();
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     public void initManagerBar()
     {
         this.add(MenuProvider.createMenu(JavarConstants.fileMenuType));

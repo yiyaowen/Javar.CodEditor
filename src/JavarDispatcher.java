@@ -15,10 +15,10 @@ public class JavarDispatcher
 	////////////
 	// Method //
 	////////////
-	
+
 	/**
 	 * Create a new file initialized with specific file template
-	 * 
+	 *
 	 * @param filePath (New file's path)
 	 * @param fileTemp (Specific file template)
 	 * @return
@@ -28,12 +28,12 @@ public class JavarDispatcher
 		File file = new File(filePath);
         try
         {
-            if (file.exists()) 
+            if (file.exists())
             {
             	// File already exists
 				int result;
 				result = JOptionPane.showConfirmDialog(null,
-                    JavarTranslator.translate(JavarConstants.confirmDialogPrefix, JavarConstants.creatorWindowFileExistsMessage), 
+                    JavarTranslator.translate(JavarConstants.confirmDialogPrefix, JavarConstants.creatorWindowFileExistsMessage),
 					JavarTranslator.translate(JavarConstants.confirmDialogPrefix, JavarConstants.creatorWindowFileExistsTitle),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (result == JOptionPane.OK_OPTION)
@@ -112,7 +112,7 @@ public class JavarDispatcher
                 FileList.fileItems.add(data);
                 Javar.fileList.setListData(FileList.fileItems);
             }
-            catch (Exception ignore) 
+            catch (Exception ignore)
             {
             	Javar.logger.log("i", ignore.getMessage());
             }
@@ -127,7 +127,7 @@ public class JavarDispatcher
         {
             // Set info box
             Javar.upperBar.infoBox.setText(String.format(
-                JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerErrorContent), 
+                JavarTranslator.translate(JavarConstants.itemListenerPrefix, JavarConstants.newItemListenerErrorContent),
                 file.getName(), JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]")));
             // Show error message
             JOptionPane.showMessageDialog(null,

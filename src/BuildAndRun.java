@@ -28,10 +28,10 @@ public class BuildAndRun
     {
         Run.Html(filePath);
     }
-    
+
     /**
      * Try to build and run C++ project
-     * 
+     *
      * @param filePath (Target *.cpp file path)
      * @return hasBuiltAndRun (If build and run successfully return true, otherwise return false)
      */
@@ -46,10 +46,10 @@ public class BuildAndRun
         }
         return hasBuilt && hasRun;
     }
-    
+
     /**
      * Try to build and run C project
-     * 
+     *
      * @param filePath (Target *.c file path)
      * @return hasBuiltAndRun (If build and run successfully return true, otherwise return false)
      */
@@ -64,10 +64,10 @@ public class BuildAndRun
         }
         return hasBuilt && hasRun;
     }
-    
+
     /**
      * Redirect to Run.Python(...)
-     * 
+     *
      * @param
      * @return
      */
@@ -75,10 +75,10 @@ public class BuildAndRun
     {
         return Run.Python(filePath);
     }
-    
+
     /**
      * Try to build and run Java project
-     * 
+     *
      * @param filePath (Target *.java file path)
      * @return hasBuiltAndRun (If build and run successfully return true, otherwise return false)
      */

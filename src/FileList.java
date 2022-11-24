@@ -18,25 +18,25 @@ public class FileList extends JList
     //////////////
     // Property //
     //////////////
-	
+
     public static Vector<FLItemData> fileItems = new Vector<>();
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public FileList()
     {
         initFileList();
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Initialize file list
-     * 
+     *
      * @param
      * @return
      */
@@ -82,11 +82,11 @@ public class FileList extends JList
             Javar.infoLabel.updateText();
         });
     }
-    
+
     ///////////////////////
     // getter and setter //
     ///////////////////////
-    
+
     public String getSelectedItemDataFileName()
     {
         return ((FLItemData) this.getSelectedValue()).getFileName();
@@ -126,22 +126,22 @@ public class FileList extends JList
 }
 
 class FLItemData
-{   
+{
     //////////////
     // Property //
     //////////////
-	
+
     String fileType;
     String fileName;
     String filePath;
     String fileSize;
     String fileCreated;
     String fileLastModified;
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public FLItemData(String fileName, String fileType, String filePath, String fileSize, String fileCreated, String fileLastModified)
     {
         this.fileName = fileName;
@@ -151,11 +151,11 @@ class FLItemData
         this.fileCreated = fileCreated;
         this.fileLastModified = fileLastModified;
     }
-    
+
     ///////////////////////
     // getter and setter //
     ///////////////////////
-    
+
     public String getFileName()
     {
         return fileName;
@@ -201,7 +201,7 @@ class FLItemData
         return fileLastModified;
     }
     public void setFileLastModified(String fileLastModified)
-    {   
+    {
         this.fileLastModified = fileLastModified;
     }
 }
@@ -211,30 +211,30 @@ class FLItemCellRenderer extends JPanel implements ListCellRenderer
     //////////////
     // Property //
     //////////////
-	
+
     int W, H;
     ImageIcon icon;
     String fileName;
     Color background;
     Color foreground;
-    
+
     /////////////////
     // Constructor //
     /////////////////
-    
+
     public FLItemCellRenderer(int W, int H)
     {
         this.W = W;
         this.H = H;
     }
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Implementation of ListCellRenderer
-     * 
+     *
      * @param
      * @return
      */
@@ -247,10 +247,10 @@ class FLItemCellRenderer extends JPanel implements ListCellRenderer
         foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
         return this;
     }
-    
+
     /**
      * Override from JPanel
-     * 
+     *
      * @param
      * @return
      */
@@ -263,10 +263,10 @@ class FLItemCellRenderer extends JPanel implements ListCellRenderer
         g.drawImage(icon.getImage(), JavarConstants.fileListIconOffset, JavarConstants.fileListIconPadding, null);
         g.drawString(fileName, JavarConstants.fileListIconOffset*2+icon.getIconWidth(), (int)(g.getFontMetrics().getAscent()/2+getHeight()/2));
     }
-    
+
     /**
      * Override from JPanel
-     * 
+     *
      * @param
      * @return
      */

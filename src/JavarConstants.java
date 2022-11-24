@@ -27,9 +27,9 @@ public class JavarConstants
             LOCALE = Locale.CHINA;
         else
             LOCALE = Locale.US;
-        // Look And Feel 
+        // Look And Feel
         for (var info : UIManager.getInstalledLookAndFeels())
-            LAFs.add(info.getName()); 
+            LAFs.add(info.getName());
         // Device relevant size
         var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.getWidth();
@@ -54,7 +54,7 @@ public class JavarConstants
             if (versionProcess.waitFor() == 0)
             {
                 char cbuf[] = new char[10];
-                var versionReader = new InputStreamReader(versionProcess.getInputStream(), "UTF-8");      
+                var versionReader = new InputStreamReader(versionProcess.getInputStream(), "UTF-8");
                 versionReader.read(cbuf, 0, 10);
                 versionMessage = new String(cbuf);
             }
@@ -83,22 +83,22 @@ public class JavarConstants
     ///////////////////////
     /* Global properties */
     ///////////////////////
-    
+
     public static String pathDelimiter = "/";
 
     public static String LANG = "us_EN";
     public static Locale LOCALE = Locale.US;
-    
+
     public static int defaultFontSize = 18;
     public static String defaultFontFamily = "Arial";
-    
+
     public static ArrayList<String> LAFs = new ArrayList<>();
     public static String defaultLAF = "NONE";
 
     /////////////////////////////////
     /* String : names and contents */
     /////////////////////////////////
-    
+
     // Prefix
         // Main window
     public static final String mainWindowPrefix = "MainWindow";
@@ -138,13 +138,13 @@ public class JavarConstants
     public static final String creatorWindowFileErrorTitle = "Unable To Read Or Write";
     public static final String creatorWindowFileUnknownErrorMessage = "An unknown error has occurred!\nUnable to create the file.";
     public static final String creatorWindowFileUnknownErrorTitle = "Unknown Error Occurred";
-    public static final String creatorCategoryDescription = 
-    "<html>" + 
-        "<body>" + 
+    public static final String creatorCategoryDescription =
+    "<html>" +
+        "<body>" +
             "<h1>%s</h1>" +
         "</body>" +
     "</html>";
-    public static final String creatorDescription = 
+    public static final String creatorDescription =
     "<html>" +
         "<body>" +
             "<p><strong>%s</strong></p><hr />" +
@@ -215,12 +215,12 @@ public class JavarConstants
             "<h3><strong>%s+B</strong> - Build/Compile Coder</h3>" +
             "<h3><strong>%s+R</strong> - Run/Render Coder</h3>" +
             "<hr />" +
-            "<p>Download: https://github.com/yiyaowen/Javar.Project</p>" +
+            "<p>Download: https://github.com/yiyaowen/Javar.CodEditor</p>" +
             "<p>Version: %s</p>" +
         "</body>" +
     "</html>";
             // Preview label content
-    public static final String previewLabelContent = 
+    public static final String previewLabelContent =
     "<html>" +
         "<body>" +
             "<h1>Coder Preview - Web Simulator</h1>" +
@@ -230,13 +230,13 @@ public class JavarConstants
     ////////////////////
     /* PopupMenu type */
     ////////////////////
-    
+
     public static final int fileListPopupType = 1;
 
     ///////////////
     /* Menu type */
     ///////////////
-    
+
     public static final int fileMenuType = 1;
     public static final int editMenuType = 2;
     public static final int buildMenuType = 3;
@@ -249,7 +249,7 @@ public class JavarConstants
     ///////////////////
     /* MenuItem type */
     ///////////////////
-    
+
     // File menu
     public static final int newItemType = 1;
     public static final int openItemType = 3;
@@ -293,7 +293,7 @@ public class JavarConstants
     ////////////////////////////////////
     /* MenuItem accelerator parameter */
     ////////////////////////////////////
-    
+
     // Char
     public static final char newItemChar = 'N';
     public static final char openItemChar = 'O';
@@ -306,7 +306,7 @@ public class JavarConstants
     public static final char buildItemChar = 'B';
     public static final char runItemChar = 'R';
     // Modifier
-    public static int NATIVE_MASK; 
+    public static int NATIVE_MASK;
     public static int newItemModifier;
     public static int openItemModifier;
     public static int saveItemModifier;
@@ -321,24 +321,24 @@ public class JavarConstants
     /////////////////////////////////////////
     /* TabbedPane initialization parameter */
     /////////////////////////////////////////
-    
+
     public static final int CodePane = 1;
     public static final int OutputArea = 2;
 
     //////////////////////////////////////////////
     /* Programming language syntax split symbol */
     //////////////////////////////////////////////
-    
+
     public static final String Java_TokensSplitSymbol = " ;\t\n<>()[]{}!%^&*-+=?:";
     public static final String Python_TokensSplitSymbol = " \t\n()[]{}";
     public static final String C_TokensSplitSymbol = " ;\t\n()[]{}!%^&*-+=?:";
     public static final String Cpp_TokensSplitSymbol = " ;\t\n<>()[]{}!%^&*-+=?:";
     public static final String Html_TokensSplitSymbol = "";
-    
+
     //////////////////////////////////////
     /* Programming language syntax file */
     //////////////////////////////////////
-    
+
     public static final String JavaSyntaxFile = "Java.stx";
     public static final String PythonSyntaxFile = "Python.stx";
     public static final String CSyntaxFile = "C.stx";
@@ -348,7 +348,7 @@ public class JavarConstants
     /////////////////////
     /* Component color */
     /////////////////////
-    
+
     // Quote color
     public static final int quoteColorR = 153;
     public static final int quoteColorG = 51;
@@ -378,7 +378,7 @@ public class JavarConstants
     ////////////////////
     /* Component size */
     ////////////////////
-    
+
     // Device relvevant size
     public static double screenWidth;
     public static double screenHeight;
@@ -511,7 +511,7 @@ public class JavarConstants
     	// Main window size
     public static final int mainWindowWidth = 1200;
     public static final int mainWindowHeight = 750;
-    public static final int centerPanelWidth = mainWindowWidth; 
+    public static final int centerPanelWidth = mainWindowWidth;
     public static final int centerPanelHeight = 720;
     public static final int fileListWidth = centerPanelWidth*1/5;
     public static final int fileListHeight = centerPanelHeight*3/4;

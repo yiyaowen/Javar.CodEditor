@@ -1,27 +1,26 @@
-# Javar.Project
+# Javar.CodEditor
 
-### WARNING: This version was deprecated and will not be updated in the future.
+**Javar** is a lightweight and powerful coder for C/C++, Java, Python and HTML.
 
-**Javar** is a lightweight and powerful coder for C/C++, Java, Python and HTML. 
-
-## Build
+## Build & Run
 
 Javar has been built and tested with Java SE 11. Please download and install a suitable version of Java on your system before building Javar.
 
 ### Windows
 
 ```
-// TO BE COMPLETED
+> build.bat && run.bat
 ```
 
 ### macOS
 
 ```
-$ cd Javar.Project
+$ cd Javar.CodEditor
 $ cp ./configs/properties/Init.properties ./configs/properties/Javar.properties
-$ mkdir build && cd build && mkdir c_lib
-$ javac -d . ../src/*.java
-$ gcc -c ../src/c_src/parser.c && gcc -dynamiclib -shared -o ./c_lib/libparser.dylib parser.o && rm parser.o
+$ mkdir -p build && cd build && -p mkdir c_lib && cd c_lib
+$ gcc -c ../../src/c_src/parser.c
+$ gcc -dynamiclib -shared -o ./libparser.dylib parser.o
+$ cd .. && javac -d . ../src/*.java
 $ java com.yiyaowen.javar.Javar
 ```
 
@@ -57,16 +56,8 @@ javac [-encoding utf-8] -d . example.java
 
 ### Python
 
-Only support Python3.x.
-
 ```
-python3 example.py
-```
-
-Sometimes the system only has Python3.x installed. In this case Javar still run well, since it will try to run the following command instead:
-
-```
-python example.py
+py example.py
 ```
 
 ### HTML

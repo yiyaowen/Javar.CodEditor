@@ -18,7 +18,7 @@ public class GeneralWindow extends JFrame
     //////////////
     // Property //
     //////////////
-	
+
     JLabel iconLabel = new JLabel();
     JLabel themeLabel = new JLabel();
     JComboBox themeComboBox = new JComboBox();
@@ -32,14 +32,14 @@ public class GeneralWindow extends JFrame
     JButton cancelBtn = new JButton();
     JButton OKBtn = new JButton();
     JPanel generalPanel = new JPanel();
-    
+
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Initialize general window
-     * 
+     *
      * @param
      * @return
      */
@@ -73,13 +73,13 @@ public class GeneralWindow extends JFrame
         OKBtn.setBounds(JavarConstants.generalCancelBtnWidth+JavarConstants.generalBtnPaddingWidth, JavarConstants.generalIconLabelHeight+JavarConstants.generalThemeComboBoxHeight+JavarConstants.generalFontFamilyComboBoxHeight+JavarConstants.generalFontSizeComboBoxHeight+JavarConstants.generalLanguageBtn2Height, JavarConstants.generalOKBtnWidth, JavarConstants.generalOKBtnHeight);
         this.add(OKBtn);
         // Set component content
-        	// Icon 
+        	// Icon
         ImageIcon icon = new ImageIcon("../images/icons/generalIcon.png");
         icon.setImage(JavarUtils.resizeImageToFitHeightWithPadding(iconLabel, icon.getImage(), Image.SCALE_SMOOTH, JavarConstants.generalIconPadding));
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
         iconLabel.setVerticalAlignment(SwingConstants.CENTER);
         iconLabel.setIcon(icon);
-        	// Theme 
+        	// Theme
         themeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         themeLabel.setVerticalAlignment(SwingConstants.CENTER);
         themeLabel.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Theme"));
@@ -101,7 +101,7 @@ public class GeneralWindow extends JFrame
         fontSizeLabel.setVerticalAlignment(SwingConstants.CENTER);
         fontSizeLabel.setText(JavarTranslator.translate(JavarConstants.generalWindowPrefix, "Font Size"));
         for (int size = 12; size <= 26; size++)
-            fontSizeComboBox.addItem(size); 
+            fontSizeComboBox.addItem(size);
         fontSizeComboBox.setSelectedItem(JavarConstants.defaultFontSize);
         // Language
         languageLabel.setHorizontalAlignment(SwingConstants.LEFT);

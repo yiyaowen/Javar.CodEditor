@@ -42,7 +42,7 @@ JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseIn
     ////////////////////
     // Initialization //
     ////////////////////
-    
+
     kwTotalCount = j_kwTotalCount;
     keywords = (Keyword *) malloc(sizeof(Keyword)*kwTotalCount);
     for (int i = 0; i < kwTotalCount; ++i) {
@@ -63,23 +63,23 @@ JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseIn
         else { printf("%c", splitSymbols[i]); }
     }
     /* DEBUG */
-    
+
     /////////////////
     // Timer start //
     /////////////////
 
     time_t timeStart = time(NULL);
-    
+
     /////////////////
     // Start parse //
     /////////////////
 
     SyntaxParseInfo info = parseFile(file, strlen(file));
-    
+
     //////////////////////
     // Fill information //
     //////////////////////
-    
+
     // Get SyntaxParseInfo
     jclass j_SyntaxParseInfoClass = (*env)->FindClass(env, "com/yiyaowen/javar/c_SyntaxParseInfo");
     jmethodID setAKeywordInfoAtID = (*env)->GetMethodID(env, j_SyntaxParseInfoClass, "setAKeywordInfoAt", "(Lcom/yiyaowen/javar/c_SingleInfo;I)V");
@@ -117,11 +117,11 @@ JNIEXPORT void JNICALL Java_com_yiyaowen_javar_c_1SyntaxParser_fillSyntaxParseIn
         (*env)->CallVoidMethod(env, j_commentInfo, setEndAtID, info.commentInfo.end[i], i);
     }
     (*env)->CallVoidMethod(env, j_info, setCommentInfoID, j_commentInfo);
-    
+
     //////////////////////
     // Release resource //
     //////////////////////
-    
+
     (*env)->ReleaseStringUTFChars(env, j_file, file);
     for (int i = 0; i < kwTotalCount; ++i) {
         (*env)->ReleaseStringUTFChars(env, (jstring) (*env)->GetObjectArrayElement(env, j_keywords, i), keywords[i].text);
@@ -200,7 +200,7 @@ SyntaxParseInfo parseFile(const char * file, int size)
                     /* NOT IN_LINE_COMMENT */
                     if (file[i] == '"') {
                         if (file[i-1] != '\'' && file[i+1] != '\'') {
-                            quote_s = i; 
+                            quote_s = i;
                             state = IN_QUOTE;
                         }
                     }

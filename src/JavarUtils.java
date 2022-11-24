@@ -25,7 +25,7 @@ public class JavarUtils
     ///////////////////////
     /* Global properties */
     ///////////////////////
-  
+
     /**
      * Load global properties from application properties file
      *
@@ -98,19 +98,19 @@ public class JavarUtils
             byteArray[i] = (byte) charArray[i];
         }
     }
-    
+
     //////////////////
     /* File handler */
     //////////////////
-    
+
     /**
      * Unpack file path to properties map
-     * 
+     *
      * @param filePath (File path to unpack)
      * @return fileMap (Properties map, including file path, directory path, file name, file prefix and file suffix)
      */
     public static HashMap<String,String> unpackFilePath(String filePath)
-    {   
+    {
         HashMap<String,String> map = new HashMap<>();
         String dirPath = filePath.substring(0, filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
         String fileName = filePath.substring(filePath.lastIndexOf(JavarConstants.pathDelimiter)+1);
@@ -123,12 +123,12 @@ public class JavarUtils
         map.put("fileSuffix", fileSuffix);
         return map;
     }
-    
+
     /**
      * Get specific file's attributes map
-     * 
+     *
      * @param file (Target file)
-     * @return fileAttrMap (Attributes map, including 
+     * @return fileAttrMap (Attributes map, including
      */
     public static HashMap<String,String> getFileAttributes(File file)
     {

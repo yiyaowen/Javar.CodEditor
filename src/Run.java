@@ -17,7 +17,7 @@ public class Run
 	////////////
 	// Method //
 	////////////
-	
+
     /**
      * Try to render *.html file
      *
@@ -25,26 +25,26 @@ public class Run
      * @return
      */
     public static void Html(String filePath)
-    {   
+    {
         File file = new File(filePath);
         try (
             var inChannel = new FileInputStream(file).getChannel())
-        {   
+        {
             MappedByteBuffer buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
             Charset charset = Charset.forName("UTF-8");
             CharsetDecoder decoder = charset.newDecoder();
             CharBuffer charBuffer = decoder.decode(buffer);
             TabbedPane.previewLabel.setText(charBuffer.toString());
-        }   
+        }
         catch (Exception ex)
-        {   
+        {
             Javar.logger.log("e", ex.getMessage());
-        }   
+        }
         finally
         {
             Javar.outputArea.setSelectedIndex(2);
         }
-    }   
+    }
 
     /**
      * Try to run *.exe file
@@ -59,10 +59,10 @@ public class Run
     	String filePrefix = fileMap.get("filePrefix");
         return TryRun(dirPath + JavarConstants.pathDelimiter + filePrefix, dirPath);
     }
-    
+
     /**
      * Try to run *.py file
-     * 
+     *
      * @param filePath (Target *.exe file path)
      * @return hasRun (If run successfully return true, otherwise return false)
      */
@@ -71,12 +71,12 @@ public class Run
     	HashMap<String,String> fileMap = JavarUtils.unpackFilePath(filePath);
     	String fileName = fileMap.get("fileName");
     	String dirPath = fileMap.get("dirPath");
-    	return TryRun("python " + fileName, dirPath);
+    	return TryRun("py " + fileName, dirPath);
     }
-	
+
     /**
      * Try to run JVM (Java Virtual Machine)
-     * 
+     *
      * @param filePath (Target *.class file path)
      * @return hasRun (If run successfully return true, otherwise return false)
      */
@@ -126,7 +126,7 @@ public class Run
                 else
                 {
                 	// Run failed
-                	TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + 
+                	TabbedPane.outputTextArea.append(JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") +
                         JavarTranslator.translate(JavarConstants.runPrefix, JavarConstants.runErrorMessage) + "\n");
                     while ((buff = runErrorBuffer.readLine()) != null)
                     {
@@ -134,7 +134,7 @@ public class Run
                     }
                 }
                 TabbedPane.outputTextArea.append(
-                    JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") + 
+                    JavarUtils.getCurrentTimeWithBorderMEDIUM("[", "]") +
                     JavarTranslator.translate(JavarConstants.runPrefix, JavarConstants.runOverMessage) + "\n");
             }
             catch (Exception outputEx)
@@ -147,5 +147,5 @@ public class Run
         	Javar.logger.log("e", processEx.getMessage());
         }
         return hasRun;
-    }      
+    }
 }

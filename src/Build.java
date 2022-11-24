@@ -11,7 +11,7 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
 import java.util.HashMap;
- 
+
 public class Build
 {
     ////////////
@@ -20,7 +20,7 @@ public class Build
 
 	/**
      * Try to build C++ project
-     * 
+     *
      * @param filePath (Target *.cpp file path)
      * @return hasBuilt (If build successfully return true, otherwise return false)
      */
@@ -36,7 +36,7 @@ public class Build
 
     /**
      * Try to build C project
-     * 
+     *
      * @param filePath (Target *.c file path)
      * @return hasBuilt (If build successfully return true, otherwise return false)
      */
@@ -52,7 +52,7 @@ public class Build
 
     /**
      * Try to build Java project
-     * 
+     *
      * @param filePath (Target *.java file path)
      * @return hasBuilt (If build successfully return true, otherwise return false)
      */

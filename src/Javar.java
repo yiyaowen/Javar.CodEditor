@@ -40,10 +40,10 @@ public class Javar
     ////////////
     // Method //
     ////////////
-    
+
     /**
      * Initialize main window
-     * 
+     *
      * @param
      * @return
      */
@@ -99,7 +99,7 @@ public class Javar
 
     /**
      * Update LAF when application starts
-     * 
+     *
      * @param
      * @return
      */
@@ -112,7 +112,7 @@ public class Javar
         try
         {
             for (var info : UIManager.getInstalledLookAndFeels()) {
-                if (JavarConstants.defaultLAF.equals(info.getName())) {            	
+                if (JavarConstants.defaultLAF.equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
